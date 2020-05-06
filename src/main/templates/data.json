@@ -1,0 +1,37 @@
+[
+  {
+    "grb_type": "GrB_BOOL",
+    "java_type": "boolean",
+    "c_type": "bool"
+  },
+  {
+    "grb_type": "GrB_INT8",
+    "java_type": "byte",
+    "c_type": "int8_t"
+  },
+  {
+    "grb_type": "GrB_INT16",
+    "java_type": "short",
+    "c_type": "int16_t"
+  },
+  {
+    "grb_type": "GrB_INT32",
+    "java_type": "int",
+    "c_type": "int32_t"
+  },
+  {
+    "grb_type": "GrB_INT64",
+    "java_type": "long",
+    "c_type": "long"
+  },
+  {
+    "grb_type": "GrB_FP32",
+    "java_type": "float",
+    "c_type": "float"
+  },
+  {
+    "grb_type": "GrB_FP64",
+    "java_type": "double",
+    "c_type": "double"
+  }
+]

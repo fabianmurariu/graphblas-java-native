@@ -1,0 +1,237 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.fabianmurariu</groupId>
+    <artifactId>graphblas-java-native</artifactId>
+    <version>0.1.0</version>
+    <packaging>nar</packaging>
+
+    <name>GraphBLAS JNI MKL Bindings</name>
+    <description>JNI Binding for GraphBLAS
+    </description>
+    <url>https://github.com/fabianmurariu/graphblas-java-native</url>
+
+    <issueManagement>
+	<url>https://github.com/fabianmurariu/graphblas-java-native/issues</url>
+	<system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+	<license>
+	    <name>Eclipse Public License</name>
+	    <url>http://www.eclipse.org/legal/epl-v10.html</url>
+            <distribution>repo</distribution>
+	</license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/fabianmurariu/graphblas-java-native</url>
+    </scm>
+
+    <developers>
+	<developer>
+	    <email>murariu.fabian@gmail.com</email>
+	    <name>Andrei Fabian Murariu</name>
+	    <url>https://github.com/fabianmurariu</url>
+	    <id>fabianmurariu</id>
+	</developer>
+    </developers>
+
+<!-- FIXME: change this to mavenrepo-->
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>clojars</id>-->
+<!--            <name>Clojars repository</name>-->
+<!--            <url>https://clojars.org/repo</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scijava</groupId>
+            <artifactId>native-lib-loader</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <skipTests>true</skipTests>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>Linux</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.maven-nar</groupId>
+                        <artifactId>nar-maven-plugin</artifactId>
+                        <configuration>
+                            <linker>
+                                <name>g++</name>
+                                <options>
+                                    <option>-ffast-math</option>
+                                </options>
+                                <optionSet>-std=c11 -lm -Wno-pragmas</optionSet>
+                                <sysLibs>
+                                    <sysLib>
+                                        <name>graphblas</name>
+                                    </sysLib>
+<!--                                    <sysLib>-->
+<!--                                        <name>pthread</name>-->
+<!--                                    </sysLib>-->
+<!--                                    <sysLib>-->
+<!--                                        <name>m</name>-->
+<!--                                    </sysLib>-->
+<!--                                    <sysLib>-->
+<!--                                        <name>dl</name>-->
+<!--                                    </sysLib>-->
+                                </sysLibs>
+                            </linker>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includePluginDependencies>true</includePluginDependencies>
+                            <mainClass>fmpp.tools.CommandLine</mainClass>
+                            <sourceRoot>${basedir}/target/generated-sources/</sourceRoot>
+                            <arguments>
+                                <argument>-C</argument>
+                                <argument>${basedir}/src/main/templates/config.fmpp</argument>
+                                <argument>-S</argument>
+                                <argument>${basedir}/src/main/templates/</argument>
+                                <argument>-O</argument>
+                                <argument>${basedir}/src/main/</argument>
+                            </arguments>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sourceforge.fmpp</groupId>
+                                <artifactId>fmpp</artifactId>
+                                <version>0.9.15</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.freemarker</groupId>
+                                <artifactId>freemarker</artifactId>
+                                <version>2.3.23</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+   </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <cpp>
+                        <exceptions>false</exceptions>
+                        <optimize>full</optimize>
+                    </cpp>
+                    <libraries>
+                        <library>
+                            <type>jni</type>
+                            <narSystemPackage>com.github.fabianmurariu.unsafe</narSystemPackage>
+                            <linkCPP>false</linkCPP>
+                        </library>
+                    </libraries>
+                    <linker>
+                        <sysLibs>
+                            <sysLib>
+                                <name>c</name>
+                                <type>static</type>
+                            </sysLib>
+                        </sysLibs>
+                    </linker>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>verify</phase>
+                        <configuration>
+                            <target name="copy and rename file">
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                                      tofile="${project.build.directory}/${project.build.finalName}.nar" />
+                                <copy file="${project.build.directory}/${project.build.finalName}-${nar.aol}-jni.nar"
+                                      tofile="${project.build.directory}/${project.build.finalName}-${nar.aol}.jar"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-jars</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}.jar</file>
+                                    <type>jar</type>
+                                </artifact>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}-${nar.aol}-jni.nar</file>
+                                    <type>jar</type>
+                                    <classifier>${nar.aol}</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
