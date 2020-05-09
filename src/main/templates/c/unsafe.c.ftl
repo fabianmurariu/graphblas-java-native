@@ -37,7 +37,7 @@ void check_grb_error(GrB_Info info);
             return (*env)->NewDirectByteBuffer(env, A, 0);
             }
 
-            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_nvals
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_nvalsMatrix
             (JNIEnv * env, jclass cls, jobject mat) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
             long n;
@@ -62,13 +62,13 @@ void check_grb_error(GrB_Info info);
             return n;
             }
 
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_free
+            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMatrix
             (JNIEnv * env, jclass cls, jobject mat) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
             check_grb_error(GrB_Matrix_free(&A) );
             }
             // generic functions
-            <#list properties as prop>
+            <#list properties.types as prop>
 
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${prop.java_type}Type
             (JNIEnv * env, jclass cls) {

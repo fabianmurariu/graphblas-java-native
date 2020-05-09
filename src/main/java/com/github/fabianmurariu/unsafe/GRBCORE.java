@@ -12,10 +12,18 @@ public class GRBCORE {
     public static native void grbWait();
     public static native void grbFinalize();
 
-    // generic functions on Any item types
+    //Matrix
     public static native ByteBuffer createMatrix(ByteBuffer tpe, long rows, long cols);
-    public static native long nvals(ByteBuffer mat);
+    public static native long nvalsMatrix(ByteBuffer mat);
     public static native long nrows(ByteBuffer mat);
     public static native long ncols(ByteBuffer mat);
-    public static native void free(ByteBuffer mat);
+    public static native void freeMatrix(ByteBuffer mat);
+    public static native void resizeMatrix(ByteBuffer mat, long rows, long cols);
+
+    //Vector
+    public static native ByteBuffer createVector(ByteBuffer tpe, long size);
+    public static native long nvalsVector(ByteBuffer mat);
+    public static native long size(ByteBuffer mat);
+    public static native void freeVector(ByteBuffer mat);
+    public static native void resizeVector(ByteBuffer mat, long rows, long cols);
 }

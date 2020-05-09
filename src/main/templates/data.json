@@ -1,37 +1,39 @@
-[
-  {
-    "grb_type": "BOOL",
-    "java_type": "boolean",
-    "c_type": "bool"
-  },
-  {
-    "grb_type": "INT8",
-    "java_type": "byte",
-    "c_type": "int8_t"
-  },
-  {
-    "grb_type": "INT16",
-    "java_type": "short",
-    "c_type": "short"
-  },
-  {
-    "grb_type": "INT32",
-    "java_type": "int",
-    "c_type": "int"
-  },
-  {
-    "grb_type": "INT64",
-    "java_type": "long",
-    "c_type": "long"
-  },
-  {
-    "grb_type": "FP32",
-    "java_type": "float",
-    "c_type": "float"
-  },
-  {
-    "grb_type": "FP64",
-    "java_type": "double",
-    "c_type": "double"
-  }
-]
+{
+  "types": [
+    {
+      "grb_type": "BOOL",
+      "java_type": "boolean",
+      "c_type": "bool"
+    },
+    {
+      "grb_type": "INT8",
+      "java_type": "byte",
+      "c_type": "int8_t"
+    },
+    {
+      "grb_type": "INT16",
+      "java_type": "short",
+      "c_type": "short"
+    },
+    {
+      "grb_type": "INT32",
+      "java_type": "int",
+      "c_type": "int"
+    },
+    {
+      "grb_type": "INT64",
+      "java_type": "long",
+      "c_type": "long"
+    },
+    {
+      "grb_type": "FP32",
+      "java_type": "float",
+      "c_type": "float"
+    },
+    {
+      "grb_type": "FP64",
+      "java_type": "double",
+      "c_type": "double"
+    }
+  ]
+}

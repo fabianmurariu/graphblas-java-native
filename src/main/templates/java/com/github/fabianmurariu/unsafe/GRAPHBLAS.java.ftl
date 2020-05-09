@@ -9,7 +9,7 @@ public class GRAPHBLAS {
         NarSystem.loadLibrary();
     }
 
-<#list properties as prop>
+<#list properties.types as prop>
     // GrB functions for ${prop.grb_type} as ${prop.java_type}
 
     public static native ByteBuffer ${prop.java_type}Type();

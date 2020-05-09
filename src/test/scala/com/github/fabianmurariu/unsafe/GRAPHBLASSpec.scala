@@ -51,17 +51,17 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
       mt.vals.foreach { case (i, j, v) =>
         set(mat, i, j, v)
       }
-      GRBCORE.nvals(mat) shouldBe mt.vals.size
+      GRBCORE.nvalsMatrix(mat) shouldBe mt.vals.size
       mt.vals.foreach { case (i, j, v) =>
         get(mat, i, j) shouldBe Some(v)
       }
-      GRBCORE.free(mat)
+      GRBCORE.freeMatrix(mat)
     }
   }
 
   private def makeMat(md: MatrixDimensions, tpe: ByteBuffer): ByteBuffer = {
     val mat = GRBCORE.createMatrix(tpe, md.rows, md.cols)
-    GRBCORE.nvals(mat) shouldBe 0
+    GRBCORE.nvalsMatrix(mat) shouldBe 0
     GRBCORE.nrows(mat) shouldBe md.rows
     GRBCORE.ncols(mat) shouldBe md.cols
     mat
