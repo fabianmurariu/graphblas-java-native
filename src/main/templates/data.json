@@ -1,36 +1,36 @@
 [
   {
-    "grb_type": "GrB_BOOL",
+    "grb_type": "BOOL",
     "java_type": "boolean",
     "c_type": "bool"
   },
   {
-    "grb_type": "GrB_INT8",
+    "grb_type": "INT8",
     "java_type": "byte",
     "c_type": "int8_t"
   },
   {
-    "grb_type": "GrB_INT16",
+    "grb_type": "INT16",
     "java_type": "short",
-    "c_type": "int16_t"
+    "c_type": "short"
   },
   {
-    "grb_type": "GrB_INT32",
+    "grb_type": "INT32",
     "java_type": "int",
-    "c_type": "int32_t"
+    "c_type": "int"
   },
   {
-    "grb_type": "GrB_INT64",
+    "grb_type": "INT64",
     "java_type": "long",
     "c_type": "long"
   },
   {
-    "grb_type": "GrB_FP32",
+    "grb_type": "FP32",
     "java_type": "float",
     "c_type": "float"
   },
   {
-    "grb_type": "GrB_FP64",
+    "grb_type": "FP64",
     "java_type": "double",
     "c_type": "double"
   }
