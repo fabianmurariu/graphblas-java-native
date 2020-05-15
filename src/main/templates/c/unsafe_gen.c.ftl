@@ -1,5 +1,6 @@
 #include "com_github_fabianmurariu_unsafe_GRAPHBLAS.h"
 #include "com_github_fabianmurariu_unsafe_GRBCORE.h"
+#include "com_github_fabianmurariu_unsafe_GRBMONOID.h"
 #include <stdlib.h>
 #include <jni.h>
 #include "GraphBLAS.h"
@@ -33,7 +34,9 @@ void check_grb_error(GrB_Info info);
             (JNIEnv * env, jclass cls, jobject tpe, jlong rows, jlong cols) {
             GrB_Type grb_type = (GrB_Type) (*env)->GetDirectBufferAddress(env, tpe);
             GrB_Matrix A;
-            check_grb_error (GrB_Matrix_new(&A, grb_type, rows, cols) );
+            GrB_Index mat_rows = rows;
+            GrB_Index mat_cols = cols;
+            check_grb_error (GrB_Matrix_new(&A, grb_type, mat_rows, mat_cols) );
             return (*env)->NewDirectByteBuffer(env, A, 0);
             }
 
@@ -41,7 +44,8 @@ void check_grb_error(GrB_Info info);
             (JNIEnv * env, jclass cls, jobject tpe, jlong size) {
             GrB_Type grb_type = (GrB_Type) (*env)->GetDirectBufferAddress(env, tpe);
             GrB_Vector A;
-            check_grb_error (GrB_Vector_new(&A, grb_type, size) );
+            GrB_Index vec_size = size;
+            check_grb_error (GrB_Vector_new(&A, grb_type, vec_size) );
             return (*env)->NewDirectByteBuffer(env, A, 0);
             }
 
@@ -64,7 +68,7 @@ void check_grb_error(GrB_Info info);
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_nrows
             (JNIEnv * env, jclass cls, jobject mat) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-            long n;
+            GrB_Index n;
             check_grb_error(GrB_Matrix_nrows(&n, A) );
             return n;
             }
@@ -93,10 +97,42 @@ void check_grb_error(GrB_Info info);
             }
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeVector
-            (JNIEnv * env, jclass cls, jobject mat) {
-            GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+            (JNIEnv * env, jclass cls, jobject vec) {
+            GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
             check_grb_error(GrB_Vector_free(&A) );
             }
+
+            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeMatrix
+            (JNIEnv * env, jclass cls, jobject mat, jlong rows, jlong cols) {
+            GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+            GrB_Index mat_rows = rows;
+            GrB_Index mat_cols = cols;
+            check_grb_error(GxB_Matrix_resize(A, mat_rows, mat_cols));
+            }
+
+            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeVector
+            (JNIEnv * env, jclass cls, jobject vec, jlong size) {
+            GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+            GrB_Index vec_size = size;
+            check_grb_error(GxB_Vector_resize(A, vec_size));
+            }
+
+            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_matrixApply
+            (JNIEnv * env, jclass cls, jobject out_mat, jobject mask, jobject acc, jobject unary_op, jobject input_mat, jobject desc) {
+            GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, out_mat);
+            GrB_Matrix first_mat = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, input_mat);
+            GrB_UnaryOp op = (GrB_UnaryOp) (*env)->GetDirectBufferAddress(env, unary_op);
+            check_grb_error(GrB_Matrix_apply(A, NULL, NULL, op, first_mat, NULL));
+            }
+
+            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_vectorApply
+            (JNIEnv * env, jclass cls, jobject out_vec, jobject mask, jobject acc, jobject unary_op, jobject input_vec, jobject desc) {
+            GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, out_vec);
+            GrB_Vector first_vec = (GrB_Vector) (*env)->GetDirectBufferAddress(env, input_vec);
+            GrB_UnaryOp op = (GrB_UnaryOp) (*env)->GetDirectBufferAddress(env, unary_op);
+            check_grb_error(GrB_Vector_apply(A, NULL, NULL, op, first_vec, NULL));
+            }
+
             // generic functions
             <#list properties.types as prop>
 
@@ -164,3 +200,55 @@ void check_grb_error(GrB_Info info);
                 }
 
             </#list>
+
+    <#list properties.types as prop>
+        <#list properties.unary_ops as uop>
+            JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${uop.name}UnaryOp${prop.java_type?cap_first}
+            (JNIEnv * env, jclass cls) {
+            return (*env)->NewDirectByteBuffer(env, ${uop.grb_name}_${prop.grb_type}, 0);
+            }
+        </#list>
+    </#list>
+
+    <#list properties.types as prop>
+        <#list properties.binary_ops as op>
+            JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${op.name}BinaryOp${prop.java_type?cap_first}
+            (JNIEnv * env, jclass cls){
+            return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_${prop.grb_type}, 0);
+            }
+        </#list>
+    </#list>
+
+    <#list properties.types as prop>
+        <#list properties.binary_ops_bool as op>
+            JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${op.name}BinaryOp${prop.java_type?cap_first}
+            (JNIEnv * env, jclass cls){
+            return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_${prop.grb_type}, 0);
+            }
+        </#list>
+    </#list>
+
+    <#list properties.binary_ops_bool_bool as op>
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${op.name}BinaryOp
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, ${op.grb_name}, 0);
+        }
+    </#list>
+
+    <#list properties.types as prop>
+    <#if prop.java_type != "boolean" >
+        <#list properties.monoids as op>
+            JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_${op.name}Monoid${prop.java_type?cap_first}
+            (JNIEnv * env, jclass cls){
+                return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_${prop.grb_type}_MONOID, 0);
+            }
+        </#list>
+    </#if>
+    </#list>
+
+    <#list properties.monoids_bool as op>
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_${op.name}Monoid
+        (JNIEnv * env, jclass cls){
+            return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_BOOL_MONOID, 0);
+        }
+    </#list>

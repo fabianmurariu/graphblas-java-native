@@ -77,3 +77,8 @@ object VectorVals {
     Arbitrary(gen)
   }
 }
+
+case class VectorDimensions(size: Int)
+object VectorDimensions{
+  implicit val arb:Arbitrary[VectorDimensions] = Arbitrary(Gen.posNum[Int].map(VectorDimensions(_)))
+}

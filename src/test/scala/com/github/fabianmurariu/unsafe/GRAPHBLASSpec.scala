@@ -8,9 +8,22 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers with BeforeAndAfterAll
   with MatrixUtils
   with VectorUtils
+  with ApplySpec
+  with SemiringSpec
+  with ReduceSpec
   {
 
   behavior of "GrB_Matrix"
+
+    it should "change size when resize is called" in forAll { md: MatrixDimensions =>
+      val MatrixDimensions(rows, cols) = md
+      val mat = GRBCORE.createMatrix(GRAPHBLAS.booleanType(), rows, cols)
+      GRBCORE.nrows(mat) shouldBe rows
+      GRBCORE.ncols(mat) shouldBe cols
+      GRBCORE.resizeMatrix(mat, cols, rows)
+      GRBCORE.nrows(mat) shouldBe cols
+      GRBCORE.ncols(mat) shouldBe rows
+    }
 
     testSettersAndGettersMatrix[Boolean](GRAPHBLAS.booleanType())
       {(mat, i, j, value) => GRAPHBLAS.setMatrixElementBoolean(mat, i, j, value) }
@@ -43,17 +56,44 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
 
   behavior of "GrB_Vector"
 
+    it should "change size when resize is called" in forAll { (size:VectorDimensions, newSize:VectorDimensions) =>
+        val vec = GRBCORE.createVector(GRAPHBLAS.booleanType(), size.size)
+        GRBCORE.size(vec) shouldBe size.size
+        GRBCORE.resizeVector(vec, newSize.size)
+        GRBCORE.size(vec) shouldBe newSize.size
+    }
+
     testSettersAndGettersVector[Boolean](GRAPHBLAS.booleanType())
     {(vec, i, value) => GRAPHBLAS.setVectorElementBoolean(vec, i, value)}
     {(vec, i) => GRAPHBLAS.getVectorElementBoolean(vec, i).headOption}
+
+    testSettersAndGettersVector[Short](GRAPHBLAS.shortType())
+      {(vec, i, value) => GRAPHBLAS.setVectorElementShort(vec, i, value)}
+      {(vec, i) => GRAPHBLAS.getVectorElementShort(vec, i).headOption}
+
+    testSettersAndGettersVector[Int](GRAPHBLAS.intType())
+      {(vec, i, value) => GRAPHBLAS.setVectorElementInt(vec, i, value)}
+      {(vec, i) => GRAPHBLAS.getVectorElementInt(vec, i).headOption}
+
+    testSettersAndGettersVector[Long](GRAPHBLAS.longType())
+      {(vec, i, value) => GRAPHBLAS.setVectorElementLong(vec, i, value)}
+      {(vec, i) => GRAPHBLAS.getVectorElementLong(vec, i).headOption}
+
+    testSettersAndGettersVector[Float](GRAPHBLAS.floatType())
+      {(vec, i, value) => GRAPHBLAS.setVectorElementFloat(vec, i, value)}
+      {(vec, i) => GRAPHBLAS.getVectorElementFloat(vec, i).headOption}
+
+    testSettersAndGettersVector[Double](GRAPHBLAS.doubleType())
+      {(vec, i, value) => GRAPHBLAS.setVectorElementDouble(vec, i, value)}
+      {(vec, i) => GRAPHBLAS.getVectorElementDouble(vec, i).headOption}
 
   override protected def beforeAll(): Unit = {
     GRBCORE.initNonBlocking()
   }
 
   override protected def afterAll(): Unit = {
-    GRBCORE.grbWait()
-    GRBCORE.grbFinalize()
+//    GRBCORE.grbWait()
+//    GRBCORE.grbFinalize()
   }
 }
 

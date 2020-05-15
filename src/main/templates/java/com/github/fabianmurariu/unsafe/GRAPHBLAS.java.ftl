@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 // this file is generated with GRAPHBLAS.java.ftl
 
-public class GRAPHBLAS {
+public final class GRAPHBLAS {
     static {
         NarSystem.loadLibrary();
     }
@@ -12,17 +12,6 @@ public class GRAPHBLAS {
 <#list properties.types as prop>
     // GrB functions for ${prop.grb_type} as ${prop.java_type}
     public static native ByteBuffer ${prop.java_type}Type();
-</#list>
-
-// GrB_UnaryOp
-<#list properties.types as prop>
-    // GrB functions for ${prop.grb_type} as ${prop.java_type}
-    public static native ByteBuffer ${prop.java_type}UnaryOpOne();
-    public static native ByteBuffer ${prop.java_type}UnaryOpIdentity();
-    public static native ByteBuffer ${prop.java_type}UnaryOpAddInv();
-    public static native ByteBuffer ${prop.java_type}UnaryOpAbs();
-    public static native ByteBuffer ${prop.java_type}UnaryOpMulInv();
-    public static native ByteBuffer ${prop.java_type}UnaryOpLNot();
 </#list>
 
 <#list properties.types as prop>
@@ -33,8 +22,30 @@ public class GRAPHBLAS {
 </#list>
 
 <#list properties.types as prop>
-    public static native void setVectorElement${prop.java_type?cap_first}(ByteBuffer mat, long i, ${prop.java_type} value);
-    public static native ${prop.java_type}[] getVectorElement${prop.java_type?cap_first}(ByteBuffer mat, long i);
+    public static native void setVectorElement${prop.java_type?cap_first}(ByteBuffer vec, long i, ${prop.java_type} value);
+    public static native ${prop.java_type}[] getVectorElement${prop.java_type?cap_first}(ByteBuffer vec, long i);
 
+</#list>
+
+<#list properties.types as prop>
+    <#list properties.unary_ops as uop>
+    public static native ByteBuffer ${uop.name}UnaryOp${prop.java_type?cap_first}();
+    </#list>
+</#list>
+
+<#list properties.types as prop>
+    <#list properties.binary_ops as op>
+    public static native ByteBuffer ${op.name}BinaryOp${prop.java_type?cap_first}();
+    </#list>
+</#list>
+
+<#list properties.types as prop>
+    <#list properties.binary_ops_bool as op>
+        public static native ByteBuffer ${op.name}BinaryOp${prop.java_type?cap_first}();
+    </#list>
+</#list>
+
+<#list properties.binary_ops_bool_bool as op>
+    public static native ByteBuffer ${op.name}BinaryOp();
 </#list>
 }

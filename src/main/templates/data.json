@@ -1,4 +1,61 @@
 {
+  "unary_ops": [
+    {"name": "one", "grb_name":  "GxB_ONE"},
+    {"name": "identity", "grb_name":"GrB_IDENTITY"},
+    {"name": "addInv", "grb_name":"GrB_AINV"},
+    {"name": "abs", "grb_name":"GxB_ABS"},
+    {"name": "mulInv", "grb_name":"GrB_MINV"},
+    {"name": "logicalNot", "grb_name":"GxB_LNOT"}
+  ],
+  "binary_ops": [
+    {"name":  "first", "grb_name":  "GrB_FIRST"},
+    {"name":  "second", "grb_name":  "GrB_SECOND"},
+    {"name":  "any", "grb_name":  "GxB_ANY"},
+    {"name":  "pair", "grb_name":  "GxB_PAIR"},
+    {"name":  "min", "grb_name":  "GrB_MIN"},
+    {"name":  "max", "grb_name":  "GrB_MAX"},
+    {"name":  "plus", "grb_name":  "GrB_PLUS"},
+    {"name":  "minus", "grb_name":  "GrB_MINUS"},
+    {"name":  "rminus", "grb_name":  "GxB_RMINUS"},
+    {"name":  "times", "grb_name":  "GrB_TIMES"},
+    {"name":  "div", "grb_name":  "GrB_DIV"},
+    {"name":  "rdiv", "grb_name":  "GxB_RDIV"},
+    {"name":  "iseq", "grb_name":  "GxB_ISEQ"},
+    {"name":  "isne", "grb_name":  "GxB_ISNE"},
+    {"name":  "isgt", "grb_name":  "GxB_ISGT"},
+    {"name":  "islt", "grb_name":  "GxB_ISLT"},
+    {"name":  "isge", "grb_name":  "GxB_ISGE"},
+    {"name":  "isle", "grb_name":  "GxB_ISLE"},
+    {"name":  "lor", "grb_name":  "GxB_LOR"},
+    {"name":  "land", "grb_name":  "GxB_LAND"},
+    {"name":  "lxor", "grb_name":  "GxB_LXOR"}
+  ],
+  "binary_ops_bool": [
+    {"name":  "eq", "grb_name":  "GrB_EQ"},
+    {"name":  "ne", "grb_name":  "GrB_NE"},
+    {"name":  "gt", "grb_name":  "GrB_GT"},
+    {"name":  "lt", "grb_name":  "GrB_LT"},
+    {"name":  "ge", "grb_name":  "GrB_GE"},
+    {"name":  "le", "grb_name":  "GrB_LE"}
+  ],
+  "binary_ops_bool_bool": [
+    {"name":  "lor", "grb_name":  "GrB_LOR"},
+    {"name":  "land", "grb_name":  "GrB_LAND"},
+    {"name":  "lxor", "grb_name":  "GrB_LXOR"}
+  ],
+  "monoids": [
+    {"name":  "min", "grb_name":  "GxB_MIN"},
+    {"name":  "max", "grb_name":  "GxB_MAX"},
+    {"name":  "plus", "grb_name":  "GxB_PLUS"},
+    {"name":  "times", "grb_name":  "GxB_TIMES"},
+    {"name":  "any", "grb_name":  "GxB_ANY"}
+  ],
+  "monoids_bool": [
+    {"name":  "lor", "grb_name":  "GxB_LOR"},
+    {"name":  "land", "grb_name":  "GxB_LAND"},
+    {"name":  "lxor", "grb_name":  "GxB_LXOR"},
+    {"name":  "eqBool", "grb_name":  "GxB_EQ"}
+  ],
   "types": [
     {
       "grb_type": "BOOL",
