@@ -7,6 +7,8 @@ public final class GRBMONOID {
         NarSystem.loadLibrary();
     }
 
+// TODO: add createMonoid and freeMonoid
+
     public static native ByteBuffer minMonoidByte();
     public static native ByteBuffer maxMonoidByte();
     public static native ByteBuffer plusMonoidByte();

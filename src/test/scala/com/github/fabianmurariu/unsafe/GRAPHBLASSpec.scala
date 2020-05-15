@@ -92,8 +92,8 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
   }
 
   override protected def afterAll(): Unit = {
-//    GRBCORE.grbWait()
-//    GRBCORE.grbFinalize()
+    GRBCORE.grbWait()
+    GRBCORE.grbFinalize()
   }
 }
 

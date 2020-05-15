@@ -7,6 +7,8 @@ public final class GRBMONOID {
         NarSystem.loadLibrary();
     }
 
+// TODO: add createMonoid and freeMonoid
+
 <#list properties.types as prop>
     <#if prop.java_type != "boolean" >
     <#list properties.monoids as op>
