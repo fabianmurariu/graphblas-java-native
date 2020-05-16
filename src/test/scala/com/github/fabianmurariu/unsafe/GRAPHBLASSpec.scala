@@ -25,6 +25,30 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
       GRBCORE.ncols(mat) shouldBe rows
     }
 
+    it should "be duplicated when dupMatrix is called" in forAll {md: MatrixTuples[Int] =>
+      val mat = SparseMatrixHandler[Int].buildMatrix(md)
+      val dupMat = GRBCORE.dupMatrix(mat)
+      GRBCORE.nvalsMatrix(dupMat) shouldBe GRBCORE.nvalsMatrix(mat)
+      GRBCORE.nrows(dupMat) shouldBe GRBCORE.nrows(mat)
+      GRBCORE.ncols(dupMat) shouldBe GRBCORE.ncols(mat)
+      GRBCORE.freeMatrix(mat)
+      GRBCORE.freeMatrix(dupMat)
+    }
+
+    it should "set and get the matrix format" in forAll{md: MatrixTuples[Int] =>
+     val mat = SparseMatrixHandler[Int].buildMatrix(md)
+     GRBCORE.makeCSC(mat)
+      GRBCORE.getFormat(mat) shouldBe 1
+     GRBCORE.makeCSR(mat)
+      GRBCORE.getFormat(mat) shouldBe 0
+    }
+
+    it should "ensure matrix is never hyper format, check default format is CSR" in forAll{md: MatrixTuples[Int] =>
+      val mat = SparseMatrixHandler[Int].buildMatrix(md)
+      GRBCORE.neverHyper(mat)
+      GRBCORE.getFormat(mat) shouldBe 0
+    }
+
     testSettersAndGettersMatrix[Boolean](GRAPHBLAS.booleanType())
       {(mat, i, j, value) => GRAPHBLAS.setMatrixElementBoolean(mat, i, j, value) }
       {(mat, i, j) => GRAPHBLAS.getMatrixElementBoolean(mat, i, j).headOption }

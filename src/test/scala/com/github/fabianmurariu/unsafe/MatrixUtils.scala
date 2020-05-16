@@ -11,6 +11,7 @@ import scala.reflect.ClassTag
 
 trait MatrixUtils { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers   =>
 
+  // TODO: use SparseMatrixHandler
   protected def testSettersAndGettersMatrix[T](tpe: => ByteBuffer)
                                               (set: (ByteBuffer, Long, Long, T) => Unit)(get: (ByteBuffer, Long, Long) => Option[T])
                                               (implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {

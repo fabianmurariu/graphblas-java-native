@@ -8,8 +8,6 @@ public final class GRBCORE {
         NarSystem.loadLibrary();
     }
 
-
-
     public static native void initNonBlocking();
     public static native void grbWait();
     public static native void grbFinalize();
@@ -22,10 +20,11 @@ public final class GRBCORE {
     public static native void freeMatrix(ByteBuffer mat);
 
     public static native ByteBuffer dupMatrix(ByteBuffer mat);
+    public static native int getFormat(ByteBuffer mat);
     public static native void makeCSC(ByteBuffer mat);
     public static native void makeCSR(ByteBuffer mat);
     public static native void setHyperRatio(ByteBuffer mat, double ratio);
-    public static native double getHyperRatio(ByteBuffer mat, double ratio);
+    public static native double getHyperRatio(ByteBuffer mat);
     public static native void neverHyper(ByteBuffer mat);
 
     public static native void resizeMatrix(ByteBuffer mat, long rows, long cols);
