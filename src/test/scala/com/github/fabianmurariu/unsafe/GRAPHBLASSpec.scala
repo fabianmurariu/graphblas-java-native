@@ -11,6 +11,7 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
   with ApplySpec
   with SemiringSpec
   with ReduceSpec
+  with DescriptorSpec
   {
 
   behavior of "GrB_Matrix"
@@ -49,6 +50,12 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
       GRBCORE.getFormat(mat) shouldBe 0
     }
 
+    it should "make matrix hypersparse, check if it is hyper" in forAll { md: MatrixTuples[Int] =>
+      val mat = SparseMatrixHandler[Int].buildMatrix(md)
+      GRBCORE.setHyperRatio(mat, 0d)
+      GRBCORE.getHyperRatio(mat) shouldBe 0d
+    }
+
     testSettersAndGettersMatrix[Boolean](GRAPHBLAS.booleanType())
       {(mat, i, j, value) => GRAPHBLAS.setMatrixElementBoolean(mat, i, j, value) }
       {(mat, i, j) => GRAPHBLAS.getMatrixElementBoolean(mat, i, j).headOption }
@@ -85,6 +92,15 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
         GRBCORE.size(vec) shouldBe size.size
         GRBCORE.resizeVector(vec, newSize.size)
         GRBCORE.size(vec) shouldBe newSize.size
+    }
+
+    it should "be duplicated when dupVector is called" in forAll {md:VectorVals[Int] =>
+      val mat = SparseVectorHandler[Int].buildVector(md)
+      val dupVec = GRBCORE.dupVector(mat)
+      GRBCORE.nvalsVector(dupVec) shouldBe GRBCORE.nvalsVector(mat)
+      GRBCORE.size(dupVec) shouldBe GRBCORE.size(mat)
+      GRBCORE.freeVector(mat)
+      GRBCORE.freeVector(dupVec)
     }
 
     testSettersAndGettersVector[Boolean](GRAPHBLAS.booleanType())

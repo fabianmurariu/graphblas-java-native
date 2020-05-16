@@ -196,3 +196,29 @@ JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_neverHyper
         GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
         check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_NEVER_HYPER));
   }
+
+
+JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_createDescriptor
+  (JNIEnv * env, jclass cls) {
+    GrB_Descriptor d;
+    check_grb_error(GrB_Descriptor_new(&d));
+    return (*env)->NewDirectByteBuffer(env, d, 0);
+  }
+
+
+JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_setDescriptorValue
+  (JNIEnv * env, jclass cls, jobject desc, jint field, jint value){
+        GrB_Descriptor d = (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc);
+        GrB_Desc_Field f = field;
+        GrB_Desc_Value v = value;
+        check_grb_error(GrB_Descriptor_set(d, f, v));
+  }
+
+JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getDescriptorValue
+  (JNIEnv * env, jclass cls, jobject desc, jint field) {
+        GrB_Descriptor d = (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc);
+        GrB_Desc_Field f = field;
+        GrB_Desc_Value v = -1;
+        check_grb_error(GxB_Descriptor_get(&v, d, f));
+        return v;
+  }
