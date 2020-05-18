@@ -109,20 +109,30 @@ void check_grb_error(GrB_Info info);
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_matrixApply
             (JNIEnv * env, jclass cls, jobject out_mat, jobject mask, jobject acc, jobject unary_op, jobject input_mat, jobject desc) {
-            //TODO: add support for mask and acc
+
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, out_mat);
             GrB_Matrix first_mat = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, input_mat);
             GrB_UnaryOp op = (GrB_UnaryOp) (*env)->GetDirectBufferAddress(env, unary_op);
-            check_grb_error(GrB_Matrix_apply(A, NULL, NULL, op, first_mat, NULL));
+
+            GrB_BinaryOp a = acc != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, acc): NULL;
+            GrB_Matrix m = mask != NULL ? (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mask): NULL;
+            GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc): NULL;
+
+            check_grb_error(GrB_Matrix_apply(A, m, a, op, first_mat, d));
             }
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_vectorApply
             (JNIEnv * env, jclass cls, jobject out_vec, jobject mask, jobject acc, jobject unary_op, jobject input_vec, jobject desc) {
-            //TODO: add support for mask and acc
+
             GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, out_vec);
             GrB_Vector first_vec = (GrB_Vector) (*env)->GetDirectBufferAddress(env, input_vec);
             GrB_UnaryOp op = (GrB_UnaryOp) (*env)->GetDirectBufferAddress(env, unary_op);
-            check_grb_error(GrB_Vector_apply(A, NULL, NULL, op, first_vec, NULL));
+
+            GrB_BinaryOp a = acc != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, acc): NULL;
+            GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask): NULL;
+            GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc): NULL;
+
+            check_grb_error(GrB_Vector_apply(A, m, a, op, first_vec, d));
             }
 
 JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_createSemiring
@@ -221,4 +231,10 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getDescripto
         GrB_Desc_Value v = -1;
         check_grb_error(GxB_Descriptor_get(&v, d, f));
         return v;
+  }
+
+JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeDescriptor
+  (JNIEnv * env, jclass cls, jobject desc) {
+    GrB_Descriptor d = (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc);
+    check_grb_error(GrB_Descriptor_free(&d));
   }

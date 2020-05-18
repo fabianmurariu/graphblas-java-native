@@ -15,12 +15,14 @@ trait DescriptorSpec {
 
     GRBCORE.setDescriptorValue(desc, GRBCORE.GrB_INP0, GRBCORE.GrB_TRAN)
     GRBCORE.getDescriptorValue(desc, GRBCORE.GrB_INP0) shouldBe GRBCORE.GrB_TRAN
+    GRBCORE.freeDescriptor(desc)
   }
 
   it should "keep the default value when the value doesn't match the field" in {
     val desc = GRBCORE.createDescriptor()
     GRBCORE.setDescriptorValue(desc, GRBCORE.GrB_OUTP, GRBCORE.GrB_TRAN)
     GRBCORE.getDescriptorValue(desc, GRBCORE.GrB_OUTP) shouldBe GRBCORE.GxB_DEFAULT
+    GRBCORE.freeDescriptor(desc)
   }
 
 }

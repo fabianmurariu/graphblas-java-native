@@ -1,6 +1,6 @@
 package com.github.fabianmurariu.unsafe;
 
-import java.nio.ByteBuffer;
+import java.nio.Buffer;
 
 public final class GRBMONOID {
     static {
@@ -9,39 +9,39 @@ public final class GRBMONOID {
 
 // TODO: add createMonoid and freeMonoid
 
-    public static native ByteBuffer minMonoidByte();
-    public static native ByteBuffer maxMonoidByte();
-    public static native ByteBuffer plusMonoidByte();
-    public static native ByteBuffer timesMonoidByte();
-    public static native ByteBuffer anyMonoidByte();
-    public static native ByteBuffer minMonoidShort();
-    public static native ByteBuffer maxMonoidShort();
-    public static native ByteBuffer plusMonoidShort();
-    public static native ByteBuffer timesMonoidShort();
-    public static native ByteBuffer anyMonoidShort();
-    public static native ByteBuffer minMonoidInt();
-    public static native ByteBuffer maxMonoidInt();
-    public static native ByteBuffer plusMonoidInt();
-    public static native ByteBuffer timesMonoidInt();
-    public static native ByteBuffer anyMonoidInt();
-    public static native ByteBuffer minMonoidLong();
-    public static native ByteBuffer maxMonoidLong();
-    public static native ByteBuffer plusMonoidLong();
-    public static native ByteBuffer timesMonoidLong();
-    public static native ByteBuffer anyMonoidLong();
-    public static native ByteBuffer minMonoidFloat();
-    public static native ByteBuffer maxMonoidFloat();
-    public static native ByteBuffer plusMonoidFloat();
-    public static native ByteBuffer timesMonoidFloat();
-    public static native ByteBuffer anyMonoidFloat();
-    public static native ByteBuffer minMonoidDouble();
-    public static native ByteBuffer maxMonoidDouble();
-    public static native ByteBuffer plusMonoidDouble();
-    public static native ByteBuffer timesMonoidDouble();
-    public static native ByteBuffer anyMonoidDouble();
+    public static native Buffer minMonoidByte();
+    public static native Buffer maxMonoidByte();
+    public static native Buffer plusMonoidByte();
+    public static native Buffer timesMonoidByte();
+    public static native Buffer anyMonoidByte();
+    public static native Buffer minMonoidShort();
+    public static native Buffer maxMonoidShort();
+    public static native Buffer plusMonoidShort();
+    public static native Buffer timesMonoidShort();
+    public static native Buffer anyMonoidShort();
+    public static native Buffer minMonoidInt();
+    public static native Buffer maxMonoidInt();
+    public static native Buffer plusMonoidInt();
+    public static native Buffer timesMonoidInt();
+    public static native Buffer anyMonoidInt();
+    public static native Buffer minMonoidLong();
+    public static native Buffer maxMonoidLong();
+    public static native Buffer plusMonoidLong();
+    public static native Buffer timesMonoidLong();
+    public static native Buffer anyMonoidLong();
+    public static native Buffer minMonoidFloat();
+    public static native Buffer maxMonoidFloat();
+    public static native Buffer plusMonoidFloat();
+    public static native Buffer timesMonoidFloat();
+    public static native Buffer anyMonoidFloat();
+    public static native Buffer minMonoidDouble();
+    public static native Buffer maxMonoidDouble();
+    public static native Buffer plusMonoidDouble();
+    public static native Buffer timesMonoidDouble();
+    public static native Buffer anyMonoidDouble();
     // only applicable to aplicable to bool sparse matrix or vector, returns bool
-    public static native ByteBuffer lorMonoid();
-    public static native ByteBuffer landMonoid();
-    public static native ByteBuffer lxorMonoid();
-    public static native ByteBuffer eqBoolMonoid();
+    public static native Buffer lorMonoid();
+    public static native Buffer landMonoid();
+    public static native Buffer lxorMonoid();
+    public static native Buffer eqBoolMonoid();
 }

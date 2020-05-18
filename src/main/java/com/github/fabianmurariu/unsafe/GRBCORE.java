@@ -1,6 +1,6 @@
 package com.github.fabianmurariu.unsafe;
 
-import java.nio.ByteBuffer;
+import java.nio.Buffer;
 
 public final class GRBCORE {
 
@@ -13,36 +13,38 @@ public final class GRBCORE {
     public static native void grbFinalize();
 
     //Matrix
-    public static native ByteBuffer createMatrix(ByteBuffer tpe, long rows, long cols);
-    public static native long nvalsMatrix(ByteBuffer mat);
-    public static native long nrows(ByteBuffer mat);
-    public static native long ncols(ByteBuffer mat);
-    public static native void freeMatrix(ByteBuffer mat);
+    public static native Buffer createMatrix(Buffer tpe, long rows, long cols);
+    public static native long nvalsMatrix(Buffer mat);
+    public static native long nrows(Buffer mat);
+    public static native long ncols(Buffer mat);
+    public static native long clearMatrix(Buffer mat);
+    public static native void freeMatrix(Buffer mat);
 
-    public static native ByteBuffer dupMatrix(ByteBuffer mat);
-    public static native int getFormat(ByteBuffer mat);
-    public static native void makeCSC(ByteBuffer mat);
-    public static native void makeCSR(ByteBuffer mat);
-    public static native void setHyperRatio(ByteBuffer mat, double ratio);
-    public static native double getHyperRatio(ByteBuffer mat);
-    public static native void neverHyper(ByteBuffer mat);
+    public static native Buffer dupMatrix(Buffer mat);
+    public static native int getFormat(Buffer mat);
+    public static native void makeCSC(Buffer mat);
+    public static native void makeCSR(Buffer mat);
+    public static native void setHyperRatio(Buffer mat, double ratio);
+    public static native double getHyperRatio(Buffer mat);
+    public static native void neverHyper(Buffer mat);
 
-    public static native void resizeMatrix(ByteBuffer mat, long rows, long cols);
-    public static native void matrixApply(ByteBuffer outMat, ByteBuffer mask, ByteBuffer accum, ByteBuffer op, ByteBuffer firstInput, ByteBuffer desc);
+    public static native void resizeMatrix(Buffer mat, long rows, long cols);
+    public static native void matrixApply(Buffer outMat, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
 
     //Vector
-    public static native ByteBuffer createVector(ByteBuffer tpe, long size);
-    public static native long nvalsVector(ByteBuffer vec);
-    public static native long size(ByteBuffer vec);
-    public static native void freeVector(ByteBuffer vec);
-    public static native void resizeVector(ByteBuffer vec, long size);
-    public static native ByteBuffer dupVector(ByteBuffer vec);
+    public static native Buffer createVector(Buffer tpe, long size);
+    public static native long nvalsVector(Buffer vec);
+    public static native long size(Buffer vec);
+    public static native void freeVector(Buffer vec);
+    public static native long clearVec(Buffer vec);
+    public static native void resizeVector(Buffer vec, long size);
+    public static native Buffer dupVector(Buffer vec);
 
-    public static native void vectorApply(ByteBuffer outVec, ByteBuffer mask, ByteBuffer accum, ByteBuffer op, ByteBuffer firstInput, ByteBuffer desc);
+    public static native void vectorApply(Buffer outVec, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
 
     // Semiring
-    public static native ByteBuffer createSemiring(ByteBuffer monoidAdd, ByteBuffer binOpMul);
-    public static native void freeSemiring(ByteBuffer semiring);
+    public static native Buffer createSemiring(Buffer monoidAdd, Buffer binOpMul);
+    public static native void freeSemiring(Buffer semiring);
 
     // Descriptor
     // Fields
@@ -68,7 +70,8 @@ public final class GRBCORE {
     public static int GxB_AxB_HASH      = 1004;   // hash-based saxpy method
     public static int GxB_AxB_SAXPY     = 1005;   // saxpy method (any kind)
 
-    public static native ByteBuffer createDescriptor();
-    public static native void setDescriptorValue(ByteBuffer desc, int field, int value);
-    public static native int getDescriptorValue(ByteBuffer desc, int field);
+    public static native Buffer createDescriptor();
+    public static native void setDescriptorValue(Buffer desc, int field, int value);
+    public static native int getDescriptorValue(Buffer desc, int field);
+    public static native void freeDescriptor(Buffer desc);
 }

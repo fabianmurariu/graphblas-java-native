@@ -1,6 +1,6 @@
 package com.github.fabianmurariu.unsafe
 
-import java.nio.ByteBuffer
+import java.nio.Buffer
 
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -12,8 +12,8 @@ import scala.reflect.ClassTag
 trait VectorUtils {
   self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers =>
 
-  protected def testSettersAndGettersVector[T](tpe: => ByteBuffer)
-                                              (set: (ByteBuffer, Long, T) => Unit)(get: (ByteBuffer, Long) => Option[T])
+  protected def testSettersAndGettersVector[T](tpe: => Buffer)
+                                              (set: (Buffer, Long, T) => Unit)(get: (Buffer, Long) => Option[T])
                                               (implicit A: Arbitrary[VectorVals[T]], CT: ClassTag[T]): Unit = {
 
     it should s"create a vector of positive dimensions and set/get ${CT.toString()} values" in forAll { vvs: VectorVals[T] =>
@@ -29,7 +29,7 @@ trait VectorUtils {
     }
   }
 
-  protected def makeVec(size: Long, tpe: ByteBuffer): ByteBuffer = {
+  protected def makeVec(size: Long, tpe: Buffer): Buffer = {
     val mat = GRBCORE.createVector(tpe, size)
     GRBCORE.nvalsVector(mat) shouldBe 0
     GRBCORE.size(mat) shouldBe size

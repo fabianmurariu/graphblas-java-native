@@ -1,6 +1,6 @@
 package com.github.fabianmurariu.unsafe
 
-import java.nio.ByteBuffer
+import java.nio.Buffer
 
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -12,8 +12,8 @@ import scala.reflect.ClassTag
 trait MatrixUtils { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers   =>
 
   // TODO: use SparseMatrixHandler
-  protected def testSettersAndGettersMatrix[T](tpe: => ByteBuffer)
-                                              (set: (ByteBuffer, Long, Long, T) => Unit)(get: (ByteBuffer, Long, Long) => Option[T])
+  protected def testSettersAndGettersMatrix[T](tpe: => Buffer)
+                                              (set: (Buffer, Long, Long, T) => Unit)(get: (Buffer, Long, Long) => Option[T])
                                               (implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
     it should s"create a matrix of positive dimensions and set/get ${CT.toString()} values" in forAll { mt: MatrixTuples[T] =>
       val mat = makeMat(mt.dim, tpe)
@@ -28,7 +28,7 @@ trait MatrixUtils { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with M
     }
   }
 
-  protected def makeMat(md: MatrixDimensions, tpe: ByteBuffer): ByteBuffer = {
+  protected def makeMat(md: MatrixDimensions, tpe: Buffer): Buffer = {
     val mat = GRBCORE.createMatrix(tpe, md.rows, md.cols)
     GRBCORE.nvalsMatrix(mat) shouldBe 0
     GRBCORE.nrows(mat) shouldBe md.rows

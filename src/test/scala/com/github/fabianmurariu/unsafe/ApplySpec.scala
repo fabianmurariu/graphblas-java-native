@@ -1,6 +1,6 @@
 package com.github.fabianmurariu.unsafe
 
-import java.nio.ByteBuffer
+import java.nio.Buffer
 
 import org.scalacheck.Arbitrary
 import org.scalatest.flatspec.AnyFlatSpec
@@ -118,7 +118,7 @@ trait ApplySpec {
     if (out) N.fromInt(1) else N.fromInt(0)
   }
 
-  private def testUnaryOperationMatrixApply[T: SparseMatrixHandler](name: String)(unaryOp: => ByteBuffer)
+  private def testUnaryOperationMatrixApply[T: SparseMatrixHandler](name: String)(unaryOp: => Buffer)
                                                              (expected: T => T)
                                                              (implicit A:Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
     it should s"call GrB_apply of $name for GrB_Matrix of type ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
@@ -132,7 +132,7 @@ trait ApplySpec {
   }
 
 
-  private def testUnaryOperationVectorApply[T: SparseVectorHandler](name: String)(unaryOp: => ByteBuffer)
+  private def testUnaryOperationVectorApply[T: SparseVectorHandler](name: String)(unaryOp: => Buffer)
                                                                    (expected: T => T)
                                                                    (implicit A:Arbitrary[VectorVals[T]], CT: ClassTag[T]): Unit = {
     it should s"call GrB_apply of $name for GrB_Vector of type ${CT.toString()}" in forAll { mt: VectorVals[T] =>

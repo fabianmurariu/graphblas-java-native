@@ -13,7 +13,7 @@ JNIEXPORT jboolean JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixRed
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         bool result = init;
@@ -29,7 +29,7 @@ JNIEXPORT jbyte JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixReduce
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         int8_t result = init;
@@ -45,7 +45,7 @@ JNIEXPORT jshort JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixReduc
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         short result = init;
@@ -61,7 +61,7 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixReduceA
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         int result = init;
@@ -77,7 +77,7 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixReduce
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         long result = init;
@@ -93,7 +93,7 @@ JNIEXPORT jfloat JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixReduc
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         float result = init;
@@ -109,7 +109,7 @@ JNIEXPORT jdouble JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG_matrixRedu
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         double result = init;

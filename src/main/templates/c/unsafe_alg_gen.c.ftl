@@ -14,7 +14,7 @@ JNIEXPORT j${prop.java_type} JNICALL Java_com_github_fabianmurariu_unsafe_GRBALG
         GrB_Monoid m = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
 
         // OPTIONAL STUFF
-        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, monoid): NULL;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
         ${prop.c_type} result = init;
