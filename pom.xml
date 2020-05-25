@@ -2,206 +2,86 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <graphblas-java-version>0.1.5</graphblas-java-version>
+        <skipTests>true</skipTests>
+    </properties>
+
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.0</version>
-    <packaging>nar</packaging>
+    <version>0.1.4</version>
+    <packaging>jar</packaging>
 
-    <name>GraphBLAS JNI MKL Bindings</name>
-    <description>JNI Binding for GraphBLAS
-    </description>
+    <name>GraphBLAS JNI Bindings</name>
+    <description>Uberjar of JNI Bindings for native GraphBLAS Library. </description>
     <url>https://github.com/fabianmurariu/graphblas-java-native</url>
 
     <issueManagement>
-        <url>https://github.com/fabianmurariu/graphblas-java-native/issues</url>
-        <system>GitHub Issues</system>
+	<url>https://github.com/fabianmurariu/graphblas-java-native/issues</url>
+	<system>GitHub Issues</system>
     </issueManagement>
 
     <licenses>
-        <license>
-            <name>Eclipse Public License</name>
-            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+	<license>
+	    <name>Eclipse Public License</name>
+	    <url>http://www.eclipse.org/legal/epl-v10.html</url>
             <distribution>repo</distribution>
-        </license>
+	</license>
     </licenses>
 
     <scm>
-        <url>https://github.com/fabianmurariu/graphblas-java-native</url>
+	<url>https://github.com/fabianmurariu/graphblas-java-native</url>
     </scm>
 
     <developers>
-        <developer>
-            <email>murariu.fabian@gmail.com</email>
-            <name>Andrei Fabian Murariu</name>
-            <url>https://github.com/fabianmurariu</url>
-            <id>fabianmurariu</id>
-        </developer>
+	<developer>
+	    <email>murariu.fabian@gmail.com</email>
+	    <name>Fabian Murariu</name>
+	    <url>https://github.com/fabianmurariu</url>
+	    <id>fabianmurariu</id>
+	</developer>
     </developers>
-
-    <!-- FIXME: change this to mavenrepo-->
-    <!--    <distributionManagement>-->
-    <!--        <repository>-->
-    <!--            <id>clojars</id>-->
-    <!--            <name>Clojars repository</name>-->
-    <!--            <url>https://clojars.org/repo</url>-->
-    <!--        </repository>-->
-    <!--    </distributionManagement>-->
-
+<!--
+    <distributionManagement>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars repository</name>
+            <url>https://clojars.org/repo</url>
+        </repository>
+    </distributionManagement>
+-->
     <dependencies>
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>2.13.2</version>
-            <scope>test</scope>
+            <groupId>com.github.fabianmurariu</groupId>
+            <artifactId>graphblas-java</artifactId>
+            <version>${graphblas-java-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.scalactic</groupId>
-            <artifactId>scalactic_2.13</artifactId>
-            <version>3.1.1</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.github.fabianmurariu</groupId>
+            <artifactId>graphblas-java</artifactId>
+            <version>${graphblas-java-version}</version>
+            <classifier>amd64-Linux-gpp</classifier>
+        </dependency>
+<!--
+        <dependency>
+            <groupId>com.github.fabianmurariu</groupId>
+            <artifactId>graphblas-java</artifactId>
+            <version>${graphblas-java-version}</version>
+            <classifier>x86_64-MacOSX-gpp</classifier>
         </dependency>
         <dependency>
-            <groupId>org.scalatestplus</groupId>
-            <artifactId>scalatestplus-scalacheck_2.13</artifactId>
-            <version>3.1.0.0-RC2</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scalatest</groupId>
-                    <artifactId>scalatest_2.13</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+            <groupId>com.github.fabianmurariu</groupId>
+            <artifactId>graphblas-java</artifactId>
+            <version>${graphblas-java-version}</version>
+            <classifier>amd64-Windows-msvc</classifier>
+        </dependency> -->
 
-        <dependency>
-            <groupId>org.scalacheck</groupId>
-            <artifactId>scalacheck_2.13</artifactId>
-            <version>1.14.3</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.13</artifactId>
-            <version>3.1.1</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.scijava</groupId>
-            <artifactId>native-lib-loader</artifactId>
-            <version>2.2.0</version>
-        </dependency>
     </dependencies>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <profiles>
-        <profile>
-            <id>Linux</id>
-            <activation>
-                <os>
-                    <name>Linux</name>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.maven-nar</groupId>
-                        <artifactId>nar-maven-plugin</artifactId>
-                        <configuration>
-                            <linker>
-                                <name>g++</name>
-                                <options>
-                                    <option>-ffast-math</option>
-                                </options>
-                                <optionSet>-std=c11 -lm -Wno-pragmas</optionSet>
-                                <sysLibs>
-                                    <sysLib>
-                                        <name>graphblas</name>
-                                    </sysLib>
-                                    <!--                                    <sysLib>-->
-                                    <!--                                        <name>pthread</name>-->
-                                    <!--                                    </sysLib>-->
-                                    <!--                                    <sysLib>-->
-                                    <!--                                        <name>m</name>-->
-                                    <!--                                    </sysLib>-->
-                                    <!--                                    <sysLib>-->
-                                    <!--                                        <name>dl</name>-->
-                                    <!--                                    </sysLib>-->
-                                </sysLibs>
-                            </linker>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <includePluginDependencies>true</includePluginDependencies>
-                            <mainClass>fmpp.tools.CommandLine</mainClass>
-                            <sourceRoot>${basedir}/target/generated-sources/</sourceRoot>
-                            <arguments>
-                                <argument>-C</argument>
-                                <argument>${basedir}/src/main/templates/config.fmpp</argument>
-                                <argument>-S</argument>
-                                <argument>${basedir}/src/main/templates/</argument>
-                                <argument>-O</argument>
-                                <argument>${basedir}/src/main/</argument>
-                            </arguments>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>net.sourceforge.fmpp</groupId>
-                                <artifactId>fmpp</artifactId>
-                                <version>0.9.15</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.freemarker</groupId>
-                                <artifactId>freemarker</artifactId>
-                                <version>2.3.23</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -210,121 +90,42 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.maven-nar</groupId>
-                <artifactId>nar-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <cpp>
-                        <exceptions>false</exceptions>
-                        <optimize>full</optimize>
-                    </cpp>
-                    <libraries>
-                        <library>
-                            <type>jni</type>
-                            <narSystemPackage>com.github.fabianmurariu.unsafe</narSystemPackage>
-                            <linkCPP>false</linkCPP>
-                        </library>
-                    </libraries>
-                    <linker>
-                        <sysLibs>
-                            <sysLib>
-                                <name>c</name>
-                                <type>static</type>
-                            </sysLib>
-                        </sysLibs>
-                    </linker>
-                </configuration>
-            </plugin>
-
-            <plugin>
+<!--
+             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <artifactId>maven-gpg-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy</id>
+                        <id>sign-artifacts</id>
                         <phase>verify</phase>
-                        <configuration>
-                            <target name="copy and rename file">
-                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                      tofile="${project.build.directory}/${project.build.finalName}.nar"/>
-                                <copy file="${project.build.directory}/${project.build.finalName}-${nar.aol}-jni.nar"
-                                      tofile="${project.build.directory}/${project.build.finalName}-${nar.aol}.jar"/>
-                            </target>
-                        </configuration>
                         <goals>
-                            <goal>run</goal>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.scalatest</groupId>
-                <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0</version>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <junitxml>.</junitxml>
-                    <filereports>WDF TestSuite.txt</filereports>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-jars</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.build.directory}/${project.build.finalName}.jar</file>
-                                    <type>jar</type>
-                                </artifact>
-                                <artifact>
-                                    <file>${project.build.directory}/${project.build.finalName}-${nar.aol}-jni.nar
-                                    </file>
-                                    <type>jar</type>
-                                    <classifier>${nar.aol}</classifier>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
+                <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
 
 </project>
+
