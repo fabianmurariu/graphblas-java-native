@@ -10,7 +10,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <packaging>jar</packaging>
 
     <name>GraphBLAS JNI Bindings</name>
