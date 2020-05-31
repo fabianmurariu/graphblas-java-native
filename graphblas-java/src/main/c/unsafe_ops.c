@@ -3,7 +3,7 @@
 #include <jni.h>
 #include "GraphBLAS.h"
 #include <assert.h>
-void check_grb_error(GrB_Info info);
+long check_grb_error(GrB_Info info);
 
 JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_mxm
   (JNIEnv * env, jclass cls, jobject mat, jobject mask, jobject accum, jobject semiring, jobject A, jobject B, jobject desc) {

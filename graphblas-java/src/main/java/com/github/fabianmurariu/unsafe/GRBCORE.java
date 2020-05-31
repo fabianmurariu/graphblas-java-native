@@ -60,7 +60,7 @@ public final class GRBCORE {
     public static int GrB_INSUFFICIENT_SPACE = 11;    // output array not large enough
     public static int GrB_INDEX_OUT_OF_BOUNDS = 12;   // a row or column index is out of bounds; used for indices in a list of indices.
     public static int GrB_PANIC = 13;                  // SuiteSparse:GraphBLAS only panics if
-                                    // a critical section fails
+                                                        // a critical section fails
     public static native void initNonBlocking();
     public static native void grbWait();
     public static native void grbFinalize();
@@ -71,7 +71,7 @@ public final class GRBCORE {
     public static native long nrows(Buffer mat);
     public static native long ncols(Buffer mat);
     public static native long clearMatrix(Buffer mat);
-    public static native void freeMatrix(Buffer mat);
+    public static native long freeMatrix(Buffer mat);
 
     public static native Buffer dupMatrix(Buffer mat);
     public static native int getFormat(Buffer mat);
@@ -81,26 +81,29 @@ public final class GRBCORE {
     public static native double getHyperRatio(Buffer mat);
     public static native void neverHyper(Buffer mat);
 
-    public static native void resizeMatrix(Buffer mat, long rows, long cols);
+    public static native long extractTuplesBoolean(Buffer mat, SparseNativeBoolean javaMat);
+    public static native long extractTuplesBooleanUnsafe(Buffer mat, SparseNativeBoolean javaMat);
+
+    public static native long resizeMatrix(Buffer mat, long rows, long cols);
     public static native void matrixApply(Buffer outMat, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
 
     //Vector
     public static native Buffer createVector(Buffer tpe, long size);
     public static native long nvalsVector(Buffer vec);
     public static native long size(Buffer vec);
-    public static native void freeVector(Buffer vec);
+    public static native long freeVector(Buffer vec);
     public static native long clearVec(Buffer vec);
-    public static native void resizeVector(Buffer vec, long size);
+    public static native long resizeVector(Buffer vec, long size);
     public static native Buffer dupVector(Buffer vec);
 
     public static native void vectorApply(Buffer outVec, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
 
     // Semiring
     public static native Buffer createSemiring(Buffer monoidAdd, Buffer binOpMul);
-    public static native void freeSemiring(Buffer semiring);
+    public static native long freeSemiring(Buffer semiring);
 
     // Monoid
-    public static native void freeMonoid(Buffer monoid);
+    public static native long freeMonoid(Buffer monoid);
 
     // Descriptor
     // Fields
@@ -129,5 +132,5 @@ public final class GRBCORE {
     public static native Buffer createDescriptor();
     public static native void setDescriptorValue(Buffer desc, int field, int value);
     public static native int getDescriptorValue(Buffer desc, int field);
-    public static native void freeDescriptor(Buffer desc);
+    public static native long freeDescriptor(Buffer desc);
 }

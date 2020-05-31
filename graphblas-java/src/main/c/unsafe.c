@@ -3,7 +3,17 @@
 #include <jni.h>
 #include "GraphBLAS.h"
 #include <assert.h>
-void check_grb_error(GrB_Info info);
+long check_grb_error(GrB_Info info);
+
+            long check_grb_error(GrB_Info info)
+            {
+            if (! (info == GrB_SUCCESS || info == GrB_NO_VALUE))
+            {
+            printf ("Error in GRB: %d error: %s\n", info, GrB_error ( )) ;
+            return (long) info;
+            }
+            return (long) info;
+            }
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_initNonBlocking
             (JNIEnv * env, jclass cls) {
@@ -80,36 +90,36 @@ void check_grb_error(GrB_Info info);
             return n;
             }
 
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMatrix
+            JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMatrix
             (JNIEnv * env, jclass cls, jobject mat) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-            check_grb_error(GrB_Matrix_free(&A) );
+            return check_grb_error(GrB_Matrix_free(&A) );
             }
 
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeVector
+            JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeVector
             (JNIEnv * env, jclass cls, jobject vec) {
             GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
-            check_grb_error(GrB_Vector_free(&A) );
+            return check_grb_error(GrB_Vector_free(&A) );
             }
 
-        JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMonoid
+        JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMonoid
           (JNIEnv * env, jclass cls, jobject monoid) {
             GrB_Monoid A = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
-            check_grb_error(GrB_Monoid_free(&A));
+            return check_grb_error(GrB_Monoid_free(&A));
           }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeMatrix
+            JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeMatrix
             (JNIEnv * env, jclass cls, jobject mat, jlong rows, jlong cols) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
             GrB_Index mat_rows = rows;
             GrB_Index mat_cols = cols;
-            check_grb_error(GxB_Matrix_resize(A, mat_rows, mat_cols));
+            return check_grb_error(GxB_Matrix_resize(A, mat_rows, mat_cols));
             }
 
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeVector
+            JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeVector
             (JNIEnv * env, jclass cls, jobject vec, jlong size) {
             GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
             GrB_Index vec_size = size;
-            check_grb_error(GxB_Vector_resize(A, vec_size));
+            return check_grb_error(GxB_Vector_resize(A, vec_size));
             }
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_matrixApply
@@ -149,10 +159,10 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_createSem
         return (*env)->NewDirectByteBuffer(env, s, 0);
   }
 
-JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeSemiring
+JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeSemiring
   (JNIEnv * env, jclass cls, jobject semi) {
         GrB_Semiring semiring = (GrB_Semiring) (*env)->GetDirectBufferAddress(env, semi);
-        check_grb_error(GrB_Semiring_free(&semiring));
+        return check_grb_error(GrB_Semiring_free(&semiring));
   }
 
 JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_dupMatrix
@@ -238,8 +248,8 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getDescripto
         return v;
   }
 
-JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeDescriptor
+JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeDescriptor
   (JNIEnv * env, jclass cls, jobject desc) {
     GrB_Descriptor d = (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc);
-    check_grb_error(GrB_Descriptor_free(&d));
+    return check_grb_error(GrB_Descriptor_free(&d));
   }

@@ -4,15 +4,8 @@
 #include <jni.h>
 #include "GraphBLAS.h"
 #include <assert.h>
-void check_grb_error(GrB_Info info);
+long check_grb_error(GrB_Info info);
 
-            void check_grb_error(GrB_Info info)
-            {
-            if (! (info == GrB_SUCCESS || info == GrB_NO_VALUE))
-            {
-            printf ("info: %d error: %s\n", info, GrB_error ( )) ;
-            }
-            }
 
             // generic functions
             <#list properties.types as prop>
