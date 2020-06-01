@@ -12,7 +12,7 @@ import scala.reflect.ClassTag
 trait MatrixUtils { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers   =>
 
   // TODO: use SparseMatrixHandler
-  protected def testSettersAndGettersMatrix[T](tpe: => Buffer)
+  protected def testSettersAndGettersMatrix[T:SparseMatrixHandler](tpe: => Buffer)
                                               (set: (Buffer, Long, Long, T) => Unit)(get: (Buffer, Long, Long) => Option[T])
                                               (implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
     it should s"create a matrix of positive dimensions and set/get ${CT.toString()} values" in forAll { mt: MatrixTuples[T] =>
@@ -24,6 +24,8 @@ trait MatrixUtils { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with M
       mt.vals.foreach { case (i, j, v) =>
         get(mat, i, j) shouldBe Some(v)
       }
+      val a = SparseMatrixHandler[T].extractTuples(mat)
+      a.length shouldBe mt.vals.size
       GRBCORE.freeMatrix(mat)
     }
   }

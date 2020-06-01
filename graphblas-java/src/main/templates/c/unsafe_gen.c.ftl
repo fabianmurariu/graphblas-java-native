@@ -45,6 +45,41 @@ long check_grb_error(GrB_Info info);
             return output;
             }
 
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuples${prop.java_type?cap_first}
+              (JNIEnv * env, jclass cls, jobject mat, j${prop.java_type}Array vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                j${prop.java_type} *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                ${prop.c_type} *X = NULL;
+                elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_${prop.grb_type}(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
             </#list>
 
             <#list properties.types as prop>

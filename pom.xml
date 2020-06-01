@@ -2,16 +2,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <graphblas-java-version>0.1.5</graphblas-java-version>
-        <skipTests>true</skipTests>
-    </properties>
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
     <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<graphblas-java-version>${version}</graphblas-java-version>
+        <skipTests>true</skipTests>
+    </properties>
 
     <name>GraphBLAS JNI Bindings</name>
     <description>Uberjar of JNI Bindings for native GraphBLAS Library. </description>

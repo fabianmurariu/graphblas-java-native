@@ -78,6 +78,41 @@ long check_grb_error(GrB_Info info);
             return output;
             }
 
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesBoolean
+              (JNIEnv * env, jclass cls, jobject mat, jbooleanArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jboolean *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                bool *X = NULL;
+                elms = (*env)->GetBooleanArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_BOOL(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseBooleanArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementByte
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jbyte value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -104,6 +139,41 @@ long check_grb_error(GrB_Info info);
             }
             return output;
             }
+
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesByte
+              (JNIEnv * env, jclass cls, jobject mat, jbyteArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jbyte *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                int8_t *X = NULL;
+                elms = (*env)->GetByteArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_INT8(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseByteArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementShort
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jshort value) {
@@ -132,6 +202,41 @@ long check_grb_error(GrB_Info info);
             return output;
             }
 
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesShort
+              (JNIEnv * env, jclass cls, jobject mat, jshortArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jshort *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                short *X = NULL;
+                elms = (*env)->GetShortArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_INT16(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseShortArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementInt
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jint value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -158,6 +263,41 @@ long check_grb_error(GrB_Info info);
             }
             return output;
             }
+
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesInt
+              (JNIEnv * env, jclass cls, jobject mat, jintArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jint *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                int *X = NULL;
+                elms = (*env)->GetIntArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_INT32(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseIntArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
 
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementLong
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jlong value) {
@@ -186,6 +326,41 @@ long check_grb_error(GrB_Info info);
             return output;
             }
 
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesLong
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jlong *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                long *X = NULL;
+                elms = (*env)->GetLongArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_INT64(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseLongArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementFloat
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jfloat value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -213,6 +388,41 @@ long check_grb_error(GrB_Info info);
             return output;
             }
 
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesFloat
+              (JNIEnv * env, jclass cls, jobject mat, jfloatArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jfloat *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                float *X = NULL;
+                elms = (*env)->GetFloatArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_FP32(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseFloatArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementDouble
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jdouble value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -239,6 +449,41 @@ long check_grb_error(GrB_Info info);
             }
             return output;
             }
+
+
+            // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuplesDouble
+              (JNIEnv * env, jclass cls, jobject mat, jdoubleArray vs, jlongArray is, jlongArray js) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Matrix_nvals(&nvals, A);
+                jdouble *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+                double *X = NULL;
+                elms = (*env)->GetDoubleArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Matrix_extractTuples_FP64(I, J, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                    java_js[i] = (long) J[i];
+                }
+                // JNI tell Java we're done
+                (*env)->ReleaseDoubleArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
 
 
                 JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementBoolean

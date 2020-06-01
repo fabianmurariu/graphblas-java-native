@@ -81,9 +81,6 @@ public final class GRBCORE {
     public static native double getHyperRatio(Buffer mat);
     public static native void neverHyper(Buffer mat);
 
-    public static native long extractTuplesBoolean(Buffer mat, SparseNativeBoolean javaMat);
-    public static native long extractTuplesBooleanUnsafe(Buffer mat, SparseNativeBoolean javaMat);
-
     public static native long resizeMatrix(Buffer mat, long rows, long cols);
     public static native void matrixApply(Buffer outMat, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
 

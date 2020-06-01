@@ -24,7 +24,7 @@ public final class GRAPHBLAS {
 <#list properties.types as prop>
     public static native void setVectorElement${prop.java_type?cap_first}(Buffer vec, long i, ${prop.java_type} value);
     public static native ${prop.java_type}[] getVectorElement${prop.java_type?cap_first}(Buffer vec, long i);
-
+    public static native long extractTuples${prop.java_type?cap_first}(Buffer mat, ${prop.java_type}[] vs, long[] is, long[] js);
 </#list>
 
 <#list properties.types as prop>
