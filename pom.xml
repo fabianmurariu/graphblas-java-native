@@ -5,7 +5,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -24,11 +24,11 @@
     </issueManagement>
 
     <licenses>
-	<license>
-	    <name>Eclipse Public License</name>
-	    <url>http://www.eclipse.org/legal/epl-v10.html</url>
+        <license>
+            <name>Apache 2.0 License</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
-	</license>
+        </license>
     </licenses>
 
     <scm>
@@ -43,15 +43,7 @@
 	    <id>fabianmurariu</id>
 	</developer>
     </developers>
-<!--
-    <distributionManagement>
-        <repository>
-            <id>clojars</id>
-            <name>Clojars repository</name>
-            <url>https://clojars.org/repo</url>
-        </repository>
-    </distributionManagement>
--->
+
     <dependencies>
         <dependency>
             <groupId>com.github.fabianmurariu</groupId>

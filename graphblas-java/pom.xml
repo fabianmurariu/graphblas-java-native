@@ -4,11 +4,11 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
     <packaging>nar</packaging>
 
     <name>GraphBLAS JNI Bindings</name>
-    <description>JNI Binding for GraphBLAS </description>
+    <description>JNI Binding for GraphBLAS</description>
     <url>https://github.com/fabianmurariu/graphblas-java-native</url>
 
     <issueManagement>
@@ -18,8 +18,8 @@
 
     <licenses>
         <license>
-            <name>Eclipse Public License</name>
-            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+            <name>Apache 2.0 License</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -36,15 +36,6 @@
             <id>fabianmurariu</id>
         </developer>
     </developers>
-
-    <!-- FIXME: change this to mavenrepo-->
-    <!--    <distributionManagement>-->
-    <!--        <repository>-->
-    <!--            <id>clojars</id>-->
-    <!--            <name>Clojars repository</name>-->
-    <!--            <url>https://clojars.org/repo</url>-->
-    <!--        </repository>-->
-    <!--    </distributionManagement>-->
 
     <dependencies>
         <dependency>
@@ -127,6 +118,39 @@
 
     <profiles>
         <profile>
+            <activation>
+                <jdk>[1.8,1.9]</jdk>
+            </activation>
+            <id>JDKOld</id>
+            <properties>
+                <skip.javah>false</skip.javah>
+            </properties>
+        </profile>
+        <profile>
+            <activation>
+                <jdk>[1.10,)</jdk>
+            </activation>
+            <id>JDKNew</id>
+            <properties>
+                <skip.javah>true</skip.javah>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <compilerArgs>
+                                    <arg>-h</arg>
+                                    <arg>${project.build.directory}/nar/javah-include</arg>
+                                </compilerArgs>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
             <id>Linux</id>
             <activation>
                 <os>
@@ -139,6 +163,9 @@
                         <groupId>com.github.maven-nar</groupId>
                         <artifactId>nar-maven-plugin</artifactId>
                         <configuration>
+                            <javah>
+                                <skip>${skip.javah}</skip>
+                            </javah>
                             <linker>
                                 <name>g++</name>
                                 <options>
@@ -149,15 +176,6 @@
                                     <sysLib>
                                         <name>graphblas</name>
                                     </sysLib>
-                                    <!--                                    <sysLib>-->
-                                    <!--                                        <name>pthread</name>-->
-                                    <!--                                    </sysLib>-->
-                                    <!--                                    <sysLib>-->
-                                    <!--                                        <name>m</name>-->
-                                    <!--                                    </sysLib>-->
-                                    <!--                                    <sysLib>-->
-                                    <!--                                        <name>dl</name>-->
-                                    <!--                                    </sysLib>-->
                                 </sysLibs>
                             </linker>
                         </configuration>
@@ -290,13 +308,12 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>4.4.0</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>compile</goal>
                             <goal>testCompile</goal>
                         </goals>
                     </execution>
