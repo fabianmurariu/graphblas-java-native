@@ -91,7 +91,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                bool *X = NULL;
                 elms = (*env)->GetBooleanArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -113,6 +112,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesBoolean
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jbooleanArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jboolean *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetBooleanArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_BOOL(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseBooleanArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesBoolean
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jbooleanArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jboolean *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetBooleanArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_BOOL(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseBooleanArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementByte
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jbyte value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -153,7 +216,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                int8_t *X = NULL;
                 elms = (*env)->GetByteArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -175,6 +237,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesByte
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jbyteArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jbyte *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetByteArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_INT8(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseByteArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesByte
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jbyteArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jbyte *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetByteArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_INT8(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseByteArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementShort
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jshort value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -215,7 +341,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                short *X = NULL;
                 elms = (*env)->GetShortArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -237,6 +362,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesShort
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jshortArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jshort *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetShortArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_INT16(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseShortArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesShort
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jshortArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jshort *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetShortArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_INT16(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseShortArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementInt
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jint value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -277,7 +466,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                int *X = NULL;
                 elms = (*env)->GetIntArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -299,6 +487,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesInt
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jintArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jint *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetIntArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_INT32(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseIntArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesInt
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jintArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jint *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetIntArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_INT32(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseIntArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementLong
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jlong value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -339,7 +591,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                long *X = NULL;
                 elms = (*env)->GetLongArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -361,6 +612,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesLong
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jlongArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jlong *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetLongArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_INT64(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseLongArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesLong
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jlong *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetLongArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_INT64(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseLongArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementFloat
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jfloat value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -401,7 +716,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                float *X = NULL;
                 elms = (*env)->GetFloatArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -423,6 +737,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesFloat
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jfloatArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jfloat *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetFloatArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_FP32(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseFloatArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesFloat
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jfloatArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jfloat *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetFloatArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_FP32(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseFloatArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementDouble
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jdouble value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -463,7 +841,6 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index *I = NULL;
                 GrB_Index *J = NULL;
-                double *X = NULL;
                 elms = (*env)->GetDoubleArrayElements(env, vs, NULL);
                 java_is = (*env)->GetLongArrayElements(env, is, NULL);
                 java_js = (*env)->GetLongArrayElements(env, js, NULL);
@@ -485,6 +862,70 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuplesDouble
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, jdoubleArray vs, jlong n, jobject dupOp) {
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jdouble *elms;
+                jlong *java_is;
+                jlong *java_js;
+
+                GrB_Index *I = NULL;
+                GrB_Index *J = NULL;
+
+                elms = (*env)->GetDoubleArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                J = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                    J[i] = (GrB_Index)java_js[i];
+                }
+
+                long res = GrB_Matrix_build_FP64(A, I, J, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseDoubleArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                free(I);
+                free(J);
+                return res;
+              }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildVectorFromTuplesDouble
+              (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jdoubleArray vs, jlong n, jobject dupOp) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
+                GrB_Index nvals = n;
+
+                jdouble *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+
+                elms = (*env)->GetDoubleArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+
+               // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    I[i] = (GrB_Index)java_is[i];
+                }
+
+                long res = GrB_Vector_build_FP64(A, I, elms, nvals, dup);
+                // JNI tell Java we're done
+                (*env)->ReleaseDoubleArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
 
                 JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementBoolean
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jboolean value) {

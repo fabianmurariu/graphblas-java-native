@@ -27,53 +27,60 @@ public final class GRAPHBLAS {
 
     public static native void setMatrixElementBoolean(Buffer mat, long i, long j, boolean value);
     public static native boolean[] getMatrixElementBoolean(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesBoolean(Buffer mat, long[] is, long[] js, boolean[] vs, long nvals, Buffer dupOp);
 
     public static native void setMatrixElementByte(Buffer mat, long i, long j, byte value);
     public static native byte[] getMatrixElementByte(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesByte(Buffer mat, long[] is, long[] js, byte[] vs, long nvals, Buffer dupOp);
 
     public static native void setMatrixElementShort(Buffer mat, long i, long j, short value);
     public static native short[] getMatrixElementShort(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesShort(Buffer mat, long[] is, long[] js, short[] vs, long nvals, Buffer dupOp);
 
     public static native void setMatrixElementInt(Buffer mat, long i, long j, int value);
     public static native int[] getMatrixElementInt(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesInt(Buffer mat, long[] is, long[] js, int[] vs, long nvals, Buffer dupOp);
 
     public static native void setMatrixElementLong(Buffer mat, long i, long j, long value);
     public static native long[] getMatrixElementLong(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesLong(Buffer mat, long[] is, long[] js, long[] vs, long nvals, Buffer dupOp);
 
     public static native void setMatrixElementFloat(Buffer mat, long i, long j, float value);
     public static native float[] getMatrixElementFloat(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesFloat(Buffer mat, long[] is, long[] js, float[] vs, long nvals, Buffer dupOp);
 
     public static native void setMatrixElementDouble(Buffer mat, long i, long j, double value);
     public static native double[] getMatrixElementDouble(Buffer mat, long i, long j);
-
+    public static native long buildMatrixFromTuplesDouble(Buffer mat, long[] is, long[] js, double[] vs, long nvals, Buffer dupOp);
 
     public static native void setVectorElementBoolean(Buffer vec, long i, boolean value);
     public static native boolean[] getVectorElementBoolean(Buffer vec, long i);
     public static native long extractTuplesBoolean(Buffer mat, boolean[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesBoolean(Buffer mat, long[] is, boolean[] vs, long nvals, Buffer dupOp);
     public static native void setVectorElementByte(Buffer vec, long i, byte value);
     public static native byte[] getVectorElementByte(Buffer vec, long i);
     public static native long extractTuplesByte(Buffer mat, byte[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesByte(Buffer mat, long[] is, byte[] vs, long nvals, Buffer dupOp);
     public static native void setVectorElementShort(Buffer vec, long i, short value);
     public static native short[] getVectorElementShort(Buffer vec, long i);
     public static native long extractTuplesShort(Buffer mat, short[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesShort(Buffer mat, long[] is, short[] vs, long nvals, Buffer dupOp);
     public static native void setVectorElementInt(Buffer vec, long i, int value);
     public static native int[] getVectorElementInt(Buffer vec, long i);
     public static native long extractTuplesInt(Buffer mat, int[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesInt(Buffer mat, long[] is, int[] vs, long nvals, Buffer dupOp);
     public static native void setVectorElementLong(Buffer vec, long i, long value);
     public static native long[] getVectorElementLong(Buffer vec, long i);
     public static native long extractTuplesLong(Buffer mat, long[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesLong(Buffer mat, long[] is, long[] vs, long nvals, Buffer dupOp);
     public static native void setVectorElementFloat(Buffer vec, long i, float value);
     public static native float[] getVectorElementFloat(Buffer vec, long i);
     public static native long extractTuplesFloat(Buffer mat, float[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesFloat(Buffer mat, long[] is, float[] vs, long nvals, Buffer dupOp);
     public static native void setVectorElementDouble(Buffer vec, long i, double value);
     public static native double[] getVectorElementDouble(Buffer vec, long i);
     public static native long extractTuplesDouble(Buffer mat, double[] vs, long[] is, long[] js);
+    public static native long buildVectorFromTuplesDouble(Buffer mat, long[] is, double[] vs, long nvals, Buffer dupOp);
 
     public static native Buffer oneUnaryOpBoolean();
     public static native Buffer identityUnaryOpBoolean();

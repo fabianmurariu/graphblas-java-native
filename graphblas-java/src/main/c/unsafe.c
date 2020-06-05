@@ -253,3 +253,4 @@ JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeDescript
     GrB_Descriptor d = (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc);
     return check_grb_error(GrB_Descriptor_free(&d));
   }
+

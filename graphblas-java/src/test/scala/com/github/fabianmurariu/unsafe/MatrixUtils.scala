@@ -1,7 +1,5 @@
 package com.github.fabianmurariu.unsafe
 
-import java.nio.Buffer
-
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -9,34 +7,39 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
 import scala.reflect.ClassTag
 
-trait MatrixUtils { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers   =>
+trait MatrixUtils {
+  self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers =>
 
-  // TODO: use SparseMatrixHandler
-  protected def testSettersAndGettersMatrix[T:SparseMatrixHandler](tpe: => Buffer)
-                                              (set: (Buffer, Long, Long, T) => Unit)(get: (Buffer, Long, Long) => Option[T])
-                                              (implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
+  protected def testSettersAndGettersMatrix[T](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T], SH: SparseMatrixHandler[T]): Unit = {
+    it should s"create a matrix of positive dimensions and build from tuples ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
+      val mat = SH.createMatrix(mt.dim.rows, mt.dim.cols)
+      val is = mt.vals.map(_._1).toArray
+      val js = mt.vals.map(_._2).toArray
+      val vs = mt.vals.map(_._3).toArray
+      val out = SH.setTuples(mat, is, js, vs)
+      out shouldBe 0L
+      mt.vals.foreach {
+        case (i, j, v) =>
+          SH.get(mat)(i, j).headOption shouldBe Some(v)
+      }
+      GRBCORE.freeMatrix(mat)
+    }
+
     it should s"create a matrix of positive dimensions and set/get ${CT.toString()} values" in forAll { mt: MatrixTuples[T] =>
-      val mat = makeMat(mt.dim, tpe)
+      val mat = SH.createMatrix(mt.dim.rows, mt.dim.cols)
       mt.vals.foreach { case (i, j, v) =>
-        set(mat, i, j, v)
+        SH.set(mat)(i, j, v)
       }
       GRBCORE.nvalsMatrix(mat) shouldBe mt.vals.size
       mt.vals.foreach { case (i, j, v) =>
-        get(mat, i, j) shouldBe Some(v)
+        SH.get(mat)(i, j).headOption shouldBe Some(v)
       }
-      val a = SparseMatrixHandler[T].extractTuples(mat)
+      val a = SH.extractTuples(mat)
       a.length shouldBe mt.vals.size
       GRBCORE.freeMatrix(mat)
     }
   }
 
-  protected def makeMat(md: MatrixDimensions, tpe: Buffer): Buffer = {
-    val mat = GRBCORE.createMatrix(tpe, md.rows, md.cols)
-    GRBCORE.nvalsMatrix(mat) shouldBe 0
-    GRBCORE.nrows(mat) shouldBe md.rows
-    GRBCORE.ncols(mat) shouldBe md.cols
-    mat
-  }
 }
 
 case class MatrixDimensions(rows: Long, cols: Long)
@@ -44,7 +47,7 @@ case class MatrixDimensions(rows: Long, cols: Long)
 case class MatrixTuples[T](dim: MatrixDimensions, vals: Vector[(Long, Long, T)])
 
 // tuples for multiplication
-case class MatrixTuplesMul[T](left:MatrixTuples[T], right:MatrixTuples[T])
+case class MatrixTuplesMul[T](left: MatrixTuples[T], right: MatrixTuples[T])
 
 object MatrixDimensions {
   lazy val gen: Gen[MatrixDimensions] = for {
