@@ -47,7 +47,7 @@ long check_grb_error(GrB_Info info);
 
 
             // FIXME: this is terrible, we copy twice the indices because java does not have an option for unsigned long
-            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractTuples${prop.java_type?cap_first}
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractMatrixTuples${prop.java_type?cap_first}
               (JNIEnv * env, jclass cls, jobject mat, j${prop.java_type}Array vs, jlongArray is, jlongArray js) {
                 GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index nvals;
@@ -79,6 +79,30 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_extractVectorTuples${prop.java_type?cap_first}
+              (JNIEnv * env, jclass cls, jobject mat, j${prop.java_type}Array vs, jlongArray is) {
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index nvals;
+                GrB_Vector_nvals(&nvals, A);
+                j${prop.java_type} *elms;
+                jlong *java_is;
+
+                GrB_Index *I = NULL;
+                elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
+                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+                I = malloc (nvals * sizeof (GrB_Index)) ;
+                long res = check_grb_error(GrB_Vector_extractTuples_${prop.grb_type}(I, elms, &nvals, A));
+                // just copy :(
+                for (int i = 0; i < nvals; i++) {
+                    java_is[i] = (long) I[i];
+                }
+                // JNI tell Java we're done
+                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                free(I);
+                return res;
+              }
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuples${prop.java_type?cap_first}
               (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, j${prop.java_type}Array vs, jlong n, jobject dupOp) {
                 GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);

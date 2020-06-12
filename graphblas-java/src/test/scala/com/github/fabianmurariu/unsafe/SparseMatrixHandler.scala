@@ -40,7 +40,7 @@ object SparseMatrixHandler {
       val vs = new Array[Boolean](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesBoolean(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesBoolean(mat, vs, is, js)
       vs
     }
 
@@ -63,7 +63,7 @@ object SparseMatrixHandler {
       val vs = new Array[Byte](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesByte(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesByte(mat, vs, is, js)
       vs
     }
 
@@ -86,7 +86,7 @@ object SparseMatrixHandler {
       val vs = new Array[Short](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesShort(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesShort(mat, vs, is, js)
       vs
     }
 
@@ -109,7 +109,7 @@ object SparseMatrixHandler {
       val vs = new Array[Int](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesInt(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesInt(mat, vs, is, js)
       vs
     }
 
@@ -132,7 +132,7 @@ object SparseMatrixHandler {
       val vs = new Array[Long](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesLong(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesLong(mat, vs, is, js)
       vs
     }
 
@@ -155,7 +155,7 @@ object SparseMatrixHandler {
       val vs = new Array[Float](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesFloat(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesFloat(mat, vs, is, js)
       vs
     }
 
@@ -178,7 +178,7 @@ object SparseMatrixHandler {
       val vs = new Array[Double](nvals.toInt)
       val is = new Array[Long](nvals.toInt)
       val js = new Array[Long](nvals.toInt)
-      GRAPHBLAS.extractTuplesDouble(mat, vs, is, js)
+      GRAPHBLAS.extractMatrixTuplesDouble(mat, vs, is, js)
       vs
     }
 
