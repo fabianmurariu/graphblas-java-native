@@ -16,3 +16,4 @@ hs_*.log
 *.so
 *.iml
 .idea
+dependency-reduced-pom.xml

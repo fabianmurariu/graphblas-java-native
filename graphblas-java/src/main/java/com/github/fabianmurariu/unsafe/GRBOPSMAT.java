@@ -117,7 +117,7 @@ public class GRBOPSMAT {
      * C<Mask>(I,J) = accum (C(I,J),A)
      *
      * @param C input/output matrix for results
-     * @param mark optional mask for C, unused if NULL
+     * @param mask optional mask for C, unused if NULL
      * @param accum optional accum for Z=accum(C(I,J),T)
      * @param A first input: matrix A
      * @param I row indices
@@ -127,5 +127,37 @@ public class GRBOPSMAT {
      * @param desc descriptor for C, Mask, and A
      * @return
      */
-    public static native int assign(Buffer C, Buffer mark, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+    public static native int assign(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+
+    /**
+     * C(I,J)<Mask> = accum (C(I,J),A)
+     *
+     * @param C input/output matrix for results
+     * @param mask optional mask for C, unused if NULL
+     * @param accum optional accum for Z=accum(C(I,J),T)
+     * @param A first input: matrix A
+     * @param I row indices
+     * @param ni number of row indices
+     * @param J column indices
+     * @param nj number of column indices
+     * @param desc descriptor for C, Mask, and A
+     * @return
+     */
+    public static native int subAssign(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+
+    /**
+     * C<Mask> = accum (C, A(I,J))
+     *
+     * @param C input/output matrix for results
+     * @param mask optional mask for C, unused if NULL
+     * @param accum optional accum for Z=accum(C(I,J),T)
+     * @param A first input: matrix A
+     * @param I row indices
+     * @param ni number of row indices
+     * @param J column indices
+     * @param nj number of column indices
+     * @param desc descriptor for C, Mask, and A
+     * @return
+     */
+    public static native int extract(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
 }

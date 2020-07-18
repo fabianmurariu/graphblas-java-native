@@ -21,6 +21,8 @@ trait SparseMatrixHandler[T] {
 
   def extractTuples(mat: Buffer): Array[T]
 
+  def extractAllTuples(mat: Buffer): Seq[(Long, Long, T)] = Seq.empty
+
   def setTuples(mat: Buffer, is: Array[Long], js: Array[Long], vs: Array[T]): Long
 }
 
@@ -34,6 +36,15 @@ object SparseMatrixHandler {
     def get(mat: Buffer)(i: Long, j: Long): Array[Boolean] = GRAPHBLAS.getMatrixElementBoolean(mat, i, j)
 
     def set(mat: Buffer)(i: Long, j: Long, t: Boolean): Unit = GRAPHBLAS.setMatrixElementBoolean(mat, i, j, t)
+
+    override def extractAllTuples(mat: Buffer): Seq[(Long, Long, Boolean)] = {
+      val nvals = GRBCORE.nvalsMatrix(mat)
+      val vs = new Array[Boolean](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      val js = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractMatrixTuplesBoolean(mat, vs, is, js)
+      (0 until nvals.toInt).map(i => (is(i), js(i), vs(i)))
+    }
 
     override def extractTuples(mat: Buffer): Array[Boolean] = {
       val nvals = GRBCORE.nvalsMatrix(mat)

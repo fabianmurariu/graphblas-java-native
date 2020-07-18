@@ -5,7 +5,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.9</version>
+    <version>0.1.10</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -72,8 +72,26 @@
 
     </dependencies>
 
+    <distributionManagement>
+    <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <plugins>
+	    <plugin>
+	      <groupId>org.sonatype.plugins</groupId>
+	      <artifactId>nexus-staging-maven-plugin</artifactId>
+	      <version>1.6.7</version>
+	      <extensions>true</extensions>
+	      <configuration>
+		<serverId>ossrh</serverId>
+		<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+		<autoReleaseAfterClose>false</autoReleaseAfterClose>
+	      </configuration>
+	    </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -83,26 +101,50 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-<!--
-             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
--->
+
+            <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-gpg-plugin</artifactId>
+	      <version>1.5</version>
+	      <executions>
+		<execution>
+		  <id>sign-artifacts</id>
+		  <phase>verify</phase>
+		  <goals>
+		    <goal>sign</goal>
+		  </goals>
+		</execution>
+	      </executions>
+	    </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>javadoc-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <!-- switch on dependency-driven aggregation -->
+              <includeDependencySources>true</includeDependencySources>
+              
+              <dependencySourceExcludes>
+                <!-- exclude ONLY commons-cli artifacts -->
+                <dependencySourceExclude>commons-cli:*</dependencySourceExclude>
+              </dependencySourceExcludes>
+            </configuration>
+          </execution>
+        </executions>
+	</plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <configuration>
-                    <!-- put your configurations here -->
+			<!-- put your configurations here -->
+			<createSourcesJar>true</createSourcesJar>
                 </configuration>
                 <executions>
                     <execution>
