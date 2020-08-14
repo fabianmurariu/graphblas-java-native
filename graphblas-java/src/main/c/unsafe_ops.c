@@ -125,10 +125,20 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_elemWiseAd
 
   }
 
-JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
   (JNIEnv * env, jclass cls, jobject mat, jobject mask, jobject accum, jobject A, jlongArray is, jlong ni, jlongArray js, jlong nj, jobject desc) {
-        GrB_Index grb_ni = ni == 9223372036854775807 ? GxB_RANGE : (GrB_Index) ni;
-        GrB_Index grb_nj = nj == 9223372036854775807 ? GxB_RANGE : (GrB_Index) nj;
+        long java_max = 9223372036854775807;
+        GrB_Index grb_ni;
+        GrB_Index grb_nj;
+
+        grb_ni = ni == java_max ? GxB_RANGE : (GrB_Index) ni;
+        grb_nj = nj == java_max ? GxB_RANGE : (GrB_Index) nj;
+
+        grb_ni = ni == java_max-1 ? GxB_STRIDE : (GrB_Index) ni;
+        grb_nj = nj == java_max-1 ? GxB_STRIDE : (GrB_Index) nj;
+
+        grb_ni = ni == java_max-2 ? GxB_BACKWARDS : (GrB_Index) ni;
+        grb_nj = nj == java_max-2 ? GxB_BACKWARDS : (GrB_Index) nj;
 
         GrB_Matrix out = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
         GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
@@ -140,21 +150,42 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
 
         java_is = (*env)->GetLongArrayElements(env, is, NULL);
         java_js = (*env)->GetLongArrayElements(env, js, NULL);
-        I = malloc (ni * sizeof (GrB_Index)) ;
-        J = malloc (nj * sizeof (GrB_Index)) ;
 
-        for (int i = 0; i < ni; i++) {
+        GrB_Index sizei;
+        GrB_Index sizej;
+        if (grb_ni == GxB_RANGE) {
+            sizei = 2;
+        } else if (grb_ni == GxB_BACKWARDS || grb_ni == GxB_STRIDE){
+            sizei = 3;
+        } else {
+            sizei = grb_ni;
+        }
+
+        if (grb_nj == GxB_RANGE) {
+            sizej = 2;
+        } else if (grb_nj == GxB_BACKWARDS || grb_nj == GxB_STRIDE){
+            sizej = 3;
+        } else {
+            sizej = grb_nj;
+        }
+
+        I = malloc (sizei * sizeof (GrB_Index)) ;
+        J = malloc (sizej * sizeof (GrB_Index)) ;
+
+        for (int i = 0; i < sizei; i++) {
             I[i] = (GrB_Index)java_is[i];
         }
-        for (int i = 0; i < nj; i++) {
+
+        for (int i = 0; i < sizej; i++) {
             J[i] = (GrB_Index)java_js[i];
         }
+
         // Optionals
         GrB_Matrix m = mask != NULL ? (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
         GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
-        GrB_Index res = check_grb_error(GrB_extract(out, m, acc, first, I, grb_ni, J, grb_nj, desc));
+        long res = check_grb_error(GrB_extract(out, m, acc, first, I, grb_ni, J, grb_nj, d));
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
@@ -165,11 +196,20 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
 
   }
 
-JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
   (JNIEnv * env, jclass cls, jobject mat, jobject mask, jobject accum, jobject A, jlongArray is, jlong ni, jlongArray js, jlong nj, jobject desc) {
-        // if we receive max java long we treat it as GxB_RANGE
-        GrB_Index grb_ni = ni == 9223372036854775807 ? GxB_RANGE : (GrB_Index) ni;
-        GrB_Index grb_nj = nj == 9223372036854775807 ? GxB_RANGE : (GrB_Index) nj;
+        long java_max = 9223372036854775807;
+        GrB_Index grb_ni;
+        GrB_Index grb_nj;
+
+        grb_ni = ni == java_max ? GxB_RANGE : (GrB_Index) ni;
+        grb_nj = nj == java_max ? GxB_RANGE : (GrB_Index) nj;
+
+        grb_ni = ni == java_max-1 ? GxB_STRIDE : (GrB_Index) ni;
+        grb_nj = nj == java_max-1 ? GxB_STRIDE : (GrB_Index) nj;
+
+        grb_ni = ni == java_max-2 ? GxB_BACKWARDS : (GrB_Index) ni;
+        grb_nj = nj == java_max-2 ? GxB_BACKWARDS : (GrB_Index) nj;
 
         GrB_Matrix out = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
         GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
@@ -181,21 +221,43 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
 
         java_is = (*env)->GetLongArrayElements(env, is, NULL);
         java_js = (*env)->GetLongArrayElements(env, js, NULL);
-        I = malloc (ni * sizeof (GrB_Index)) ;
-        J = malloc (nj * sizeof (GrB_Index)) ;
 
-        for (int i = 0; i < ni; i++) {
+        GrB_Index sizei;
+        GrB_Index sizej;
+
+        if (grb_ni == GxB_RANGE) {
+            sizei = 2;
+        } else if (grb_ni == GxB_BACKWARDS || grb_ni == GxB_STRIDE){
+            sizei = 3;
+        } else {
+            sizei = grb_ni;
+        }
+
+        if (grb_nj == GxB_RANGE) {
+            sizej = 2;
+        } else if (grb_nj == GxB_BACKWARDS || grb_nj == GxB_STRIDE){
+            sizej = 3;
+        } else {
+            sizej = grb_nj;
+        }
+
+        I = malloc (sizei * sizeof (GrB_Index)) ;
+        J = malloc (sizej * sizeof (GrB_Index)) ;
+
+        for (int i = 0; i < sizei; i++) {
             I[i] = (GrB_Index)java_is[i];
         }
-        for (int i = 0; i < nj; i++) {
+
+        for (int i = 0; i < sizej; i++) {
             J[i] = (GrB_Index)java_js[i];
         }
+
         // Optionals
         GrB_Matrix m = mask != NULL ? (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
         GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
-        GrB_Index res = check_grb_error(GrB_assign(out, m, acc, first, I, grb_nj, J, grb_nj, desc));
+        long res = check_grb_error(GrB_assign(out, m, acc, first, I, grb_nj, J, grb_nj, d));
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
@@ -206,11 +268,21 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
 
   }
 
-JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
   (JNIEnv * env, jclass cls, jobject mat, jobject mask, jobject accum, jobject A, jlongArray is, jlong ni, jlongArray js, jlong nj, jobject desc) {
         // if we receive max java long we treat it as GxB_RANGE
-        GrB_Index grb_ni = ni == 9223372036854775807 ? GxB_RANGE : (GrB_Index) ni;
-        GrB_Index grb_nj = nj == 9223372036854775807 ? GxB_RANGE : (GrB_Index) nj;
+        long java_max = 9223372036854775807;
+        GrB_Index grb_ni;
+        GrB_Index grb_nj;
+
+        grb_ni = ni == java_max ? GxB_RANGE : (GrB_Index) ni;
+        grb_nj = nj == java_max ? GxB_RANGE : (GrB_Index) nj;
+
+        grb_ni = ni == java_max-1 ? GxB_STRIDE : (GrB_Index) ni;
+        grb_nj = nj == java_max-1 ? GxB_STRIDE : (GrB_Index) nj;
+
+        grb_ni = ni == java_max-2 ? GxB_BACKWARDS : (GrB_Index) ni;
+        grb_nj = nj == java_max-2 ? GxB_BACKWARDS : (GrB_Index) nj;
 
         GrB_Matrix out = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
         GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
@@ -222,21 +294,42 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
 
         java_is = (*env)->GetLongArrayElements(env, is, NULL);
         java_js = (*env)->GetLongArrayElements(env, js, NULL);
-        I = malloc (ni * sizeof (GrB_Index)) ;
-        J = malloc (nj * sizeof (GrB_Index)) ;
 
-        for (int i = 0; i < ni; i++) {
+        GrB_Index sizei;
+        GrB_Index sizej;
+        if (grb_ni == GxB_RANGE) {
+            sizei = 2;
+        } else if (grb_ni == GxB_BACKWARDS || grb_ni == GxB_STRIDE){
+            sizei = 3;
+        } else {
+            sizei = grb_ni;
+        }
+
+        if (grb_nj == GxB_RANGE) {
+            sizej = 2;
+        } else if (grb_nj == GxB_BACKWARDS || grb_nj == GxB_STRIDE){
+            sizej = 3;
+        } else {
+            sizej = grb_nj;
+        }
+
+        I = malloc (sizei * sizeof (GrB_Index)) ;
+        J = malloc (sizej * sizeof (GrB_Index)) ;
+
+        for (int i = 0; i < sizei; i++) {
             I[i] = (GrB_Index)java_is[i];
         }
-        for (int i = 0; i < nj; i++) {
+
+        for (int i = 0; i < sizej; i++) {
             J[i] = (GrB_Index)java_js[i];
         }
+
         // Optionals
         GrB_Matrix m = mask != NULL ? (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
         GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
-        GrB_Index res = check_grb_error(GrB_subassign(out, m, acc, first, I, grb_nj, J, grb_nj, desc));
+        long res = check_grb_error(GxB_subassign(out, m, acc, first, I, grb_ni, J, grb_nj, d));
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);

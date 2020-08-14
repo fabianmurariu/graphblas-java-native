@@ -127,7 +127,7 @@ public class GRBOPSMAT {
      * @param desc descriptor for C, Mask, and A
      * @return
      */
-    public static native int assign(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+    public static native long assign(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
 
     /**
      * C(I,J)<Mask> = accum (C(I,J),A)
@@ -143,7 +143,7 @@ public class GRBOPSMAT {
      * @param desc descriptor for C, Mask, and A
      * @return
      */
-    public static native int subAssign(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+    public static native long subAssign(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
 
     /**
      * C<Mask> = accum (C, A(I,J))
@@ -159,5 +159,5 @@ public class GRBOPSMAT {
      * @param desc descriptor for C, Mask, and A
      * @return
      */
-    public static native int extract(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+    public static native long extract(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
 }

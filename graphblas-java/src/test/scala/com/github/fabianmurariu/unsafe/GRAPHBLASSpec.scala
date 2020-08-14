@@ -8,6 +8,7 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers with BeforeAndAfterAll
   with MatrixUtils
   with VectorUtils
+  with RemoveSpec
   with ApplySpec
   with SemiringSpec
   with ReduceSpec

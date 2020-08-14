@@ -19,6 +19,9 @@ trait SparseMatrixHandler[T] {
 
   def set(mat: Buffer)(i: Long, j: Long, t: T): Unit
 
+  def remove(mat: Buffer)(i: Long, j: Long): Unit =
+    GRBCORE.removeElementMatrix(mat, i, j)
+
   def extractTuples(mat: Buffer): Array[T]
 
   def extractAllTuples(mat: Buffer): Seq[(Long, Long, T)] = Seq.empty
@@ -83,6 +86,7 @@ object SparseMatrixHandler {
       assert(is.length == js.length, vs.length)
       GRAPHBLAS.buildMatrixFromTuplesByte(mat, is, js, vs, nvals, GRAPHBLAS.firstBinaryOpByte())
     }
+
   }
 
   implicit val shortMatrixHandler: SparseMatrixHandler[Short] = new SparseMatrixHandler[Short] {

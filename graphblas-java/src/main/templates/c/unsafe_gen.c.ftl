@@ -21,8 +21,8 @@ long check_grb_error(GrB_Info info);
             JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElement${prop.java_type?cap_first}
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, j${prop.java_type} value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-                GrB_Index I = i;
-                GrB_Index J = j;
+                GrB_Index I = (GrB_Index)i;
+                GrB_Index J = (GrB_Index)j;
             check_grb_error( GrB_Matrix_setElement_${prop.grb_type}(A, value, I, J) ) ;
             }
 
@@ -31,8 +31,8 @@ long check_grb_error(GrB_Info info);
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j) {
             ${prop.c_type} x;
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-                GrB_Index I = i;
-                GrB_Index J = j;
+                GrB_Index I = (GrB_Index)i;
+                GrB_Index J = (GrB_Index)j;
             GrB_Info info = GrB_Matrix_extractElement_${prop.grb_type}(&x, A, I, J);
             j${prop.java_type}Array output;
             if (info == GrB_NO_VALUE) {
@@ -107,7 +107,7 @@ long check_grb_error(GrB_Info info);
               (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, j${prop.java_type}Array vs, jlong n, jobject dupOp) {
                 GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
-                GrB_Index nvals = n;
+                GrB_Index nvals = (GrB_Index)n;
 
                 j${prop.java_type} *elms;
                 jlong *java_is;
@@ -143,7 +143,7 @@ long check_grb_error(GrB_Info info);
               (JNIEnv * env, jclass cls, jobject mat, jlongArray is, j${prop.java_type}Array vs, jlong n, jobject dupOp) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
-                GrB_Index nvals = n;
+                GrB_Index nvals = (GrB_Index)n;
 
                 j${prop.java_type} *elms;
                 jlong *java_is;
@@ -172,8 +172,8 @@ long check_grb_error(GrB_Info info);
             <#list properties.types as prop>
                 JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElement${prop.java_type?cap_first}
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, j${prop.java_type} value) {
-                GrB_Vector A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-                GrB_Index I = i;
+                GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Index I = (GrB_Index)i;
                 check_grb_error( GrB_Vector_setElement_${prop.grb_type}(A, value, I) ) ;
                 }
 
@@ -182,7 +182,7 @@ long check_grb_error(GrB_Info info);
                 (JNIEnv * env, jclass cls, jobject mat, jlong i) {
                 ${prop.c_type} x;
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
-                GrB_Index I = i;
+                GrB_Index I = (GrB_Index)i;
                 GrB_Info info = GrB_Vector_extractElement_${prop.grb_type}(&x, A, I);
                 j${prop.java_type}Array output;
                 if (info == GrB_NO_VALUE) {

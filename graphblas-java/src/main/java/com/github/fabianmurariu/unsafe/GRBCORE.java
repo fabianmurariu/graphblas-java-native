@@ -61,6 +61,10 @@ public final class GRBCORE {
     public static int GrB_INDEX_OUT_OF_BOUNDS = 12;   // a row or column index is out of bounds; used for indices in a list of indices.
     public static int GrB_PANIC = 13;                  // SuiteSparse:GraphBLAS only panics if
                                                         // a critical section fails
+
+    public static long GxB_RANGE = Long.MAX_VALUE;
+    public static long GxB_STRIDE = Long.MAX_VALUE -1;
+    public static long GxB_BACKWARDS = Long.MAX_VALUE -2;
     public static native void initNonBlocking();
     public static native void grbWait();
     public static native void grbFinalize();
@@ -72,7 +76,7 @@ public final class GRBCORE {
     public static native long ncols(Buffer mat);
     public static native long clearMatrix(Buffer mat);
     public static native long freeMatrix(Buffer mat);
-
+    public static native long removeElementMatrix(Buffer mat, long row, long col);
     public static native Buffer dupMatrix(Buffer mat);
     public static native int getFormat(Buffer mat);
     public static native void makeCSC(Buffer mat);
@@ -92,6 +96,7 @@ public final class GRBCORE {
     public static native long clearVec(Buffer vec);
     public static native long resizeVector(Buffer vec, long size);
     public static native Buffer dupVector(Buffer vec);
+    public static native long removeElementVector(Buffer mat, long id);
 
     public static native void vectorApply(Buffer outVec, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
 

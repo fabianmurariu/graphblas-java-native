@@ -34,8 +34,8 @@ long check_grb_error(GrB_Info info);
             (JNIEnv * env, jclass cls, jobject tpe, jlong rows, jlong cols) {
             GrB_Type grb_type = (GrB_Type) (*env)->GetDirectBufferAddress(env, tpe);
             GrB_Matrix A;
-            GrB_Index mat_rows = rows;
-            GrB_Index mat_cols = cols;
+            GrB_Index mat_rows = (GrB_Index)rows;
+            GrB_Index mat_cols = (GrB_Index)cols;
             check_grb_error (GrB_Matrix_new(&A, grb_type, mat_rows, mat_cols) );
             return (*env)->NewDirectByteBuffer(env, A, 0);
             }
@@ -44,7 +44,7 @@ long check_grb_error(GrB_Info info);
             (JNIEnv * env, jclass cls, jobject tpe, jlong size) {
             GrB_Type grb_type = (GrB_Type) (*env)->GetDirectBufferAddress(env, tpe);
             GrB_Vector A;
-            GrB_Index vec_size = size;
+            GrB_Index vec_size = (GrB_Index)size;
             check_grb_error (GrB_Vector_new(&A, grb_type, vec_size) );
             return (*env)->NewDirectByteBuffer(env, A, 0);
             }
@@ -54,7 +54,7 @@ long check_grb_error(GrB_Info info);
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
             GrB_Index n;
             check_grb_error(GrB_Matrix_nvals(&n, A) );
-            return n;
+            return (jlong)n;
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_nvalsVector
@@ -62,7 +62,7 @@ long check_grb_error(GrB_Info info);
             GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
             GrB_Index n;
             check_grb_error(GrB_Vector_nvals(&n, A) );
-            return n;
+            return (jlong)n;
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_nrows
@@ -70,7 +70,7 @@ long check_grb_error(GrB_Info info);
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
             GrB_Index n;
             check_grb_error(GrB_Matrix_nrows(&n, A) );
-            return n;
+            return (jlong)n;
             }
 
 
@@ -79,7 +79,7 @@ long check_grb_error(GrB_Info info);
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
             GrB_Index n;
             check_grb_error(GrB_Matrix_ncols(&n, A) );
-            return n;
+            return (jlong)n;
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_size
@@ -87,7 +87,7 @@ long check_grb_error(GrB_Info info);
             GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
             GrB_Index n;
             check_grb_error(GrB_Vector_size(&n, A) );
-            return n;
+            return (jlong)n;
             }
 
             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMatrix
@@ -110,15 +110,15 @@ long check_grb_error(GrB_Info info);
             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeMatrix
             (JNIEnv * env, jclass cls, jobject mat, jlong rows, jlong cols) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-            GrB_Index mat_rows = rows;
-            GrB_Index mat_cols = cols;
-            return check_grb_error(GxB_Matrix_resize(A, mat_rows, mat_cols));
+            GrB_Index mat_rows = (GrB_Index)rows;
+            GrB_Index mat_cols = (GrB_Index)cols;
+             return check_grb_error(GxB_Matrix_resize(A, mat_rows, mat_cols));
             }
 
             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_resizeVector
             (JNIEnv * env, jclass cls, jobject vec, jlong size) {
             GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
-            GrB_Index vec_size = size;
+            GrB_Index vec_size = (GrB_Index)size;
             return check_grb_error(GxB_Vector_resize(A, vec_size));
             }
 
@@ -254,3 +254,14 @@ JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeDescript
     return check_grb_error(GrB_Descriptor_free(&d));
   }
 
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_removeElementMatrix
+  (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j) {
+        GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+        return check_grb_error(GrB_Matrix_removeElement(A, (GrB_Index)i, (GrB_Index)j));
+  }
+
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_removeElementVector
+  (JNIEnv * env, jclass cls, jobject vec, jlong i) {
+        GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+        return check_grb_error(GrB_Vector_removeElement(A, (GrB_Index)i));
+  }
