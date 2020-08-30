@@ -65,9 +65,10 @@ public final class GRBCORE {
     public static long GxB_RANGE = Long.MAX_VALUE;
     public static long GxB_STRIDE = Long.MAX_VALUE -1;
     public static long GxB_BACKWARDS = Long.MAX_VALUE -2;
-    public static native void initNonBlocking();
-    public static native void grbWait();
-    public static native void grbFinalize();
+    public static native long initNonBlocking();
+    public static native long grbWait();
+    public static native long grbFinalize();
+
 
     //Matrix
     public static native Buffer createMatrix(Buffer tpe, long rows, long cols);
@@ -79,14 +80,15 @@ public final class GRBCORE {
     public static native long removeElementMatrix(Buffer mat, long row, long col);
     public static native Buffer dupMatrix(Buffer mat);
     public static native int getFormat(Buffer mat);
-    public static native void makeCSC(Buffer mat);
-    public static native void makeCSR(Buffer mat);
-    public static native void setHyperRatio(Buffer mat, double ratio);
+    public static native long makeCSC(Buffer mat);
+    public static native long makeCSR(Buffer mat);
+    public static native long setHyperRatio(Buffer mat, double ratio);
     public static native double getHyperRatio(Buffer mat);
-    public static native void neverHyper(Buffer mat);
+    public static native long neverHyper(Buffer mat);
 
     public static native long resizeMatrix(Buffer mat, long rows, long cols);
-    public static native void matrixApply(Buffer outMat, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
+    public static native long matrixApply(Buffer outMat, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
+    public static native long matrixWait(Buffer mat);
 
     //Vector
     public static native Buffer createVector(Buffer tpe, long size);
@@ -98,7 +100,8 @@ public final class GRBCORE {
     public static native Buffer dupVector(Buffer vec);
     public static native long removeElementVector(Buffer mat, long id);
 
-    public static native void vectorApply(Buffer outVec, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
+    public static native long vectorApply(Buffer outVec, Buffer mask, Buffer accum, Buffer op, Buffer firstInput, Buffer desc);
+    public static native long vectorWait(Buffer mat);
 
     // Semiring
     public static native Buffer createSemiring(Buffer monoidAdd, Buffer binOpMul);
@@ -132,7 +135,7 @@ public final class GRBCORE {
     public static int GxB_AxB_SAXPY     = 1005;   // saxpy method (any kind)
 
     public static native Buffer createDescriptor();
-    public static native void setDescriptorValue(Buffer desc, int field, int value);
+    public static native long setDescriptorValue(Buffer desc, int field, int value);
     public static native int getDescriptorValue(Buffer desc, int field);
     public static native long freeDescriptor(Buffer desc);
 }

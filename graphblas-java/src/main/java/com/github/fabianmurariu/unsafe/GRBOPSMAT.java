@@ -160,4 +160,30 @@ public class GRBOPSMAT {
      * @return
      */
     public static native long extract(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
+
+//  w<mask> = accum (w,reduce(A))
+//    input/output vector for results
+//    optional mask for w, unused if NULL
+//    optional accum for z=accum(w,t)
+//    reduce operator for t=reduce(A)
+//    first input: matrix A
+//    descriptor for w, mask, and A
+    public static native long matrixReduceBinOp(Buffer vec, Buffer mask, Buffer accum, Buffer binOp, Buffer mat, Buffer desc);
+
+    //  w<mask> = accum (w,reduce(A))
+//    input/output vector for results
+//    optional mask for w, unused if NULL
+//    optional accum for z=accum(w,t)
+//    reduce operator for t=reduce(A)
+//    first input: matrix A
+//    descriptor for w, mask, and A
+    public static native long matrixReduceMonoid(Buffer vec, Buffer mask, Buffer accum, Buffer monoid, Buffer mat, Buffer desc);
+
+// C<Mask> = accum (C, A’)
+//    input/output matrix for results
+//    optional mask for C, unused if NULL
+//    optional accum for Z=accum(C,T)
+//    first input: matrix A
+//    descriptor for C, Mask, and A
+    public static native long transpose(Buffer out, Buffer mask, Buffer accum, Buffer mat, Buffer desc);
 }

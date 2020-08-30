@@ -18,12 +18,12 @@ long check_grb_error(GrB_Info info);
             </#list>
 
             <#list properties.types as prop>
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElement${prop.java_type?cap_first}
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElement${prop.java_type?cap_first}
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, j${prop.java_type} value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_${prop.grb_type}(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_${prop.grb_type}(A, value, I, J) ) ;
             }
 
 
@@ -170,11 +170,11 @@ long check_grb_error(GrB_Info info);
             </#list>
 
             <#list properties.types as prop>
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElement${prop.java_type?cap_first}
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElement${prop.java_type?cap_first}
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, j${prop.java_type} value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_${prop.grb_type}(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_${prop.grb_type}(A, value, I) ) ;
                 }
 
 

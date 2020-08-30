@@ -51,12 +51,12 @@ long check_grb_error(GrB_Info info);
             }
 
 
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementBoolean
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementBoolean
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jboolean value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_BOOL(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_BOOL(A, value, I, J) ) ;
             }
 
 
@@ -200,12 +200,12 @@ long check_grb_error(GrB_Info info);
                 free(I);
                 return res;
               }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementByte
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementByte
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jbyte value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_INT8(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_INT8(A, value, I, J) ) ;
             }
 
 
@@ -349,12 +349,12 @@ long check_grb_error(GrB_Info info);
                 free(I);
                 return res;
               }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementShort
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementShort
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jshort value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_INT16(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_INT16(A, value, I, J) ) ;
             }
 
 
@@ -498,12 +498,12 @@ long check_grb_error(GrB_Info info);
                 free(I);
                 return res;
               }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementInt
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementInt
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jint value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_INT32(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_INT32(A, value, I, J) ) ;
             }
 
 
@@ -647,12 +647,12 @@ long check_grb_error(GrB_Info info);
                 free(I);
                 return res;
               }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementLong
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementLong
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jlong value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_INT64(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_INT64(A, value, I, J) ) ;
             }
 
 
@@ -796,12 +796,12 @@ long check_grb_error(GrB_Info info);
                 free(I);
                 return res;
               }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementFloat
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementFloat
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jfloat value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_FP32(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_FP32(A, value, I, J) ) ;
             }
 
 
@@ -945,12 +945,12 @@ long check_grb_error(GrB_Info info);
                 free(I);
                 return res;
               }
-            JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementDouble
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElementDouble
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, jdouble value) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            check_grb_error( GrB_Matrix_setElement_FP64(A, value, I, J) ) ;
+            return check_grb_error( GrB_Matrix_setElement_FP64(A, value, I, J) ) ;
             }
 
 
@@ -1095,11 +1095,11 @@ long check_grb_error(GrB_Info info);
                 return res;
               }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementBoolean
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementBoolean
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jboolean value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_BOOL(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_BOOL(A, value, I) ) ;
                 }
 
 
@@ -1120,11 +1120,11 @@ long check_grb_error(GrB_Info info);
                 return output;
                 }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementByte
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementByte
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jbyte value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_INT8(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_INT8(A, value, I) ) ;
                 }
 
 
@@ -1145,11 +1145,11 @@ long check_grb_error(GrB_Info info);
                 return output;
                 }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementShort
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementShort
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jshort value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_INT16(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_INT16(A, value, I) ) ;
                 }
 
 
@@ -1170,11 +1170,11 @@ long check_grb_error(GrB_Info info);
                 return output;
                 }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementInt
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementInt
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jint value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_INT32(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_INT32(A, value, I) ) ;
                 }
 
 
@@ -1195,11 +1195,11 @@ long check_grb_error(GrB_Info info);
                 return output;
                 }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementLong
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementLong
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_INT64(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_INT64(A, value, I) ) ;
                 }
 
 
@@ -1220,11 +1220,11 @@ long check_grb_error(GrB_Info info);
                 return output;
                 }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementFloat
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementFloat
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jfloat value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_FP32(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_FP32(A, value, I) ) ;
                 }
 
 
@@ -1245,11 +1245,11 @@ long check_grb_error(GrB_Info info);
                 return output;
                 }
 
-                JNIEXPORT void JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementDouble
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElementDouble
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, jdouble value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
-                check_grb_error( GrB_Vector_setElement_FP64(A, value, I) ) ;
+                return check_grb_error( GrB_Vector_setElement_FP64(A, value, I) ) ;
                 }
 
 

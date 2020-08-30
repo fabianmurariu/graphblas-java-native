@@ -4,7 +4,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java</artifactId>
-    <version>0.1.11</version>
+    <version>0.1.14</version>
     <packaging>nar</packaging>
 
     <name>GraphBLAS JNI Bindings</name>
@@ -197,7 +197,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <detectJavaApiLink>false</detectJavaApiLink>
+                            <source>8</source>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>

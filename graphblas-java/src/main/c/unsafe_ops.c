@@ -339,3 +339,40 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
        return res;
 
   }
+
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_matrixReduceBinOp
+  (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jobject bin_op, jobject A, jobject desc) {
+        GrB_Vector out = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+        GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
+        GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
+        // Optionals
+        GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
+        GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+
+        return check_grb_error(GrB_reduce(out, m, acc, op, first, d));
+  }
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_matrixReduceMonoid
+  (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jobject monoid, jobject A, jobject desc) {
+        GrB_Vector out = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+        GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
+        GrB_Monoid op = (GrB_Monoid) (*env)->GetDirectBufferAddress(env, monoid);
+        // Optionals
+        GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
+        GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+
+        return check_grb_error(GrB_reduce(out, m, acc, op, first, d));
+  }
+
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_transpose
+  (JNIEnv * env, jclass cls, jobject C, jobject mask, jobject accum, jobject A, jobject desc) {
+        GrB_Matrix mat = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, C);
+        GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
+        // Optionals
+        GrB_Matrix m = mask != NULL ? (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
+        GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+
+        return check_grb_error(GrB_transpose(mat, m, acc, first, d));
+  }
