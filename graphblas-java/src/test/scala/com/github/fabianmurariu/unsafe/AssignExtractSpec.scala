@@ -14,17 +14,17 @@ trait AssignExtractSpec {
 
   self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers =>
 
-  behavior of "GrB_extract"
+  behavior of "GrB_Matrix_extract"
 
-  testGrBExtract[Boolean]
-  testGrBExtract[Byte]
-  testGrBExtract[Short]
-  testGrBExtract[Int]
-  testGrBExtract[Long]
-  testGrBExtract[Float]
-  testGrBExtract[Double]
+  testGrBMatrixExtract[Boolean]
+  testGrBMatrixExtract[Byte]
+  testGrBMatrixExtract[Short]
+  testGrBMatrixExtract[Int]
+  testGrBMatrixExtract[Long]
+  testGrBMatrixExtract[Float]
+  testGrBMatrixExtract[Double]
 
-  private def testGrBExtract[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
+  private def testGrBMatrixExtract[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
     it should s"call GrB_extract for GrB_Matrix of type ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
       val mat = SparseMatrixHandler[T].buildMatrix(mt)
 
@@ -60,7 +60,49 @@ trait AssignExtractSpec {
     }
   }
 
-  private def testGrBAssign[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
+  behavior of "GrB_Vector_extract"
+
+  testGrBVectorExtract[Boolean]
+  testGrBVectorExtract[Byte]
+  testGrBVectorExtract[Short]
+  testGrBVectorExtract[Int]
+  testGrBVectorExtract[Long]
+  testGrBVectorExtract[Float]
+  testGrBVectorExtract[Double]
+
+  private def testGrBVectorExtract[T: SparseVectorHandler](implicit A: Arbitrary[VectorVals[T]], CT: ClassTag[T]): Unit = {
+    it should s"call GrB_extract for GrB_Vector of type ${CT.toString()}" in forAll { mt: VectorVals[T] =>
+      val vec = SparseVectorHandler[T].buildVector(mt)
+
+      // pick half of the indices and extract them into another mat
+      val (_, right) = mt.vals.splitAt(mt.vals.size / 2)
+      val dRight = right.distinctBy(t => t._1 -> t._2)
+      val ni: Vector[Long] = dRight.map(_._1)
+
+      val into = SparseVectorHandler[T].createVector(ni.size)
+
+      val res = GRBOPSVEC.extract(into, null, null, vec, ni.toArray, ni.size, null)
+      assert(res == 0)
+
+      val expected: immutable.IndexedSeq[T] = (for {
+        i <- ni.indices
+      } yield SparseVectorHandler[T].get(vec)(ni(i))).flatten
+
+      SparseVectorHandler[T].extractTuples(into) should contain theSameElementsAs expected
+    }
+  }
+
+//  behavior of "GrB_assign"
+//
+//  testGrBMatrixAssign[Boolean]
+//  testGrBMatrixAssign[Byte]
+//  testGrBMatrixAssign[Short]
+//  testGrBMatrixAssign[Int]
+//  testGrBMatrixAssign[Long]
+//  testGrBMatrixAssign[Float]
+//  testGrBMatrixAssign[Double]
+
+  private def testGrBMatrixAssign[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
     it should s"call GrB_assign for GrB_Matrix of type ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
       val mat = SparseMatrixHandler[T].buildMatrix(mt)
 

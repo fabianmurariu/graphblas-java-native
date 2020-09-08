@@ -13,14 +13,14 @@ trait ElemWiseSpec {
 
   behavior of "GrB_eWise*_Matrix"
 
-  eWiseMult[Byte]
-  eWiseMult[Short]
-  eWiseMult[Int]
-  eWiseMult[Long]
-  eWiseMult[Float]
-  eWiseMult[Double]
+  eWiseMultMatrix[Byte]
+  eWiseMultMatrix[Short]
+  eWiseMultMatrix[Int]
+  eWiseMultMatrix[Long]
+  eWiseMultMatrix[Float]
+  eWiseMultMatrix[Double]
 
-  def eWiseMult[T: SparseMatrixHandler: MonoidHandler:BinaryOpHandler](implicit A:Arbitrary[MatrixTuplesMul[T]], N: Numeric[T], CT: ClassTag[T]): Unit = {
+  def eWiseMultMatrix[T: SparseMatrixHandler : MonoidHandler : BinaryOpHandler](implicit A: Arbitrary[MatrixTuplesMul[T]], N: Numeric[T], CT: ClassTag[T]): Unit = {
     it should s"apply plus(A, B) for the intersection of all items on type ${CT.toString()}" in forAll { mt: MatrixTuplesMul[T] =>
 
       val a = SparseMatrixHandler[T].buildMatrix(mt.left)
@@ -61,6 +61,58 @@ trait ElemWiseSpec {
 
       ret1 shouldBe GRBCORE.GrB_SUCCESS
       ret2 shouldBe GRBCORE.GrB_SUCCESS
+    }
+  }
+
+
+  behavior of "GrB_eWise*_Vector"
+
+  eWiseMultVector[Byte]
+  eWiseMultVector[Short]
+  eWiseMultVector[Int]
+  eWiseMultVector[Long]
+  eWiseMultVector[Float]
+  eWiseMultVector[Double]
+
+  def eWiseMultVector[T: SparseVectorHandler : MonoidHandler : BinaryOpHandler](implicit A: Arbitrary[VectorValsMul[T]], N: Numeric[T], CT: ClassTag[T]): Unit = {
+    it should s"apply plus(A, B) for the intersection of all items on type ${CT.toString()}" in forAll { mt: VectorValsMul[T] =>
+
+      val a = SparseVectorHandler[T].buildVector(mt.left)
+      val b = SparseVectorHandler[T].buildVector(mt.right)
+
+      val expectedSize = mt.left.vals.map(_._1).intersect(mt.right.vals.map(_._1)).size
+
+      val c1 = SparseVectorHandler[T].createVector(mt.left.size)
+      val c2 = SparseVectorHandler[T].createVector(mt.left.size)
+
+      val m = MonoidHandler[T].plus
+      val op = BinaryOpHandler[T].plus
+
+      GRBOPSVEC.elemWiseMulIntersectMonoid(c1, null, null, m, a, b, null) shouldBe GRBCORE.GrB_SUCCESS
+      GRBOPSVEC.elemWiseMulIntersectBinOp(c2, null, null, op, a, b, null) shouldBe GRBCORE.GrB_SUCCESS
+
+      GRBCORE.nvalsVector(c1) shouldBe expectedSize
+      GRBCORE.nvalsVector(c2) shouldBe expectedSize
+    }
+
+    it should s"apply plus(A, B) for the union of all items on type ${CT.toString()}" in forAll { mt: VectorValsMul[T] =>
+
+      val a = SparseVectorHandler[T].buildVector(mt.left)
+      val b = SparseVectorHandler[T].buildVector(mt.right)
+
+      val expectedSize = mt.left.vals.map(_._1).union(mt.right.vals.map(_._1)).toSet.size
+
+      val c1 = SparseVectorHandler[T].createVector(mt.left.size)
+      val c2 = SparseVectorHandler[T].createVector(mt.left.size)
+
+      val m = MonoidHandler[T].plus
+      val op = BinaryOpHandler[T].plus
+
+      GRBOPSVEC.elemWiseAddUnionMonoid(c1, null, null, m, a, b, null) shouldBe GRBCORE.GrB_SUCCESS
+      GRBOPSVEC.elemWiseAddUnionBinOp(c2, null, null, op, a, b, null) shouldBe GRBCORE.GrB_SUCCESS
+
+      GRBCORE.nvalsVector(c1) shouldBe expectedSize
+      GRBCORE.nvalsVector(c2) shouldBe expectedSize
     }
   }
 }

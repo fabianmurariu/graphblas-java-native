@@ -204,7 +204,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);

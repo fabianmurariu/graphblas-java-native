@@ -10,7 +10,7 @@ import scala.reflect.ClassTag
 trait AssignScalarSpec {
   self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers =>
 
-  behavior of "GrB_Vector_assign"
+  behavior of "GrB_Vector_assignScalar"
 
   testVectorAssignScalar[Boolean]
   testVectorAssignScalar[Byte]
@@ -20,7 +20,7 @@ trait AssignScalarSpec {
   testVectorAssignScalar[Float]
   testVectorAssignScalar[Double]
 
-  def testVectorAssignScalar[T: SparseVectorHandler](implicit A: Arbitrary[VectorVals[T]], CT: ClassTag[T]) = {
+  def testVectorAssignScalar[T: SparseVectorHandler](implicit A: Arbitrary[VectorVals[T]], CT: ClassTag[T]): Unit = {
     it should s"create a vector of type ${CT.toString()}, assign a scalar value" in forAll { mt: VectorVals[T] =>
       val handler = SparseVectorHandler[T]
 
