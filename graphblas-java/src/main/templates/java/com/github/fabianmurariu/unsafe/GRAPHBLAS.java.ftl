@@ -30,6 +30,10 @@ public final class GRAPHBLAS {
 </#list>
 
 <#list properties.types as prop>
+   public static native long assignVector${prop.java_type?cap_first}(Buffer vec, Buffer mask, Buffer accum, ${prop.java_type} value, long[] I, long ni, Buffer desc);
+</#list>
+
+<#list properties.types as prop>
     <#list properties.unary_ops as uop>
     public static native Buffer ${uop.name}UnaryOp${prop.java_type?cap_first}();
     </#list>

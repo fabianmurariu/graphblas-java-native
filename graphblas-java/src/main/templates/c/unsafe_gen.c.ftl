@@ -197,6 +197,55 @@ long check_grb_error(GrB_Info info);
 
             </#list>
 
+            <#list properties.types as prop>
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVector${prop.java_type?cap_first}
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, j${prop.java_type} value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_${prop.grb_type}(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+            </#list>
+
     <#list properties.types as prop>
         <#list properties.unary_ops as uop>
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${uop.name}UnaryOp${prop.java_type?cap_first}

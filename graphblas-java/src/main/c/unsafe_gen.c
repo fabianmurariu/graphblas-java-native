@@ -1271,6 +1271,329 @@ long check_grb_error(GrB_Info info);
                 }
 
 
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorBoolean
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jboolean value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_BOOL(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorByte
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jbyte value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_INT8(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorShort
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jshort value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_INT16(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorInt
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jint value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_INT32(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorLong
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jlong value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_INT64(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorFloat
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jfloat value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_FP32(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+                JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_assignVectorDouble
+                (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jdouble value,  jlongArray is, jlong ni, jobject desc) {
+
+                // NON OPTIONAL STUFF
+                GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+
+                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+                GrB_Index* I = NULL;
+                GrB_Index assign_ni = (GrB_Index) ni;
+
+                GrB_Index vectorSize;
+                check_grb_error(GrB_Vector_size(&vectorSize, w));
+
+
+
+                if (vectorSize == assign_ni || is == NULL) {
+                    I = GrB_ALL;
+                }
+                else {
+                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    I = malloc (assign_ni * sizeof (GrB_Index));
+
+                    // just copy :(
+                    for (int i = 0; i < assign_ni; i++) {
+                        I[i] = (GrB_Index)java_is[i];
+                    }
+
+                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                }
+
+                // OPTIONAL STUFF
+                GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
+                GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+                GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
+
+
+                long res = check_grb_error(GrB_Vector_assign_FP64(w, m, acc, value, I, assign_ni, d));
+
+                if(I != GrB_ALL) {
+                    free(I);
+                }
+
+                return res;
+                }
+
+
+
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_oneUnaryOpBoolean
             (JNIEnv * env, jclass cls) {
             return (*env)->NewDirectByteBuffer(env, GxB_ONE_BOOL, 0);
