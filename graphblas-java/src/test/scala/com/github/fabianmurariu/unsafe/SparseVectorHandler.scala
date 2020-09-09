@@ -22,6 +22,9 @@ trait SparseVectorHandler[T] {
   def remove(vec: Buffer)(i: Long): Unit =
     GRBCORE.removeElementVector(vec, i)
 
+  def clear(vec: Buffer): Unit =
+    GRBCORE.clearVec(vec)
+
 }
 
 object SparseVectorHandler {

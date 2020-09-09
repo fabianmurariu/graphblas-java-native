@@ -106,6 +106,18 @@ JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
             return (jlong)n;
             }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_clearVec
+            (JNIEnv * env, jclass cls, jobject vec) {
+            GrB_Vector V = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+            return check_grb_error(GrB_Vector_clear(V));
+            }
+
+             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_clearMatrix
+             (JNIEnv * env, jclass cls, jobject mat) {
+             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+             return check_grb_error(GrB_Matrix_clear(A) );
+             }
+
             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMatrix
             (JNIEnv * env, jclass cls, jobject mat) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
