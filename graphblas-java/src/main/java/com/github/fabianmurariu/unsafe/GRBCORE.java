@@ -112,6 +112,50 @@ public final class GRBCORE {
     // Monoid
     public static native long freeMonoid(Buffer monoid);
 
+    // Global options
+    // Fields (get and set)
+    public static int GxB_HYPER = 0;
+    public static int GxB_FORMAT = 1;  // defines CSR/CSC format: GxB_BY_ROW or GxB_BY_COL
+    public static int GxB_NTHREADS = 5;
+    public static int GxB_CHUNK = 7;
+
+    // Fields only for get (only supporting the ones returning ints for now)
+    public static int GxB_MODE = 2;  // mode passed to GrB_init (blocking or non-blocking)
+    public static int GxB_THREAD_SAFETY = 3; // thread library that allows GraphBLAS to be thread-safe for user threads.
+    public static int GxB_THREADING = 4;  // thread library used for internal GraphBLAS threads
+    //public static int GxB_LIBRARY_NAME = 8;             // name of the library (char *)
+    //public static int GxB_LIBRARY_VERSION = 9;        // library version (3 int's)
+    //public static int GxB_LIBRARY_DATE = 10;          // date of the library (char *)
+    //public static int GxB_LIBRARY_ABOUT = 11;         // about the library (char *)
+    //public static int GxB_LIBRARY_URL = 12;           // URL for the library (char *)
+    //public static int GxB_LIBRARY_LICENSE = 13;       // license of the library (char *)
+    //public static int GxB_LIBRARY_COMPILE_DATE = 14;  // date library was compiled (char *)
+    //public static int GxB_LIBRARY_COMPILE_TIME = 15;  // time library was compiled (char *)
+    //public static int GxB_API_VERSION = 16;           // API version (3 int's)
+    //public static int GxB_API_DATE = 17;              // date of the API (char *)
+    //public static int GxB_API_ABOUT = 18;             // about the API (char *)
+    //public static int GxB_API_URL = 19;               // URL for the API (char *)
+
+    // Values
+    // for GxB_FORMAT
+    public static int GxB_BY_ROW = 0; // CSR
+    public static int GxB_BY_COL = 1; // CSC
+    public static int GxB_NO_FORMAT = -1; // not defined
+
+    public static int GxB_THREAD_NONE = 0;    // no threading
+    public static int GxB_THREAD_OPENMP = 1;  // OpenMP
+    public static int GxB_THREAD_POSIX = 2;  // POSIX pthreads
+    public static int GxB_THREAD_WINDOWS = 3; // Windows threads
+    public static int GxB_THREAD_ANSI = 4;     // ANSI C11 threads
+
+
+    public static native long setGlobalInt(int field, int value);
+    // f.i. for hyper ratio or chunk
+    public static native long setGlobalDouble(int field, double value);
+    public static native int getGlobalInt(int field);
+    public static native double getGlobalDouble(int field);
+    // TODO return global string value or int array? f.i. version or library date
+
     // Descriptor
     // Fields
     public static int GrB_OUTP = 0;   // descriptor for output of a method
