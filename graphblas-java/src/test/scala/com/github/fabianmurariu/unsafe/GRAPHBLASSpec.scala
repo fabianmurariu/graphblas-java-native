@@ -108,6 +108,8 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
     val hyperRatio = 0.001337
     GRBCORE.setGlobalDouble(GRBCORE.GxB_HYPER, hyperRatio)
     GRBCORE.getGlobalDouble(GRBCORE.GxB_HYPER) shouldBe hyperRatio
+
+    GRBCORE.getGlobalInt(GRBCORE.GxB_MODE) shouldBe GRBCORE.GrB_NONBLOCKING
   }
 
   override protected def beforeAll(): Unit = {

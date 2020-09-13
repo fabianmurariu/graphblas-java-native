@@ -26,6 +26,11 @@ JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
             return check_grb_error(GrB_init(GrB_NONBLOCKING) );
             }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_initBlocking
+            (JNIEnv * env, jclass cls) {
+            return check_grb_error(GrB_init(GrB_BLOCKING) );
+            }
+
             JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getGlobalInt
             (JNIEnv * env, jclass cls, jint field) {
             GxB_Option_Field global_field = (GxB_Option_Field) field;

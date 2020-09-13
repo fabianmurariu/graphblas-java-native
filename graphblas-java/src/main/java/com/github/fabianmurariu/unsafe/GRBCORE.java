@@ -68,6 +68,7 @@ public final class GRBCORE {
     public static long NOT_REALLY_GRB_ALL = Long.MIN_VALUE; // placeholder for GrB_ALL
     public static long[] GrB_ALL = {NOT_REALLY_GRB_ALL};
     public static native long initNonBlocking();
+    public static native long initBlocking();
     public static native long grbWait();
     public static native long grbFinalize();
 
@@ -141,6 +142,10 @@ public final class GRBCORE {
     public static int GxB_BY_ROW = 0; // CSR
     public static int GxB_BY_COL = 1; // CSC
     public static int GxB_NO_FORMAT = -1; // not defined
+
+    // for GrB_Mode
+    public static int GrB_NONBLOCKING = 0;
+    public static int GrB_BLOCKING = 1;
 
     public static int GxB_THREAD_NONE = 0;    // no threading
     public static int GxB_THREAD_OPENMP = 1;  // OpenMP
