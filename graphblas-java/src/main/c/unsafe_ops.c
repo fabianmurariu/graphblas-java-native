@@ -424,27 +424,35 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_assign
         GrB_Vector out = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
         GrB_Vector first = (GrB_Vector) (*env)->GetDirectBufferAddress(env, u);
 
-        jlong *java_is;
         GrB_Index *I = NULL;
 
-        java_is = (*env)->GetLongArrayElements(env, is, NULL);
+        GrB_Index vectorSize;
+        check_grb_error(GrB_Vector_size(&vectorSize, first));
 
-        GrB_Index sizei;
 
-        if (grb_ni == GxB_RANGE) {
-            sizei = 2;
-        } else if (grb_ni == GxB_BACKWARDS || grb_ni == GxB_STRIDE){
-            sizei = 3;
-        } else {
-            sizei = grb_ni;
+        if (vectorSize == grb_ni || is == NULL) {
+            I = GrB_ALL;
         }
+        else {
+            jlong *java_is = (*env)->GetLongArrayElements(env, is, NULL);
 
-        I = malloc (sizei * sizeof (GrB_Index)) ;
+            GrB_Index sizei;
+            if (grb_ni == GxB_RANGE) {
+                sizei = 2;
+            } else if (grb_ni == GxB_BACKWARDS || grb_ni == GxB_STRIDE){
+                sizei = 3;
+            } else {
+                sizei = grb_ni;
+            }
 
-        for (int i = 0; i < sizei; i++) {
-            I[i] = (GrB_Index)java_is[i];
+            I = malloc (sizei * sizeof (GrB_Index)) ;
+
+            for (int i = 0; i < sizei; i++) {
+                I[i] = (GrB_Index)java_is[i];
+            }
+
+            (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         }
-
         // Optionals
         GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
         GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
@@ -452,8 +460,9 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_assign
 
         long res = check_grb_error(GrB_assign(out, m, acc, first, I, grb_ni, d));
 
-        (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-        free(I);
+        if(I != GrB_ALL) {
+            free(I);
+        }
 
        return res;
 

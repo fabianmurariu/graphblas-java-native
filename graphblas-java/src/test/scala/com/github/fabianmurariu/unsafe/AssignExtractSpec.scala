@@ -102,6 +102,28 @@ trait AssignExtractSpec {
     }
   }
 
+  behavior of "GrB_Vector_assign"
+
+  testGrBVectorAssign[Boolean]
+  testGrBVectorAssign[Byte]
+  testGrBVectorAssign[Short]
+  testGrBVectorAssign[Int]
+  testGrBVectorAssign[Long]
+  testGrBVectorAssign[Float]
+  testGrBVectorAssign[Double]
+
+  private def testGrBVectorAssign[T: SparseVectorHandler](implicit A: Arbitrary[VectorVals[T]], CT: ClassTag[T]): Unit = {
+    it should s"call GrB_assign for GrB_Vector of type ${CT.toString()} and assign everything" in forAll { mt: VectorVals[T] =>
+      val vec = SparseVectorHandler[T].buildVector(mt)
+
+      val output = SparseVectorHandler[T].createVector(mt.size)
+
+      GRBOPSVEC.assign(output, null, null, vec, null, mt.size, null)
+
+      SparseVectorHandler[T].extractTuples(output) should contain theSameElementsAs SparseVectorHandler[T].extractTuples(vec)
+    }
+  }
+
 //  behavior of "GrB_assign"
 //
 //  testGrBMatrixAssign[Boolean]
