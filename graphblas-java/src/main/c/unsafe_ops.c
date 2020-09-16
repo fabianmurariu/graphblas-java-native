@@ -558,8 +558,8 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_subAssign
         grb_ni = ni == java_max-1 ? GxB_STRIDE : (GrB_Index) ni;
         grb_ni = ni == java_max-2 ? GxB_BACKWARDS : (GrB_Index) ni;
 
-        GrB_Matrix out = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
-        GrB_Matrix first = (GrB_Vector) (*env)->GetDirectBufferAddress(env, u);
+        GrB_Vector out = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+        GrB_Vector first = (GrB_Vector) (*env)->GetDirectBufferAddress(env, u);
 
         jlong *java_is;
         GrB_Index *I = NULL;
@@ -592,6 +592,22 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_subAssign
         free(I);
 
        return res;
+  }
+
+JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_select
+  (JNIEnv * env, jclass cls, jobject C, jobject mask, jobject accum, jobject op, jobject A, jobject Thunk, jobject desc) {
+        // Non-optionals
+        GrB_Matrix out = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, C);
+        GrB_Matrix first = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, A);
+        GxB_SelectOp grb_op = (GxB_SelectOp) (*env)->GetDirectBufferAddress(env, op);
+
+        // Optionals
+        GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL ;
+        GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
+        GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+        GxB_Scalar grb_thunk = NULL;
+
+        return check_grb_error(GxB_Matrix_select(out, m, acc, grb_op, first, grb_thunk, d));
   }
 
 JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_matrixReduceBinOp

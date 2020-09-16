@@ -92,5 +92,17 @@
       "java_type": "double",
       "c_type": "double"
     }
+  ],
+  "select_ops": [
+    "TRIL",
+    "TRIU",
+    "DIAG",
+    "OFFDIAG",
+    "NONZERO",
+    "EQ_ZERO",
+    "GT_ZERO",
+    "GE_ZERO",
+    "LT_ZERO",
+    "LE_ZERO"
   ]
 }

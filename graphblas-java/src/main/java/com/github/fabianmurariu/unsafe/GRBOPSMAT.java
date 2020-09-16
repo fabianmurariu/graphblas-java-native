@@ -154,6 +154,21 @@ public class GRBOPSMAT {
      */
     public static native long extract(Buffer C, Buffer mask, Buffer accum, Buffer A, long[] I, long ni, long[] J, long nj, Buffer desc);
 
+    /**
+     * {@code C<Mask> = accum (C, op(A,k)) or op(A’,k)}
+     *
+     * @param C     input/output matrix for results
+     * @param mask  optional mask for C, unused if NULL
+     * @param accum optional accum for Z=accum(C,T)
+     * @param op    operator to apply to the entries
+     * @param A     first input: matrix A
+     * @param Thunk Optional .. not mapped yet!
+     * @param desc  descriptor for C, mask, and A
+     * @return
+     */
+    public static native long select(Buffer C, Buffer mask, Buffer accum, Buffer op, Buffer A, Buffer Thunk, Buffer desc);
+
+
 //  w<mask> = accum (w,reduce(A))
 //    input/output vector for results
 //    optional mask for w, unused if NULL

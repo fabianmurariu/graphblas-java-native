@@ -302,3 +302,10 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
             return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_BOOL_MONOID, 0);
         }
     </#list>
+
+    <#list properties.select_ops as op>
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOp${op}
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_${op}, 0);
+        }
+    </#list>
