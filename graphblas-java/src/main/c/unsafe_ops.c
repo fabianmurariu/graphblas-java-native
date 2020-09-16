@@ -286,9 +286,8 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_extract
         GrB_Vector first = (GrB_Vector) (*env)->GetDirectBufferAddress(env, u);
 
         jlong *java_is;
+        // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
         GrB_Index *I = NULL;
-
-        java_is = (*env)->GetLongArrayElements(env, is, NULL);
 
         GrB_Index sizei;
 
@@ -300,10 +299,22 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_extract
             sizei = grb_ni;
         }
 
-        I = malloc (sizei * sizeof (GrB_Index)) ;
+        GrB_Index vectorSize;
+        check_grb_error(GrB_Vector_size(&vectorSize, first));
 
-        for (int i = 0; i < sizei; i++) {
-            I[i] = (GrB_Index)java_is[i];
+        if (vectorSize == grb_ni || is == NULL) {
+            I = GrB_ALL;
+        }
+        else {
+            java_is = (*env)->GetLongArrayElements(env, is, NULL);
+
+            I = malloc (sizei * sizeof (GrB_Index));
+
+            for (int i = 0; i < sizei; i++) {
+                I[i] = (GrB_Index)java_is[i];
+            }
+
+            (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         }
 
         // Optionals
@@ -311,10 +322,11 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_extract
         GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum) : NULL;
         GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
 
-        long res = check_grb_error(GrB_extract(out, m, acc, first, I, grb_ni, d));
+        long res = check_grb_error(GrB_Vector_extract(out, m, acc, first, I, grb_ni, d));
 
-        (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-        free(I);
+        if (I != GrB_ALL) {
+            free(I);
+        }
 
        return res;
 

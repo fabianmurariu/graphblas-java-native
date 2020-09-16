@@ -90,6 +90,16 @@ trait AssignExtractSpec {
 
       SparseVectorHandler[T].extractTuples(into) should contain theSameElementsAs expected
     }
+
+    it should s"call GrB_extract all for GrB_Vector of type ${CT.toString()}"  in forAll { mt: VectorVals[T] =>
+      val vec = SparseVectorHandler[T].buildVector(mt)
+
+      val into = SparseVectorHandler[T].createVector(mt.size)
+
+      GRBOPSVEC.extract(into, null, null, vec, null, mt.size, null) shouldBe GRBCORE.GrB_SUCCESS
+
+      SparseVectorHandler[T].extractTuples(into) should contain theSameElementsAs SparseVectorHandler[T].extractTuples(vec)
+    }
   }
 
 //  behavior of "GrB_assign"
