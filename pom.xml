@@ -5,7 +5,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.14</version>
+    <version>0.1.15</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -127,13 +127,12 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <!-- switch on dependency-driven aggregation -->
-		    <includeDependencySources>true</includeDependencySources>                                         <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                            <skip>true</skip>
- 
-              <dependencySourceExcludes>
-                <!-- exclude ONLY commons-cli artifacts -->
-                <dependencySourceExclude>commons-cli:*</dependencySourceExclude>
+                <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                <detectJavaApiLink>false</detectJavaApiLink>
+                <source>8</source>
+   		    <includeDependencySources>true</includeDependencySources>
+                <dependencySourceExcludes>
+                    <dependencySourceExclude>commons-cli:*</dependencySourceExclude>
               </dependencySourceExcludes>
             </configuration>
           </execution>

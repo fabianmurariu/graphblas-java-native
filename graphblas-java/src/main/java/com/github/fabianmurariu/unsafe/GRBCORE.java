@@ -65,6 +65,7 @@ public final class GRBCORE {
     public static long GxB_RANGE = Long.MAX_VALUE;
     public static long GxB_STRIDE = Long.MAX_VALUE -1;
     public static long GxB_BACKWARDS = Long.MAX_VALUE -2;
+    public static long NOT_REALLY_GRB_ALL = Long.MIN_VALUE; // placeholder for GrB_ALL
     public static native long initNonBlocking();
     public static native long grbWait();
     public static native long grbFinalize();
