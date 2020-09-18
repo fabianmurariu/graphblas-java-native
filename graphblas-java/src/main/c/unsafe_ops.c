@@ -285,8 +285,7 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_extract
         GrB_Vector out = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
         GrB_Vector first = (GrB_Vector) (*env)->GetDirectBufferAddress(env, u);
 
-        jlong *java_is;
-        // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
+        jlong *java_is = (*env)->GetLongArrayElements(env, is, NULL);
         GrB_Index *I = NULL;
 
         GrB_Index sizei;
@@ -299,15 +298,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_extract
             sizei = grb_ni;
         }
 
-        GrB_Index vectorSize;
-        check_grb_error(GrB_Vector_size(&vectorSize, first));
+        long java_min = -9223372036854775808;
 
-        if (vectorSize == grb_ni || is == NULL) {
+        if (java_is[0] == java_min) {
             I = GrB_ALL;
         }
         else {
-            java_is = (*env)->GetLongArrayElements(env, is, NULL);
-
             I = malloc (sizei * sizeof (GrB_Index));
 
             for (int i = 0; i < sizei; i++) {
@@ -425,17 +421,15 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSVEC_assign
         GrB_Vector first = (GrB_Vector) (*env)->GetDirectBufferAddress(env, u);
 
         GrB_Index *I = NULL;
-
-        GrB_Index vectorSize;
-        check_grb_error(GrB_Vector_size(&vectorSize, first));
+        jlong *java_is = (*env)->GetLongArrayElements(env, is, NULL);
 
 
-        if (vectorSize == grb_ni || is == NULL) {
+        long java_min = -9223372036854775808;
+
+        if (java_is[0] == java_min) {
             I = GrB_ALL;
         }
         else {
-            jlong *java_is = (*env)->GetLongArrayElements(env, is, NULL);
-
             GrB_Index sizei;
             if (grb_ni == GxB_RANGE) {
                 sizei = 2;

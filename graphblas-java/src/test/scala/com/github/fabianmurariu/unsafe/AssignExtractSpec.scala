@@ -96,7 +96,7 @@ trait AssignExtractSpec {
 
       val into = SparseVectorHandler[T].createVector(mt.size)
 
-      GRBOPSVEC.extract(into, null, null, vec, null, mt.size, null) shouldBe GRBCORE.GrB_SUCCESS
+      GRBOPSVEC.extract(into, null, null, vec, GRBCORE.GrB_ALL, mt.size, null) shouldBe GRBCORE.GrB_SUCCESS
 
       SparseVectorHandler[T].extractTuples(into) should contain theSameElementsAs SparseVectorHandler[T].extractTuples(vec)
     }
@@ -118,7 +118,7 @@ trait AssignExtractSpec {
 
       val output = SparseVectorHandler[T].createVector(mt.size)
 
-      GRBOPSVEC.assign(output, null, null, vec, null, mt.size, null)
+      GRBOPSVEC.assign(output, null, null, vec, GRBCORE.GrB_ALL, mt.size, null)
 
       SparseVectorHandler[T].extractTuples(output) should contain theSameElementsAs SparseVectorHandler[T].extractTuples(vec)
     }
