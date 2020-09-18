@@ -5,6 +5,12 @@
 #include <assert.h>
 long check_grb_error(GrB_Info info);
 
+JavaVM *javavm;
+
+JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
+    javavm=jvm;
+    return JNI_VERSION_1_2;
+}
             long check_grb_error(GrB_Info info)
             {
             if (! (info == GrB_SUCCESS || info == GrB_NO_VALUE))
@@ -22,12 +28,12 @@ long check_grb_error(GrB_Info info);
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbWait
             (JNIEnv * env, jclass cls) {
-            check_grb_error(GrB_wait());
+            return check_grb_error(GrB_wait());
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbFinalize
             (JNIEnv * env, jclass cls) {
-            check_grb_error(GrB_finalize());
+            return check_grb_error(GrB_finalize());
             }
 
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_createMatrix
@@ -36,8 +42,18 @@ long check_grb_error(GrB_Info info);
             GrB_Matrix A;
             GrB_Index mat_rows = (GrB_Index)rows;
             GrB_Index mat_cols = (GrB_Index)cols;
-            check_grb_error (GrB_Matrix_new(&A, grb_type, mat_rows, mat_cols) );
+
+            jclass err_cls;
+            GrB_Info err = check_grb_error (GrB_Matrix_new(&A, grb_type, mat_rows, mat_cols) );
+            if (err != 0) {
+               err_cls = (*env)->FindClass(env, "com/github/fabianmurariu/unsafe/GrBJNIException");
+               (*env)->ThrowNew(env, err_cls, (long)err);
+               goto done;
+            }
             return (*env)->NewDirectByteBuffer(env, A, 0);
+            done:
+                if (err_cls != NULL)
+                    (*env)->DeleteLocalRef(env, err_cls);
             }
 
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_createVector
@@ -90,6 +106,18 @@ long check_grb_error(GrB_Info info);
             return (jlong)n;
             }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_clearVec
+            (JNIEnv * env, jclass cls, jobject vec) {
+            GrB_Vector V = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+            return check_grb_error(GrB_Vector_clear(V));
+            }
+
+             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_clearMatrix
+             (JNIEnv * env, jclass cls, jobject mat) {
+             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+             return check_grb_error(GrB_Matrix_clear(A) );
+             }
+
             JNIEXPORT long JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_freeMatrix
             (JNIEnv * env, jclass cls, jobject mat) {
             GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
@@ -133,7 +161,7 @@ long check_grb_error(GrB_Info info);
             GrB_Matrix m = mask != NULL ? (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mask): NULL;
             GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc): NULL;
 
-            check_grb_error(GrB_Matrix_apply(A, m, a, op, first_mat, d));
+            return check_grb_error(GrB_Matrix_apply(A, m, a, op, first_mat, d));
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_vectorApply
@@ -147,7 +175,7 @@ long check_grb_error(GrB_Info info);
             GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask): NULL;
             GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc): NULL;
 
-            check_grb_error(GrB_Vector_apply(A, m, a, op, first_vec, d));
+            return check_grb_error(GrB_Vector_apply(A, m, a, op, first_vec, d));
             }
 
 JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_createSemiring
@@ -184,20 +212,20 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_dupVector
 JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_makeCSC
   (JNIEnv * env, jclass cls, jobject mat) {
         GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-        check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_BY_COL));
+        return check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_BY_COL));
   }
 
 JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_makeCSR
   (JNIEnv * env, jclass cls, jobject mat) {
         GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-        check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_BY_ROW));
+        return check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_BY_ROW));
   }
 
 JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_setHyperRatio
   (JNIEnv * env, jclass cls, jobject mat, jdouble ratio) {
         GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
         double r = ratio;
-        check_grb_error(GxB_Matrix_Option_set(A, GxB_HYPER, r));
+        return check_grb_error(GxB_Matrix_Option_set(A, GxB_HYPER, r));
   }
 
 JNIEXPORT jdouble JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getHyperRatio

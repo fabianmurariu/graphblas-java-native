@@ -89,6 +89,14 @@ public final class GRAPHBLAS {
     public static native long buildVectorFromTuplesDouble(Buffer mat, long[] is, double[] vs, long nvals, Buffer dupOp);
     public static native long extractVectorTuplesDouble(Buffer mat, double[] vs, long[] is);
 
+   public static native long assignVectorBoolean(Buffer vec, Buffer mask, Buffer accum, boolean value, long[] I, long ni, Buffer desc);
+   public static native long assignVectorByte(Buffer vec, Buffer mask, Buffer accum, byte value, long[] I, long ni, Buffer desc);
+   public static native long assignVectorShort(Buffer vec, Buffer mask, Buffer accum, short value, long[] I, long ni, Buffer desc);
+   public static native long assignVectorInt(Buffer vec, Buffer mask, Buffer accum, int value, long[] I, long ni, Buffer desc);
+   public static native long assignVectorLong(Buffer vec, Buffer mask, Buffer accum, long value, long[] I, long ni, Buffer desc);
+   public static native long assignVectorFloat(Buffer vec, Buffer mask, Buffer accum, float value, long[] I, long ni, Buffer desc);
+   public static native long assignVectorDouble(Buffer vec, Buffer mask, Buffer accum, double value, long[] I, long ni, Buffer desc);
+
     public static native Buffer oneUnaryOpBoolean();
     public static native Buffer identityUnaryOpBoolean();
     public static native Buffer addInvUnaryOpBoolean();

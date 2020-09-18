@@ -169,15 +169,19 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
             sizej = grb_nj;
         }
 
-        I = malloc (sizei * sizeof (GrB_Index)) ;
-        J = malloc (sizej * sizeof (GrB_Index)) ;
+        long java_min = -9223372036854775808;
+        I = java_is[0] != java_min ? malloc (sizei * sizeof (GrB_Index)) : GrB_ALL;
+        J = java_js[0] != java_min ? malloc (sizej * sizeof (GrB_Index)) : GrB_ALL;
 
-        for (int i = 0; i < sizei; i++) {
-            I[i] = (GrB_Index)java_is[i];
+        if (I != GrB_ALL) {
+            for (int i = 0; i < sizei; i++) {
+                I[i] = (GrB_Index)java_is[i];
+            }
         }
-
-        for (int i = 0; i < sizej; i++) {
-            J[i] = (GrB_Index)java_js[i];
+        if (J != GrB_ALL) {
+            for (int i = 0; i < sizej; i++) {
+                J[i] = (GrB_Index)java_js[i];
+            }
         }
 
         // Optionals
@@ -189,8 +193,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-        free(I);
-        free(J);
+        if (I != GrB_ALL) {
+            free(I);
+        }
+        if (J != GrB_ALL) {
+            free(J);
+        }
 
        return res;
 
@@ -241,15 +249,19 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
             sizej = grb_nj;
         }
 
-        I = malloc (sizei * sizeof (GrB_Index)) ;
-        J = malloc (sizej * sizeof (GrB_Index)) ;
+        long java_min = -9223372036854775808;
+        I = java_is[0] != java_min ? malloc (sizei * sizeof (GrB_Index)) : GrB_ALL;
+        J = java_js[0] != java_min ? malloc (sizej * sizeof (GrB_Index)) : GrB_ALL;
 
-        for (int i = 0; i < sizei; i++) {
-            I[i] = (GrB_Index)java_is[i];
+        if (I != GrB_ALL) {
+            for (int i = 0; i < sizei; i++) {
+                I[i] = (GrB_Index)java_is[i];
+            }
         }
-
-        for (int i = 0; i < sizej; i++) {
-            J[i] = (GrB_Index)java_js[i];
+        if (J != GrB_ALL) {
+            for (int i = 0; i < sizej; i++) {
+                J[i] = (GrB_Index)java_js[i];
+            }
         }
 
         // Optionals
@@ -261,8 +273,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-        free(I);
-        free(J);
+        if (I != GrB_ALL) {
+            free(I);
+        }
+        if (J != GrB_ALL) {
+            free(J);
+        }
 
        return res;
 
@@ -313,15 +329,19 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
             sizej = grb_nj;
         }
 
-        I = malloc (sizei * sizeof (GrB_Index)) ;
-        J = malloc (sizej * sizeof (GrB_Index)) ;
+        long java_min = -9223372036854775808;
+        I = java_is[0] != java_min ? malloc (sizei * sizeof (GrB_Index)) : GrB_ALL;
+        J = java_js[0] != java_min ? malloc (sizej * sizeof (GrB_Index)) : GrB_ALL;
 
-        for (int i = 0; i < sizei; i++) {
-            I[i] = (GrB_Index)java_is[i];
+        if (I != GrB_ALL) {
+            for (int i = 0; i < sizei; i++) {
+                I[i] = (GrB_Index)java_is[i];
+            }
         }
-
-        for (int i = 0; i < sizej; i++) {
-            J[i] = (GrB_Index)java_js[i];
+        if (J != GrB_ALL) {
+            for (int i = 0; i < sizej; i++) {
+                J[i] = (GrB_Index)java_js[i];
+            }
         }
 
         // Optionals
@@ -333,8 +353,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-        free(I);
-        free(J);
+        if (I != GrB_ALL) {
+            free(I);
+        }
+        if (J != GrB_ALL) {
+            free(J);
+        }
 
        return res;
 

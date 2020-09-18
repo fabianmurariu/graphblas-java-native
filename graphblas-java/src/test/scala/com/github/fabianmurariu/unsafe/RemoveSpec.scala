@@ -31,6 +31,35 @@ trait RemoveSpec {
   testRemoveElementFromVector[Float]
   testRemoveElementFromVector[Double]
 
+  behavior of "GrB_Vector_clear"
+
+  it should s"create a vector, check elements exist, clear the vector then verify they are gone" in forAll { mt: VectorVals[Int] =>
+    val handler = SparseVectorHandler[Int]
+
+    val vec = handler.buildVector(mt)
+
+    GRBCORE.nvalsVector(vec) shouldBe mt.vals.size
+
+    handler.clear(vec)
+
+    GRBCORE.nvalsVector(vec) shouldBe 0
+  }
+
+  behavior of "GrB_Matrix_clear"
+
+  it should s"create a matrix, check elements exist, clear the matrix then verify they are gone" in forAll { mt: MatrixTuples[Int] =>
+    val handler = SparseMatrixHandler[Int]
+
+    val mat = handler.buildMatrix(mt)
+
+    GRBCORE.nvalsMatrix(mat) shouldBe mt.vals.size
+
+    handler.clear(mat)
+
+    GRBCORE.nvalsMatrix(mat) shouldBe 0
+  }
+
+
   def testRemoveElementFromMatrix[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]) = {
     it should s"create a matrix of type ${CT.toString()}, check elements exist, remove them then verify they are gone" in forAll { mt: MatrixTuples[T] =>
       val handler = SparseMatrixHandler[T]

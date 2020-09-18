@@ -4,7 +4,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java</artifactId>
-    <version>0.1.14</version>
+    <version>0.1.15</version>
     <packaging>nar</packaging>
 
     <name>GraphBLAS JNI Bindings</name>

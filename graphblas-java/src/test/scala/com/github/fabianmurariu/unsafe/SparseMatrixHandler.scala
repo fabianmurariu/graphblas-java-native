@@ -22,6 +22,9 @@ trait SparseMatrixHandler[T] {
   def remove(mat: Buffer)(i: Long, j: Long): Unit =
     GRBCORE.removeElementMatrix(mat, i, j)
 
+  def clear(mat: Buffer): Unit =
+    GRBCORE.clearMatrix(mat)
+
   def extractTuples(mat: Buffer): Array[T]
 
   def extractAllTuples(mat: Buffer): Seq[(Long, Long, T)] = Seq.empty
