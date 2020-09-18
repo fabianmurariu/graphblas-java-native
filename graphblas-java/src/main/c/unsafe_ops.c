@@ -193,8 +193,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-        free(I);
-        free(J);
+        if (I != GrB_ALL) {
+            free(I);
+        }
+        if (J != GrB_ALL) {
+            free(J);
+        }
 
        return res;
 
@@ -269,8 +273,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-        free(I);
-        free(J);
+        if (I != GrB_ALL) {
+            free(I);
+        }
+        if (J != GrB_ALL) {
+            free(J);
+        }
 
        return res;
 
@@ -345,8 +353,12 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
 
         (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
         (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-        free(I);
-        free(J);
+        if (I != GrB_ALL) {
+            free(I);
+        }
+        if (J != GrB_ALL) {
+            free(J);
+        }
 
        return res;
 

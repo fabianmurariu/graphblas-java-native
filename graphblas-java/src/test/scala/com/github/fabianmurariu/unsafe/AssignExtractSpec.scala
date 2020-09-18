@@ -47,6 +47,17 @@ trait AssignExtractSpec {
 
       SparseMatrixHandler[T].extractTuples(into) should contain theSameElementsAs expected
     }
+
+    it should s"call GrB_extract all for GrB_Matrix of type ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
+      val mat = SparseMatrixHandler[T].buildMatrix(mt)
+
+      val into = SparseMatrixHandler[T].createMatrix(mt.dim.rows, mt.dim.cols)
+
+      val res = GRBOPSMAT.extract(into, null, null, mat, GRBCORE.GrB_ALL, mt.dim.rows, GRBCORE.GrB_ALL, mt.dim.cols, null)
+      assert(res == 0)
+
+      SparseMatrixHandler[T].extractTuples(into) should contain theSameElementsAs SparseMatrixHandler[T].extractTuples(mat)
+    }
   }
 
   private def testGrBAssign[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
