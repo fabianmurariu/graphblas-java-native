@@ -29,15 +29,7 @@ trait AssignScalarSpec {
 
       val v = mt.vals.head._2
 
-      v match {
-        case b: Boolean => GRAPHBLAS.assignVectorBoolean(vec, null, null, b, null, size, null)
-        case b: Byte => GRAPHBLAS.assignVectorByte(vec, null, null, b, null, size, null)
-        case b: Short => GRAPHBLAS.assignVectorShort(vec, null, null, b, null, size, null)
-        case b: Int => GRAPHBLAS.assignVectorInt(vec, null, null, b, null, size, null)
-        case b: Long => GRAPHBLAS.assignVectorLong(vec, null, null, b, null, size, null)
-        case b: Float => GRAPHBLAS.assignVectorFloat(vec, null, null, b, null, size, null)
-        case b: Double => GRAPHBLAS.assignVectorDouble(vec, null, null, b, null, size, null)
-      }
+      SparseVectorHandler[T].assign(vec)(v)
 
       GRBCORE.nvalsVector(vec) shouldBe size
 

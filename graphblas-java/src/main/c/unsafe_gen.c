@@ -1279,26 +1279,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1307,8 +1301,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_BOOL(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_BOOL(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
@@ -1325,26 +1320,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1353,8 +1342,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_INT8(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_INT8(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
@@ -1371,26 +1361,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1399,8 +1383,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_INT16(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_INT16(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
@@ -1417,26 +1402,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1445,8 +1424,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_INT32(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_INT32(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
@@ -1463,26 +1443,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1491,8 +1465,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_INT64(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_INT64(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
@@ -1509,26 +1484,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1537,8 +1506,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_FP32(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_FP32(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
@@ -1555,26 +1525,20 @@ long check_grb_error(GrB_Info info);
 
                 // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
-                GrB_Index assign_ni = (GrB_Index) ni;
+                GrB_Index grb_ni = (GrB_Index) ni;
+                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                long java_min = -9223372036854775808;
 
-                GrB_Index vectorSize;
-                check_grb_error(GrB_Vector_size(&vectorSize, w));
-
-
-
-                if (vectorSize == assign_ni || is == NULL) {
+                if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                    I = malloc (assign_ni * sizeof (GrB_Index));
+                    I = malloc (grb_ni * sizeof (GrB_Index));
 
                     // just copy :(
-                    for (int i = 0; i < assign_ni; i++) {
+                    for (int i = 0; i < grb_ni; i++) {
                         I[i] = (GrB_Index)java_is[i];
                     }
-
-                    (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 }
 
                 // OPTIONAL STUFF
@@ -1583,8 +1547,9 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector m = mask != NULL ? (GrB_Vector) (*env)->GetDirectBufferAddress(env, mask) : NULL;
 
 
-                long res = check_grb_error(GrB_Vector_assign_FP64(w, m, acc, value, I, assign_ni, d));
+                long res = check_grb_error(GrB_Vector_assign_FP64(w, m, acc, value, I, grb_ni, d));
 
+                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
                 if(I != GrB_ALL) {
                     free(I);
                 }
