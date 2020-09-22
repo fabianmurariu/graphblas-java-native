@@ -26,6 +26,41 @@ JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
             return check_grb_error(GrB_init(GrB_NONBLOCKING) );
             }
 
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_initBlocking
+            (JNIEnv * env, jclass cls) {
+            return check_grb_error(GrB_init(GrB_BLOCKING) );
+            }
+
+            JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getGlobalInt
+            (JNIEnv * env, jclass cls, jint field) {
+            GxB_Option_Field global_field = (GxB_Option_Field) field;
+            int value;
+            check_grb_error(GxB_Global_Option_get(global_field, &value));
+
+            return (jint) value;
+            }
+
+            JNIEXPORT jdouble JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getGlobalDouble
+            (JNIEnv * env, jclass cls, jint field) {
+            GxB_Option_Field global_field = (GxB_Option_Field) field;
+            double value;
+            check_grb_error(GxB_Global_Option_get(global_field, &value));
+
+            return (jdouble) value;
+            }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_setGlobalInt
+            (JNIEnv * env, jclass cls, jint field, jint value) {
+            GxB_Option_Field global_field = (GxB_Option_Field) field;
+            return check_grb_error(GxB_Global_Option_set(global_field, value));
+            }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_setGlobalDouble
+            (JNIEnv * env, jclass cls, jint field, jdouble value) {
+            GxB_Option_Field global_field = (GxB_Option_Field) field;
+            return check_grb_error(GxB_Global_Option_set(global_field, value));
+            }
+
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbWait
             (JNIEnv * env, jclass cls) {
             return check_grb_error(GrB_wait());

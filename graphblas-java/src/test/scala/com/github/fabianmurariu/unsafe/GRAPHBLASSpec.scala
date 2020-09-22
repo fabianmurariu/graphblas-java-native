@@ -98,6 +98,20 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
 
   testSettersAndGettersVector[Double](GRAPHBLAS.doubleType()) { (vec, i, value) => GRAPHBLAS.setVectorElementDouble(vec, i, value) } { (vec, i) => GRAPHBLAS.getVectorElementDouble(vec, i).headOption }
 
+  behavior of "GxB_Global_Option_get/set"
+
+  it should "get/set concurrency and hyper-ratio" in {
+    val concurrency = 7
+    GRBCORE.setGlobalInt(GRBCORE.GxB_NTHREADS, concurrency)
+    GRBCORE.getGlobalInt(GRBCORE.GxB_NTHREADS) shouldBe concurrency
+
+    val hyperRatio = 0.001337
+    GRBCORE.setGlobalDouble(GRBCORE.GxB_HYPER, hyperRatio)
+    GRBCORE.getGlobalDouble(GRBCORE.GxB_HYPER) shouldBe hyperRatio
+
+    GRBCORE.getGlobalInt(GRBCORE.GxB_MODE) shouldBe GRBCORE.GrB_NONBLOCKING
+  }
+
   override protected def beforeAll(): Unit = {
     GRBCORE.initNonBlocking()
   }
