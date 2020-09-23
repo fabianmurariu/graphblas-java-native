@@ -1,7 +1,5 @@
 package com.github.fabianmurariu.unsafe
 
-import java.nio.Buffer
-
 import org.scalacheck.Arbitrary
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -124,16 +122,7 @@ trait AssignExtractSpec {
     }
   }
 
-//  behavior of "GrB_assign"
-//
-//  testGrBMatrixAssign[Boolean]
-//  testGrBMatrixAssign[Byte]
-//  testGrBMatrixAssign[Short]
-//  testGrBMatrixAssign[Int]
-//  testGrBMatrixAssign[Long]
-//  testGrBMatrixAssign[Float]
-//  testGrBMatrixAssign[Double]
-
+  // FIXME: somehow assign throws an GrB_DIMENSION_MISMATCH
   private def testGrBMatrixAssign[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
     it should s"call GrB_assign for GrB_Matrix of type ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
       val mat = SparseMatrixHandler[T].buildMatrix(mt)
@@ -145,7 +134,7 @@ trait AssignExtractSpec {
       val ni: Vector[Long] = dRight.map(_._1)
       val nj: Vector[Long] = dRight.map(_._2)
 
-      val into = SparseMatrixHandler[T].createMatrix(ni.size, nj.size)
+      val into = SparseMatrixHandler[T].createMatrix(mt.dim.rows, mt.dim.cols)
 
       val res = GRBOPSMAT.assign(into, null, null, mat, ni.toArray, ni.size, nj.toArray, nj.size, null)
       assert(res == 0)

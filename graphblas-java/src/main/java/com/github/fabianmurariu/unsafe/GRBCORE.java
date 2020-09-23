@@ -124,18 +124,6 @@ public final class GRBCORE {
     public static int GxB_MODE = 2;  // mode passed to GrB_init (blocking or non-blocking)
     public static int GxB_THREAD_SAFETY = 3; // thread library that allows GraphBLAS to be thread-safe for user threads.
     public static int GxB_THREADING = 4;  // thread library used for internal GraphBLAS threads
-    //public static int GxB_LIBRARY_NAME = 8;             // name of the library (char *)
-    //public static int GxB_LIBRARY_VERSION = 9;        // library version (3 int's)
-    //public static int GxB_LIBRARY_DATE = 10;          // date of the library (char *)
-    //public static int GxB_LIBRARY_ABOUT = 11;         // about the library (char *)
-    //public static int GxB_LIBRARY_URL = 12;           // URL for the library (char *)
-    //public static int GxB_LIBRARY_LICENSE = 13;       // license of the library (char *)
-    //public static int GxB_LIBRARY_COMPILE_DATE = 14;  // date library was compiled (char *)
-    //public static int GxB_LIBRARY_COMPILE_TIME = 15;  // time library was compiled (char *)
-    //public static int GxB_API_VERSION = 16;           // API version (3 int's)
-    //public static int GxB_API_DATE = 17;              // date of the API (char *)
-    //public static int GxB_API_ABOUT = 18;             // about the API (char *)
-    //public static int GxB_API_URL = 19;               // URL for the API (char *)
 
     // Values
     // for GxB_FORMAT

@@ -25,7 +25,9 @@ trait SelectSpec {
       GRBOPSMAT.select(out, null, null, selectOp, mat, null, null) shouldBe GRBCORE.GrB_SUCCESS
 
       // check could be improved
-      mt.vals.filter(p => (p._1 == p._2)).size shouldBe GRBCORE.nvalsMatrix(out)
+      val actual = SparseMatrixHandler[T].extractAllTuples(out)
+      val expected = mt.vals.filter(p => (p._1 == p._2))
+      actual should contain theSameElementsAs expected
     }
   }
 }
