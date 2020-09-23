@@ -30,6 +30,7 @@ trait SparseVectorHandler[T] {
   def clear(vec: Buffer): Unit =
     GRBCORE.clearVec(vec)
 
+  def extractTuples(mat: Buffer): Array[T]
 }
 
 object SparseVectorHandler {
@@ -44,6 +45,14 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Boolean): Unit = 
       GRAPHBLAS.assignVectorBoolean(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Boolean] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Boolean](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesBoolean(vec, vs, is)
+      vs
+    }
   }
 
   implicit val byteVectorHandler: SparseVectorHandler[Byte] = new SparseVectorHandler[Byte] {
@@ -55,6 +64,14 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Byte): Unit =
       GRAPHBLAS.assignVectorByte(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Byte] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Byte](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesByte(vec, vs, is)
+      vs
+    }
   }
 
   implicit val shortVectorHandler: SparseVectorHandler[Short] = new SparseVectorHandler[Short] {
@@ -66,6 +83,14 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Short): Unit =
       GRAPHBLAS.assignVectorShort(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Short] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Short](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesShort(vec, vs, is)
+      vs
+    }
   }
 
   implicit val intVectorHandler: SparseVectorHandler[Int] = new SparseVectorHandler[Int] {
@@ -77,6 +102,14 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Int): Unit =
       GRAPHBLAS.assignVectorInt(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Int] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Int](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesInt(vec, vs, is)
+      vs
+    }
   }
 
   implicit val longVectorHandler: SparseVectorHandler[Long] = new SparseVectorHandler[Long] {
@@ -88,6 +121,14 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Long): Unit =
       GRAPHBLAS.assignVectorLong(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Long] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Long](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesLong(vec, vs, is)
+      vs
+    }
   }
 
   implicit val floatVectorHandler: SparseVectorHandler[Float] = new SparseVectorHandler[Float] {
@@ -99,6 +140,14 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Float): Unit =
       GRAPHBLAS.assignVectorFloat(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Float] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Float](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesFloat(vec, vs, is)
+      vs
+    }
   }
 
   implicit val doubleVectorHandler: SparseVectorHandler[Double] = new SparseVectorHandler[Double] {
@@ -110,5 +159,13 @@ object SparseVectorHandler {
 
     def assign(vec: Buffer)(v: Double): Unit =
       GRAPHBLAS.assignVectorDouble(vec, null, null, v, GRBCORE.GrB_ALL, size(vec), null)
+
+    def extractTuples(vec: Buffer): Array[Double] = {
+      val nvals = GRBCORE.nvalsVector(vec)
+      val vs = new Array[Double](nvals.toInt)
+      val is = new Array[Long](nvals.toInt)
+      GRAPHBLAS.extractVectorTuplesDouble(vec, vs, is)
+      vs
+    }
   }
 }

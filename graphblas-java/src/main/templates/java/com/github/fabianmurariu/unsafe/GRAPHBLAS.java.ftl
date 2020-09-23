@@ -54,4 +54,10 @@ public final class GRAPHBLAS {
 <#list properties.binary_ops_bool_bool as op>
     public static native Buffer ${op.name}BinaryOp();
 </#list>
+
+// SelectOps (GraphBLAS extension)
+// TODO list all pre-defined select ops
+<#list properties.select_ops as op>
+    public static native Buffer selectOp${op}();
+</#list>
 }

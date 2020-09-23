@@ -1277,7 +1277,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -1318,7 +1317,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -1359,7 +1357,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -1400,7 +1397,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -1441,7 +1437,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -1482,7 +1477,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -1523,7 +1517,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -2712,4 +2705,45 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_eqBoolMonoid
         (JNIEnv * env, jclass cls){
             return (*env)->NewDirectByteBuffer(env, GxB_EQ_BOOL_MONOID, 0);
+        }
+
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpTRIL
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_TRIL, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpTRIU
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_TRIU, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpDIAG
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_DIAG, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpOFFDIAG
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_OFFDIAG, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpNONZERO
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_NONZERO, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpEQ_ZERO
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_EQ_ZERO, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpGT_ZERO
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_GT_ZERO, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpGE_ZERO
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_GE_ZERO, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpLT_ZERO
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_LT_ZERO, 0);
+        }
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOpLE_ZERO
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_LE_ZERO, 0);
         }

@@ -39,6 +39,10 @@ trait VectorUtils {
 
 case class VectorVals[T](size: Long, vals: Vector[(Long, T)])
 
+// tuples for multiplication
+case class VectorValsMul[T](left: VectorVals[T], right: VectorVals[T])
+
+
 object VectorVals {
 
   implicit def fakeChooseBoolean: Gen.Choose[Boolean] = (min: Boolean, max: Boolean) => {
@@ -56,7 +60,7 @@ object VectorVals {
     } yield (i, t)
 
     val gen = for {
-      size <- Gen.posNum[Long]
+      size <- Gen.choose(1, 100)
       vals <- Gen.nonEmptyContainerOf[Vector, (Long, Boolean)](genVal(size)).map(_.distinctBy(_._1))
     } yield VectorVals(size, vals)
 
@@ -73,6 +77,23 @@ object VectorVals {
       size <- Gen.posNum[Long]
       vals <- Gen.nonEmptyContainerOf[Vector, (Long, T)](genVal(size)).map(_.distinctBy(_._1))
     } yield VectorVals(size, vals)
+
+    Arbitrary(gen)
+  }
+}
+
+object VectorValsMul {
+  implicit def arbMul[T: Gen.Choose](implicit A: Arbitrary[VectorDimensions], N: Numeric[T]): Arbitrary[VectorValsMul[T]] = {
+    def genVal(size: Long): Gen[(Long, T)] = for {
+      i <- Gen.choose(0, size - 1)
+      t <- Gen.oneOf[T](Gen.posNum, Gen.negNum)
+    } yield (i, t)
+
+    val gen = for {
+      size <- Gen.choose(1, 100)
+      vals <- Gen.nonEmptyContainerOf[Vector, (Long, T)](genVal(size)).map(_.distinctBy(_._1))
+      otherVals <- Gen.nonEmptyContainerOf[Vector, (Long, T)](genVal(size)).map(_.distinctBy(_._1))
+    } yield VectorValsMul(VectorVals[T](size, vals), VectorVals(size, otherVals))
 
     Arbitrary(gen)
   }

@@ -334,4 +334,17 @@ public final class GRAPHBLAS {
     public static native Buffer lorBinaryOp();
     public static native Buffer landBinaryOp();
     public static native Buffer lxorBinaryOp();
+
+// SelectOps (GraphBLAS extension)
+// TODO list all pre-defined select ops
+    public static native Buffer selectOpTRIL();
+    public static native Buffer selectOpTRIU();
+    public static native Buffer selectOpDIAG();
+    public static native Buffer selectOpOFFDIAG();
+    public static native Buffer selectOpNONZERO();
+    public static native Buffer selectOpEQ_ZERO();
+    public static native Buffer selectOpGT_ZERO();
+    public static native Buffer selectOpGE_ZERO();
+    public static native Buffer selectOpLT_ZERO();
+    public static native Buffer selectOpLE_ZERO();
 }

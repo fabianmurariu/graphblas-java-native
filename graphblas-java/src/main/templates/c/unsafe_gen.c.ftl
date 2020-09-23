@@ -204,7 +204,6 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                // !DIFFERENCE: ni == vector size -> GrB_ALL .. as no way to get pointer to GrB_ALL object in java
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
@@ -301,5 +300,12 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_${op.name}Monoid
         (JNIEnv * env, jclass cls){
             return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_BOOL_MONOID, 0);
+        }
+    </#list>
+
+    <#list properties.select_ops as op>
+        JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_selectOp${op}
+        (JNIEnv * env, jclass cls){
+        return (*env)->NewDirectByteBuffer(env, GxB_${op}, 0);
         }
     </#list>

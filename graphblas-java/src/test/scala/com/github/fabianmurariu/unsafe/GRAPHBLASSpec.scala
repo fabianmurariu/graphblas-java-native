@@ -16,7 +16,8 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
   with MxmSpec
   with AssignExtractSpec
   with AssignScalarSpec
-  with ElemWiseSpec {
+  with ElemWiseSpec
+  with SelectSpec {
 
   behavior of "GrB_Matrix"
 
