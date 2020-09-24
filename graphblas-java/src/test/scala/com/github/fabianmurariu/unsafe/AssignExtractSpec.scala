@@ -7,6 +7,7 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
 import scala.collection.immutable
 import scala.reflect.ClassTag
+import scala.util.Random
 
 trait AssignExtractSpec {
 
@@ -89,7 +90,7 @@ trait AssignExtractSpec {
       SparseVectorHandler[T].extractTuples(into) should contain theSameElementsAs expected
     }
 
-    it should s"call GrB_extract all for GrB_Vector of type ${CT.toString()}"  in forAll { mt: VectorVals[T] =>
+    it should s"call GrB_extract all for GrB_Vector of type ${CT.toString()}" in forAll { mt: VectorVals[T] =>
       val vec = SparseVectorHandler[T].buildVector(mt)
 
       val into = SparseVectorHandler[T].createVector(mt.size)
@@ -122,29 +123,43 @@ trait AssignExtractSpec {
     }
   }
 
-  // FIXME: somehow assign throws an GrB_DIMENSION_MISMATCH
+  testGrBMatrixAssign[Boolean]
+  testGrBMatrixAssign[Byte]
+  testGrBMatrixAssign[Short]
+  testGrBMatrixAssign[Int]
+  testGrBMatrixAssign[Long]
+  testGrBMatrixAssign[Float]
+  testGrBMatrixAssign[Double]
+
   private def testGrBMatrixAssign[T: SparseMatrixHandler](implicit A: Arbitrary[MatrixTuples[T]], CT: ClassTag[T]): Unit = {
-    it should s"call GrB_assign for GrB_Matrix of type ${CT.toString()}" in forAll { mt: MatrixTuples[T] =>
+    it should s"call GrB_assign for GrB_Matrix of type ${CT.toString()} assign diagonal matrix with one value to random Is and Js" in forAll { mt: MatrixTuples[T] =>
       val mat = SparseMatrixHandler[T].buildMatrix(mt)
 
-      GRBCORE.nvalsMatrix(mat)
-      // pick half of the indices and extract them into another mat
-      val (_, right) = mt.vals.splitAt(mt.vals.size / 2)
-      val dRight = right.distinctBy(t => t._1 -> t._2)
-      val ni: Vector[Long] = dRight.map(_._1)
-      val nj: Vector[Long] = dRight.map(_._2)
+      val nvals = GRBCORE.nvalsMatrix(mat)
+      if (nvals >= 4) {
 
-      val into = SparseMatrixHandler[T].createMatrix(mt.dim.rows, mt.dim.cols)
+        // pick half of the indices and extract them into another mat
+        val dRight = mt.vals.take(4)
+        val ni: Vector[Long] = dRight.map(_._1)
+        val nj: Vector[Long] = dRight.map(_._2)
 
-      val res = GRBOPSMAT.assign(into, null, null, mat, ni.toArray, ni.size, nj.toArray, nj.size, null)
-      assert(res == 0)
+        // diag matrix
+        val sample = dRight.head._3
+        val input = SparseMatrixHandler[T].buildMatrix(MatrixTuples(MatrixDimensions(4, 4), for {
+          i <- (0L until 4L).toVector
+          j <- (0L until 4L).toVector
+        } yield (i, j, sample)))
 
-      val expected: immutable.IndexedSeq[T] = (for {
-        i <- ni.indices
-        j <- nj.indices
-      } yield SparseMatrixHandler[T].get(mat)(ni(i), nj(j))).flatten
+        val res = GRBOPSMAT.assign(mat, null, null, input, ni.toArray, ni.size, nj.toArray, nj.size, null)
+        assert(res == 0)
 
-      SparseMatrixHandler[T].extractTuples(into) should contain theSameElementsAs expected
+        val actual: immutable.IndexedSeq[T] = (for {
+          pair <- ni.zip(nj)
+          (i, j) = pair
+        } yield SparseMatrixHandler[T].get(mat)(i, j)).flatten
+
+        actual should contain theSameElementsAs Vector.fill(4)(sample)
+      }
     }
   }
 }
