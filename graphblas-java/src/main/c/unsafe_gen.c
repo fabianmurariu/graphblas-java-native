@@ -981,12 +981,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1013,12 +1008,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1045,12 +1035,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1077,12 +1062,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1109,12 +1089,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1141,12 +1116,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1173,12 +1143,7 @@ long check_grb_error(GrB_Info info);
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = (GrB_Index*) java_is;
-                }
+                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
