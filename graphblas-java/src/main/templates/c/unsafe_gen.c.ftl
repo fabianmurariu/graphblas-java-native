@@ -53,16 +53,16 @@ long check_grb_error(GrB_Info info);
                 GrB_Index nvals;
                 GrB_Matrix_nvals(&nvals, A);
 
-                j${prop.java_type} *elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                GrB_Index * java_is = (GrB_Index*) (*env)->GetLongArrayElements(env, is, NULL);
-                GrB_Index * java_js = (GrB_Index*) (*env)->GetLongArrayElements(env, js, NULL);
+                j${prop.java_type} *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = check_grb_error(GrB_Matrix_extractTuples_${prop.grb_type}(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
                 return res;
               }
 
@@ -72,14 +72,14 @@ long check_grb_error(GrB_Info info);
                 GrB_Index nvals;
                 GrB_Vector_nvals(&nvals, A);
 
-                j${prop.java_type} *elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                GrB_Index *java_is = (GrB_Index*) (*env)->GetLongArrayElements(env, is, NULL);
+                j${prop.java_type} *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
 
                 long res = check_grb_error(GrB_Vector_extractTuples_${prop.grb_type}(java_is, elms, &nvals, A));
 
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
                 return res;
               }
 
@@ -93,9 +93,9 @@ long check_grb_error(GrB_Info info);
                 bool cI;
                 bool cJ;
 
-                j${prop.java_type}* elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetLongArrayElements(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetLongArrayElements(env, js, &cJ);
+                j${prop.java_type}* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
 
                 printf("Values copied? %d \n", cV) ;
                 printf("Is copied? %d \n", cI) ;
@@ -103,9 +103,9 @@ long check_grb_error(GrB_Info info);
 
                 long res = GrB_Matrix_build_${prop.grb_type}(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
                 return res;
               }
 
@@ -115,13 +115,13 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                j${prop.java_type} *elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetLongArrayElements(env, is, NULL);
+                j${prop.java_type} *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
 
                 long res = GrB_Vector_build_${prop.grb_type}(A, java_is, elms, nvals, dup);
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
                 return res;
               }
             </#list>
@@ -163,19 +163,14 @@ long check_grb_error(GrB_Info info);
 
                 GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
-                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 long java_min = -9223372036854775808;
 
                 if (java_is[0] == java_min) {
                     I = GrB_ALL;
                 }
                 else {
-                    I = malloc (grb_ni * sizeof (GrB_Index));
-
-                    // just copy :(
-                    for (int i = 0; i < grb_ni; i++) {
-                        I[i] = (GrB_Index)java_is[i];
-                    }
+                    I = (GrB_Index*) java_is;
                 }
 
                 // OPTIONAL STUFF
@@ -186,10 +181,7 @@ long check_grb_error(GrB_Info info);
 
                 long res = check_grb_error(GrB_Vector_assign_${prop.grb_type}(w, m, acc, value, I, grb_ni, d));
 
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                if(I != GrB_ALL) {
-                    free(I);
-                }
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
 
                 return res;
                 }
