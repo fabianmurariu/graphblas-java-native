@@ -89,17 +89,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                j${prop.java_type}* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                j${prop.java_type}* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_${prop.grb_type}(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done

@@ -122,17 +122,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jboolean* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jboolean* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_BOOL(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
@@ -228,17 +220,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jbyte* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jbyte* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_INT8(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
@@ -334,17 +318,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jshort* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jshort* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_INT16(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
@@ -440,17 +416,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jint* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jint* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_INT32(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
@@ -546,17 +514,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jlong* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jlong* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_INT64(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
@@ -652,17 +612,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jfloat* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jfloat* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_FP32(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
@@ -758,17 +710,9 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                bool cV;
-                bool cI;
-                bool cJ;
-
-                jdouble* elms = (*env)->GetPrimitiveArrayCritical(env, vs, &cV);
-                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, &cI);
-                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, &cJ);
-
-                printf("Values copied? %d \n", cV) ;
-                printf("Is copied? %d \n", cI) ;
-                printf("Js copied? %d \n", cJ) ;
+                jdouble* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 long res = GrB_Matrix_build_FP64(A, java_is, java_js, elms, nvals, dup);
                 // JNI tell Java we're done
