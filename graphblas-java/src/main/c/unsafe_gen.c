@@ -90,6 +90,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_BOOL(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -107,6 +111,10 @@ long check_grb_error(GrB_Info info);
 
                 jboolean *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_BOOL(java_is, elms, &nvals, A));
 
@@ -126,6 +134,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_BOOL(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -142,6 +154,10 @@ long check_grb_error(GrB_Info info);
 
                 jboolean *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_BOOL(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -188,6 +204,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_INT8(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -205,6 +225,10 @@ long check_grb_error(GrB_Info info);
 
                 jbyte *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_INT8(java_is, elms, &nvals, A));
 
@@ -224,6 +248,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_INT8(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -240,6 +268,10 @@ long check_grb_error(GrB_Info info);
 
                 jbyte *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_INT8(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -286,6 +318,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_INT16(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -303,6 +339,10 @@ long check_grb_error(GrB_Info info);
 
                 jshort *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_INT16(java_is, elms, &nvals, A));
 
@@ -322,6 +362,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_INT16(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -338,6 +382,10 @@ long check_grb_error(GrB_Info info);
 
                 jshort *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_INT16(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -384,6 +432,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_INT32(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -401,6 +453,10 @@ long check_grb_error(GrB_Info info);
 
                 jint *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_INT32(java_is, elms, &nvals, A));
 
@@ -420,6 +476,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_INT32(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -436,6 +496,10 @@ long check_grb_error(GrB_Info info);
 
                 jint *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_INT32(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -482,6 +546,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_INT64(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -499,6 +567,10 @@ long check_grb_error(GrB_Info info);
 
                 jlong *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_INT64(java_is, elms, &nvals, A));
 
@@ -518,6 +590,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_INT64(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -534,6 +610,10 @@ long check_grb_error(GrB_Info info);
 
                 jlong *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_INT64(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -580,6 +660,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_FP32(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -597,6 +681,10 @@ long check_grb_error(GrB_Info info);
 
                 jfloat *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_FP32(java_is, elms, &nvals, A));
 
@@ -616,6 +704,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_FP32(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -632,6 +724,10 @@ long check_grb_error(GrB_Info info);
 
                 jfloat *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_FP32(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -678,6 +774,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_extractTuples_FP64(java_is, java_js, elms, &nvals, A));
 
                 // JNI tell Java we're done
@@ -695,6 +795,10 @@ long check_grb_error(GrB_Info info);
 
                 jdouble *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_extractTuples_FP64(java_is, elms, &nvals, A));
 
@@ -714,6 +818,10 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long res = check_grb_error(GrB_Matrix_build_FP64(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
                 (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
@@ -730,6 +838,10 @@ long check_grb_error(GrB_Info info);
 
                 jdouble *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL || elms == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
 
                 long res = check_grb_error(GrB_Vector_build_FP64(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
@@ -920,12 +1032,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -947,12 +1063,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -974,12 +1094,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1001,12 +1125,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1028,12 +1156,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1055,12 +1187,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -1082,12 +1218,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
                 jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
