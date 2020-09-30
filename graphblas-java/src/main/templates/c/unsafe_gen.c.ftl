@@ -58,6 +58,18 @@ long check_grb_error(GrB_Info info);
                 GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
+
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
+
+                    if(java_js != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+                    }
+
                     return GrB_OUT_OF_MEMORY;
                 }
 
@@ -80,6 +92,14 @@ long check_grb_error(GrB_Info info);
                 GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
 
                 if (java_is == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
+
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
+
                     return GrB_OUT_OF_MEMORY;
                 }
 
@@ -102,6 +122,18 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
                 if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
+
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
+
+                    if(java_js != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+                    }
+
                     return GrB_OUT_OF_MEMORY;
                 }
 
@@ -123,6 +155,14 @@ long check_grb_error(GrB_Info info);
                 GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
 
                 if (java_is == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
+
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
+
                     return GrB_OUT_OF_MEMORY;
                 }
 

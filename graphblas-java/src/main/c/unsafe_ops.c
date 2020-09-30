@@ -221,6 +221,13 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_extract
         java_js = (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
         if (java_is == NULL || java_js == NULL) {
+            if(java_is != NULL) {
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+            }
+
+            if(java_js != NULL) {
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+            }
             return GrB_OUT_OF_MEMORY;
         }
 
@@ -299,6 +306,14 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_assign
         jlong *java_js = (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
         if (java_is == NULL || java_js == NULL) {
+            if(java_is != NULL) {
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+            }
+
+            if(java_js != NULL) {
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+            }
+
             return GrB_OUT_OF_MEMORY;
         }
 
@@ -378,6 +393,14 @@ JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_subAssign
         jlong *java_js = (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
         if (java_is == NULL || java_js == NULL) {
+            if(java_is != NULL) {
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+            }
+
+            if(java_js != NULL) {
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+            }
+
             return GrB_OUT_OF_MEMORY;
         }
 
