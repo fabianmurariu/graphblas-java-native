@@ -282,7 +282,7 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_getFormat
 JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_neverHyper
   (JNIEnv * env, jclass cls, jobject mat) {
         GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
-        check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_NEVER_HYPER));
+        return check_grb_error(GxB_Matrix_Option_set(A, GxB_FORMAT, GxB_NEVER_HYPER));
   }
 
 

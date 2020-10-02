@@ -12,7 +12,7 @@ long check_grb_error(GrB_Info info);
 
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_${prop.java_type}Type
             (JNIEnv * env, jclass cls) {
-            return (*env)->NewDirectByteBuffer(env, GrB_${prop.grb_type}, 0);
+                return (*env)->NewDirectByteBuffer(env, GrB_${prop.grb_type}, 0);
             }
 
             </#list>
@@ -20,29 +20,29 @@ long check_grb_error(GrB_Info info);
             <#list properties.types as prop>
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setMatrixElement${prop.java_type?cap_first}
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j, j${prop.java_type} value) {
-            GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            return check_grb_error( GrB_Matrix_setElement_${prop.grb_type}(A, value, I, J) ) ;
+                return check_grb_error( GrB_Matrix_setElement_${prop.grb_type}(A, value, I, J) ) ;
             }
 
 
             JNIEXPORT j${prop.java_type}Array JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_getMatrixElement${prop.java_type?cap_first}
             (JNIEnv * env, jclass cls, jobject mat, jlong i, jlong j) {
-            ${prop.c_type} x;
-            GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+                ${prop.c_type} x;
+                GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index I = (GrB_Index)i;
                 GrB_Index J = (GrB_Index)j;
-            GrB_Info info = GrB_Matrix_extractElement_${prop.grb_type}(&x, A, I, J);
-            j${prop.java_type}Array output;
-            if (info == GrB_NO_VALUE) {
-            output = (*env)->New${prop.java_type?cap_first}Array(env, 0);
-            } else {
-            output = (*env)->New${prop.java_type?cap_first}Array(env, 1);
-            ${prop.c_type} xs[] = {x};
-            (*env)->Set${prop.java_type?cap_first}ArrayRegion(env, output, 0, 1, xs);
-            }
-            return output;
+                GrB_Info info = GrB_Matrix_extractElement_${prop.grb_type}(&x, A, I, J);
+                j${prop.java_type}Array output;
+                if (info == GrB_NO_VALUE) {
+                    output = (*env)->New${prop.java_type?cap_first}Array(env, 0);
+                } else {
+                    output = (*env)->New${prop.java_type?cap_first}Array(env, 1);
+                    ${prop.c_type} xs[] = {x};
+                    (*env)->Set${prop.java_type?cap_first}ArrayRegion(env, output, 0, 1, xs);
+                }
+                return output;
             }
 
 
@@ -52,30 +52,33 @@ long check_grb_error(GrB_Info info);
                 GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index nvals;
                 GrB_Matrix_nvals(&nvals, A);
-                j${prop.java_type} *elms;
-                jlong *java_is;
-                jlong *java_js;
 
-                GrB_Index *I = NULL;
-                GrB_Index *J = NULL;
-                elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+                j${prop.java_type} *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index * java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index * java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
-                I = malloc (nvals * sizeof (GrB_Index)) ;
-                J = malloc (nvals * sizeof (GrB_Index)) ;
-                long res = check_grb_error(GrB_Matrix_extractTuples_${prop.grb_type}(I, J, elms, &nvals, A));
-                // just copy :(
-                for (int i = 0; i < nvals; i++) {
-                    java_is[i] = (long) I[i];
-                    java_js[i] = (long) J[i];
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
+
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
+
+                    if(java_js != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+                    }
+
+                    return GrB_OUT_OF_MEMORY;
                 }
+
+                long res = check_grb_error(GrB_Matrix_extractTuples_${prop.grb_type}(java_is, java_js, elms, &nvals, A));
+
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-                free(I);
-                free(J);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
                 return res;
               }
 
@@ -84,58 +87,61 @@ long check_grb_error(GrB_Info info);
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_Index nvals;
                 GrB_Vector_nvals(&nvals, A);
-                j${prop.java_type} *elms;
-                jlong *java_is;
 
-                GrB_Index *I = NULL;
-                elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                j${prop.java_type} *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index *java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
 
-                I = malloc (nvals * sizeof (GrB_Index)) ;
-                long res = check_grb_error(GrB_Vector_extractTuples_${prop.grb_type}(I, elms, &nvals, A));
-                // just copy :(
-                for (int i = 0; i < nvals; i++) {
-                    java_is[i] = (long) I[i];
+                if (java_is == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
+
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
+
+                    return GrB_OUT_OF_MEMORY;
                 }
+
+                long res = check_grb_error(GrB_Vector_extractTuples_${prop.grb_type}(java_is, elms, &nvals, A));
+
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                free(I);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
                 return res;
               }
+
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_buildMatrixFromTuples${prop.java_type?cap_first}
               (JNIEnv * env, jclass cls, jobject mat, jlongArray is, jlongArray js, j${prop.java_type}Array vs, jlong n, jobject dupOp) {
                 GrB_Matrix A = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                j${prop.java_type} *elms;
-                jlong *java_is;
-                jlong *java_js;
+                j${prop.java_type}* elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+                GrB_Index* java_js = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, js, NULL);
 
-                GrB_Index *I = NULL;
-                GrB_Index *J = NULL;
+                if (java_is == NULL || java_js == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
 
-                elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                java_is = (*env)->GetLongArrayElements(env, is, NULL);
-                java_js = (*env)->GetLongArrayElements(env, js, NULL);
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
 
-                I = malloc (nvals * sizeof (GrB_Index)) ;
-                J = malloc (nvals * sizeof (GrB_Index)) ;
+                    if(java_js != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
+                    }
 
-               // just copy :(
-                for (int i = 0; i < nvals; i++) {
-                    I[i] = (GrB_Index)java_is[i];
-                    J[i] = (GrB_Index)java_js[i];
+                    return GrB_OUT_OF_MEMORY;
                 }
 
-                long res = GrB_Matrix_build_${prop.grb_type}(A, I, J, elms, nvals, dup);
+                long res = check_grb_error(GrB_Matrix_build_${prop.grb_type}(A, java_is, java_js, elms, nvals, dup));
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                (*env)->ReleaseLongArrayElements(env, js, java_js, 0);
-                free(I);
-                free(J);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, js, java_js, 0);
                 return res;
               }
 
@@ -145,26 +151,25 @@ long check_grb_error(GrB_Info info);
                 GrB_BinaryOp dup = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, dupOp);
                 GrB_Index nvals = (GrB_Index)n;
 
-                j${prop.java_type} *elms;
-                jlong *java_is;
+                j${prop.java_type} *elms = (*env)->GetPrimitiveArrayCritical(env, vs, NULL);
+                GrB_Index* java_is = (GrB_Index*) (*env)->GetPrimitiveArrayCritical(env, is, NULL);
 
-                GrB_Index *I = NULL;
+                if (java_is == NULL || elms == NULL) {
+                    if(java_is != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
+                    }
 
-                elms = (*env)->Get${prop.java_type?cap_first}ArrayElements(env, vs, NULL);
-                java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                    if(elms != NULL) {
+                        (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                    }
 
-                I = malloc (nvals * sizeof (GrB_Index)) ;
-
-               // just copy :(
-                for (int i = 0; i < nvals; i++) {
-                    I[i] = (GrB_Index)java_is[i];
+                    return GrB_OUT_OF_MEMORY;
                 }
 
-                long res = GrB_Vector_build_${prop.grb_type}(A, I, elms, nvals, dup);
+                long res = check_grb_error(GrB_Vector_build_${prop.grb_type}(A, java_is, elms, nvals, dup));
                 // JNI tell Java we're done
-                (*env)->Release${prop.java_type?cap_first}ArrayElements(env, vs, elms, 0);
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                free(I);
+                (*env)->ReleasePrimitiveArrayCritical(env, vs, elms, 0);
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
                 return res;
               }
             </#list>
@@ -173,7 +178,7 @@ long check_grb_error(GrB_Info info);
                 JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRAPHBLAS_setVectorElement${prop.java_type?cap_first}
                 (JNIEnv * env, jclass cls, jobject mat, jlong i, j${prop.java_type} value) {
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
-                GrB_Index I = (GrB_Index)i;
+                GrB_Index I = (GrB_Index) i;
                 return check_grb_error( GrB_Vector_setElement_${prop.grb_type}(A, value, I) ) ;
                 }
 
@@ -182,15 +187,15 @@ long check_grb_error(GrB_Info info);
                 (JNIEnv * env, jclass cls, jobject mat, jlong i) {
                 ${prop.c_type} x;
                 GrB_Vector A = (GrB_Vector) (*env)->GetDirectBufferAddress(env, mat);
-                GrB_Index I = (GrB_Index)i;
+                GrB_Index I = (GrB_Index) i;
                 GrB_Info info = GrB_Vector_extractElement_${prop.grb_type}(&x, A, I);
                 j${prop.java_type}Array output;
                 if (info == GrB_NO_VALUE) {
-                output = (*env)->New${prop.java_type?cap_first}Array(env, 0);
+                    output = (*env)->New${prop.java_type?cap_first}Array(env, 0);
                 } else {
-                output = (*env)->New${prop.java_type?cap_first}Array(env, 1);
-                ${prop.c_type} xs[] = {x};
-                (*env)->Set${prop.java_type?cap_first}ArrayRegion(env, output, 0, 1, xs);
+                    output = (*env)->New${prop.java_type?cap_first}Array(env, 1);
+                    ${prop.c_type} xs[] = {x};
+                    (*env)->Set${prop.java_type?cap_first}ArrayRegion(env, output, 0, 1, xs);
                 }
                 return output;
                 }
@@ -204,22 +209,16 @@ long check_grb_error(GrB_Info info);
                 // NON OPTIONAL STUFF
                 GrB_Vector w = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
 
-                GrB_Index* I = NULL;
                 GrB_Index grb_ni = (GrB_Index) ni;
-                jlong * java_is = (*env)->GetLongArrayElements(env, is, NULL);
+                jlong * java_is = (*env)->GetPrimitiveArrayCritical(env, is, NULL);
+
+                if (java_is == NULL) {
+                    return GrB_OUT_OF_MEMORY;
+                }
+
                 long java_min = -9223372036854775808;
 
-                if (java_is[0] == java_min) {
-                    I = GrB_ALL;
-                }
-                else {
-                    I = malloc (grb_ni * sizeof (GrB_Index));
-
-                    // just copy :(
-                    for (int i = 0; i < grb_ni; i++) {
-                        I[i] = (GrB_Index)java_is[i];
-                    }
-                }
+                GrB_Index *I = java_is[0] != java_min ? (GrB_Index*) java_is : GrB_ALL;
 
                 // OPTIONAL STUFF
                 GrB_BinaryOp acc = accum != NULL ? (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, accum): NULL;
@@ -229,10 +228,7 @@ long check_grb_error(GrB_Info info);
 
                 long res = check_grb_error(GrB_Vector_assign_${prop.grb_type}(w, m, acc, value, I, grb_ni, d));
 
-                (*env)->ReleaseLongArrayElements(env, is, java_is, 0);
-                if(I != GrB_ALL) {
-                    free(I);
-                }
+                (*env)->ReleasePrimitiveArrayCritical(env, is, java_is, 0);
 
                 return res;
                 }
