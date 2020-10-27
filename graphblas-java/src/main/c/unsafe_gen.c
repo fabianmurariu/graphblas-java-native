@@ -2503,6 +2503,10 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
 
+            JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_anyMonoidBoolean
+            (JNIEnv * env, jclass cls){
+                return (*env)->NewDirectByteBuffer(env, GxB_ANY_BOOL_MONOID, 0);
+            }
 
 JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createMonoidByte
   (JNIEnv * env, jclass cls, jobject bin_op, jbyte identity) {
