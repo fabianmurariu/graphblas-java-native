@@ -9,6 +9,7 @@ public final class GRBMONOID {
 
 
     public static native Buffer createMonoidBoolean(Buffer binaryOp, boolean identity);
+    public static native Buffer anyMonoidBoolean();
 
     public static native Buffer createMonoidByte(Buffer binaryOp, byte identity);
     public static native Buffer minMonoidByte();

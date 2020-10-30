@@ -282,14 +282,14 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
 
-    <#if prop.java_type != "boolean" >
         <#list properties.monoids as op>
+            <#if prop.java_type != "boolean" || op.name == "any">
             JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_${op.name}Monoid${prop.java_type?cap_first}
             (JNIEnv * env, jclass cls){
                 return (*env)->NewDirectByteBuffer(env, ${op.grb_name}_${prop.grb_type}_MONOID, 0);
             }
+            </#if>
         </#list>
-    </#if>
     </#list>
 
     <#list properties.monoids_bool as op>
