@@ -5,15 +5,15 @@ jobs:
     - os: linux
       dist: focal
       jdk: openjdk11
+      install: true
       script: make graphblas-java
     - os: osx
       osx_image: xcode12.2
       jdk: openjdk11
+      install: true
       script: make graphblas-java
-
-
-
 
 cache:
   directories:
   - $HOME/.m2
+
