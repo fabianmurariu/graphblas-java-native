@@ -1,0 +1,25 @@
+language: java
+
+os:
+- linux
+- osx
+
+
+jobs:
+  include:
+    - os: linux
+      dist: focal
+      jdk: openjdk11
+    - os: osx
+      osx_image: xcode12.2
+      jdk: openjdk11
+
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then apt -y install cmake make; fi
+
+script: make graphblas-java
+
+cache:
+  directories:
+  - $HOME/.m2

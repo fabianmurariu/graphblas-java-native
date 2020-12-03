@@ -4,7 +4,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java</artifactId>
-    <version>0.1.16</version>
+    <version>0.1.17</version>
     <packaging>nar</packaging>
 
     <name>GraphBLAS JNI Bindings</name>
@@ -154,7 +154,7 @@
             <id>Linux</id>
             <activation>
                 <os>
-                    <name>Linux</name>
+                    <family>unix</family>
                 </os>
             </activation>
             <build>
@@ -162,6 +162,7 @@
                     <plugin>
                         <groupId>com.github.maven-nar</groupId>
                         <artifactId>nar-maven-plugin</artifactId>
+                        <extensions>true</extensions>
                         <configuration>
                             <javah>
                                 <skip>${skip.javah}</skip>
@@ -171,13 +172,18 @@
                                 <options>
                                     <option>-ffast-math</option>
                                 </options>
-                                <optionSet>-std=c11 -lm -Wno-pragmas</optionSet>
+                                <optionSet>-std=c11 -lgraphblas -Wno-pragmas</optionSet>
                                 <sysLibs>
                                     <sysLib>
                                         <name>graphblas</name>
                                     </sysLib>
                                 </sysLibs>
                             </linker>
+                            <cpp>
+                                <options>
+                                    <option>m64</option>
+                                </options>
+                            </cpp>
                         </configuration>
                     </plugin>
                     <plugin>
