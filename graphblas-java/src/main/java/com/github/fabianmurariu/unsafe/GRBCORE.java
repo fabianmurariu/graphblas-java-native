@@ -69,7 +69,8 @@ public final class GRBCORE {
     public static long[] GrB_ALL = {NOT_REALLY_GRB_ALL};
     public static native long initNonBlocking();
     public static native long initBlocking();
-    public static native long grbWait();
+    public static native long grbWaitVector(Buffer vec);
+    public static native long grbWaitMatrix(Buffer mat);
     public static native long grbFinalize();
 
 

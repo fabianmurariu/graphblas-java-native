@@ -15,7 +15,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
             {
             if (! (info == GrB_SUCCESS || info == GrB_NO_VALUE))
             {
-            printf ("Error in GRB: %d error: %s\n", info, GrB_error ( )) ;
+            printf ("Error in GRB: %d \n", info) ;
             return (long) info;
             }
             return (long) info;
@@ -61,9 +61,16 @@ JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
             return check_grb_error(GxB_Global_Option_set(global_field, value));
             }
 
-            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbWait
-            (JNIEnv * env, jclass cls) {
-            return check_grb_error(GrB_wait());
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbWaitVector
+            (JNIEnv * env, jclass cls, jobject vec) {
+            GrB_Vector grb_vec = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+            return check_grb_error(GrB_wait(&grb_vec));
+            }
+
+            JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbWaitMatrix
+            (JNIEnv * env, jclass cls, jobject mat) {
+            GrB_Matrix grb_mat = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+            return check_grb_error(GrB_wait(&grb_mat));
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_grbFinalize
