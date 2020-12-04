@@ -39,6 +39,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.scijava</groupId>
+            <artifactId>native-lib-loader</artifactId>
+            <version>2.3.4</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>2.12.11</version>
@@ -172,18 +178,26 @@
                                 <options>
                                     <option>-ffast-math</option>
                                 </options>
-                                <optionSet>-std=c11 -lgraphblas -Wno-pragmas</optionSet>
-                                <sysLibs>
-                                    <sysLib>
+                                <optionSet>-std=c11 -Wno-pragmas</optionSet>
+                                <libs>
+                                    <lib>
                                         <name>graphblas</name>
-                                    </sysLib>
-                                </sysLibs>
+                                        <type>shared</type>
+                                        <directory>${project.basedir}/../GraphBLAS/build</directory>
+                                    </lib>
+                                </libs>
                             </linker>
                             <cpp>
                                 <options>
                                     <option>m64</option>
                                 </options>
                             </cpp>
+                            <c>
+                                <options>
+                                    <option>-m64</option>
+                                    <option>-I${project.basedir}/../GraphBLAS/Include</option>
+                                </options>
+                            </c>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -295,6 +309,13 @@
                                 <type>static</type>
                             </sysLib>
                         </sysLibs>
+                        <libs>
+                            <lib>
+                                <name>graphblas</name>
+                                <type>shared</type>
+                                <directory>${project.basedir}/../GraphBLAS/build</directory>
+                            </lib>
+                        </libs>
                     </linker>
                 </configuration>
             </plugin>
@@ -336,6 +357,12 @@
                     <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                     <junitxml>.</junitxml>
                     <filereports>WDF TestSuite.txt</filereports>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>java.library.path</key>
+                            <value>${project.basedir}/../GraphBLAS/build</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
                 <executions>
                     <execution>

@@ -3,7 +3,7 @@
 #include <jni.h>
 #include "GraphBLAS.h"
 #include <assert.h>
-long check_grb_error(GrB_Info info);
+GrB_Info check_grb_error(GrB_Info info);
 
 JavaVM *javavm;
 
@@ -11,14 +11,14 @@ JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *jvm, void *reserved) {
     javavm=jvm;
     return JNI_VERSION_1_2;
 }
-            long check_grb_error(GrB_Info info)
+            GrB_Info check_grb_error(GrB_Info info)
             {
             if (! (info == GrB_SUCCESS || info == GrB_NO_VALUE))
             {
             printf ("Error in GRB: %d \n", info) ;
-            return (long) info;
+            return info;
             }
-            return (long) info;
+            return info;
             }
 
             JNIEXPORT jlong JNICALL Java_com_github_fabianmurariu_unsafe_GRBCORE_initNonBlocking

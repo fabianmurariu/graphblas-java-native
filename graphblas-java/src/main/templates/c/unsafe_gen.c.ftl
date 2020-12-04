@@ -4,7 +4,7 @@
 #include <jni.h>
 #include "GraphBLAS.h"
 #include <assert.h>
-long check_grb_error(GrB_Info info);
+GrB_Info check_grb_error(GrB_Info info);
 
 
             // generic functions
@@ -276,7 +276,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
   (JNIEnv * env, jclass cls, jobject bin_op, j${prop.java_type} identity) {
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
-        ${prop.c_type} id = identity;
+        ${prop.c_type} id = (${prop.c_type})identity;
         GrB_Info status = GrB_Monoid_new(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);

@@ -106,9 +106,9 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
     GRBCORE.setGlobalInt(GRBCORE.GxB_NTHREADS, concurrency)
     GRBCORE.getGlobalInt(GRBCORE.GxB_NTHREADS) shouldBe concurrency
 
-    val hyperRatio = 0.001337
+    val hyperRatio: Double = 0.001337
     GRBCORE.setGlobalDouble(GRBCORE.GxB_HYPER, hyperRatio)
-    GRBCORE.getGlobalDouble(GRBCORE.GxB_HYPER) shouldBe hyperRatio
+    GRBCORE.getGlobalDouble(GRBCORE.GxB_HYPER) shouldBe (hyperRatio +- 0.0001d)
 
     GRBCORE.getGlobalInt(GRBCORE.GxB_MODE) shouldBe GRBCORE.GrB_NONBLOCKING
   }

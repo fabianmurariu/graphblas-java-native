@@ -52,6 +52,8 @@ trait MxmSpec { self: AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Match
       res shouldBe 0
       // ensure all is complete
       GRBCORE.nvalsMatrix(out) shouldBe outX.nz_length
+      // new since 4.0
+      GRBCORE.grbWaitMatrix(out)
 
       val tripletIterator = outX.createCoordinateIterator()
       while(tripletIterator.hasNext) {
