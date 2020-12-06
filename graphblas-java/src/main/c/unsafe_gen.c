@@ -2470,7 +2470,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         bool id = (bool)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_BOOL(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
@@ -2485,7 +2485,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         int8_t id = (int8_t)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_INT8(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
@@ -2516,7 +2516,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         short id = (short)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_INT16(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
@@ -2547,7 +2547,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         int id = (int)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_INT32(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
@@ -2578,7 +2578,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         long id = (long)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_INT64(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
@@ -2609,7 +2609,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         float id = (float)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_FP32(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
@@ -2640,7 +2640,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         double id = (double)identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_FP64(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }

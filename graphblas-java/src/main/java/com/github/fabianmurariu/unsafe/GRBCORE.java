@@ -73,6 +73,12 @@ public final class GRBCORE {
     public static native long grbWaitMatrix(Buffer mat);
     public static native long grbFinalize();
 
+    public static native Buffer grbALL();
+
+    // Ranges
+    public static native Buffer grbRange();
+    public static native Buffer grbStride();
+    public static native Buffer grbBackwards();
 
     //Matrix
     public static native Buffer createMatrix(Buffer tpe, long rows, long cols);

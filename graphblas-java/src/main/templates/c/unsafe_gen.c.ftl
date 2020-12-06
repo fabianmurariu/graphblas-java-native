@@ -277,7 +277,7 @@ JNIEXPORT jobject JNICALL Java_com_github_fabianmurariu_unsafe_GRBMONOID_createM
         GrB_BinaryOp op = (GrB_BinaryOp) (*env)->GetDirectBufferAddress(env, bin_op);
         GrB_Monoid m;
         ${prop.c_type} id = (${prop.c_type})identity;
-        GrB_Info status = GrB_Monoid_new(&m, op, id);
+        GrB_Info status = GrB_Monoid_new_${prop.grb_type}(&m, op, id);
         check_grb_error(status);
         return (*env)->NewDirectByteBuffer(env, m, 0);
   }
