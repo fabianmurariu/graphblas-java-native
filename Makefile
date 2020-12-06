@@ -24,6 +24,6 @@ $(GRB_LIB):
 	cd GraphBLAS; \
 		make clean; make JOBS=8 library
 
-grb-install:
+grb-install: $(GRB_LIB)
 	cd $(ROOT_DIR)/GraphBLAS; \
 		make install

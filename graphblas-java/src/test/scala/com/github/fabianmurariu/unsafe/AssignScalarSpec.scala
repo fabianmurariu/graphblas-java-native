@@ -33,6 +33,7 @@ trait AssignScalarSpec {
 
       GRBCORE.nvalsVector(vec) shouldBe size
 
+      GRBCORE.vectorWait(vec)
       for (i <- 0 to size) {
         handler.get(vec)(i).headOption shouldBe Some(v)
       }
