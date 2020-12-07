@@ -47,4 +47,4 @@ deploy:
 	mvn deploy
 	mvn nexus-staging:release
 
-release: set-$(OS)-version build deploy
+release: set-$(OS)-version deploy

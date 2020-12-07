@@ -8,7 +8,7 @@
     <parent>
         <artifactId>graphblas-java-native</artifactId>
         <groupId>com.github.fabianmurariu</groupId>
-        <version>0.1.19-mac</version>
+        <version>0.1.20</version>
     </parent>
 
     <name>GraphBLAS JNI Bindings</name>
