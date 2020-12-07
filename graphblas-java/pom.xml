@@ -2,10 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java</artifactId>
-    <version>0.1.18</version>
     <packaging>nar</packaging>
+
+    <parent>
+        <artifactId>graphblas-java-native</artifactId>
+        <groupId>com.github.fabianmurariu</groupId>
+        <version>0.1.19-mac</version>
+    </parent>
 
     <name>GraphBLAS JNI Bindings</name>
     <description>JNI Binding for GraphBLAS</description>
@@ -221,7 +225,7 @@
                         <configuration>
                             <detectJavaApiLink>false</detectJavaApiLink>
                             <source>8</source>
-                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                            <javadocExecutable>${javadoc.bin}</javadocExecutable>
                         </configuration>
                         <executions>
                             <execution>

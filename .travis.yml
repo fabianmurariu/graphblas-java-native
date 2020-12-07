@@ -6,12 +6,12 @@ jobs:
       dist: bionic
       jdk: openjdk11
       install: true
-      script: make graphblas-java
+      script: make all
     - os: osx
       osx_image: xcode12.2
       jdk: openjdk11
       install: true
-      script: make graphblas-java
+      script: make all
 
 cache:
   directories:

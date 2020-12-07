@@ -5,22 +5,22 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.18</version>
-    <packaging>jar</packaging>
+    <version>0.1.19-mac</version>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<graphblas-java-version>${version}</graphblas-java-version>
+        <graphblas-java-version>${version}</graphblas-java-version>
         <skipTests>true</skipTests>
     </properties>
 
-    <name>GraphBLAS JNI Bindings</name>
-    <description>Uberjar of JNI Bindings for native GraphBLAS Library. </description>
+    <name>GraphBLAS JNI Bindings Parent</name>
+    <description>Uberjar of JNI Bindings for native GraphBLAS Library.</description>
     <url>https://github.com/fabianmurariu/graphblas-java-native</url>
 
     <issueManagement>
-	<url>https://github.com/fabianmurariu/graphblas-java-native/issues</url>
-	<system>GitHub Issues</system>
+        <url>https://github.com/fabianmurariu/graphblas-java-native/issues</url>
+        <system>GitHub Issues</system>
     </issueManagement>
 
     <licenses>
@@ -32,66 +32,79 @@
     </licenses>
 
     <scm>
-	<url>https://github.com/fabianmurariu/graphblas-java-native</url>
+        <url>https://github.com/fabianmurariu/graphblas-java-native</url>
     </scm>
 
     <developers>
-	<developer>
-	    <email>murariu.fabian@gmail.com</email>
-	    <name>Fabian Murariu</name>
-	    <url>https://github.com/fabianmurariu</url>
-	    <id>fabianmurariu</id>
-	</developer>
+        <developer>
+            <email>murariu.fabian@gmail.com</email>
+            <name>Fabian Murariu</name>
+            <url>https://github.com/fabianmurariu</url>
+            <id>fabianmurariu</id>
+        </developer>
     </developers>
 
+    <modules>
+        <module>graphblas-java</module>
+    </modules>
+
+
+    <profiles>
+        <profile>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                </os>
+            </activation>
+            <id>LinuxJavaDoc</id>
+            <properties>
+                <javadoc.bin>${java.home}/bin/javadoc</javadoc.bin>
+            </properties>
+        </profile>
+        <profile>
+            <activation>
+                <os>
+                    <name>Mac OS X</name>
+                </os>
+            </activation>
+            <id>MacJavaDoc</id>
+            <properties>
+                <javadoc.bin>${java.home}/../bin/javadoc</javadoc.bin>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
-        <dependency>
-            <groupId>com.github.fabianmurariu</groupId>
-            <artifactId>graphblas-java</artifactId>
-            <version>${graphblas-java-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.fabianmurariu</groupId>
-            <artifactId>graphblas-java</artifactId>
-            <version>${graphblas-java-version}</version>
-            <classifier>amd64-Linux-gpp</classifier>
-        </dependency>
-<!--
-        <dependency>
-            <groupId>com.github.fabianmurariu</groupId>
-            <artifactId>graphblas-java</artifactId>
-            <version>${graphblas-java-version}</version>
-            <classifier>x86_64-MacOSX-gpp</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.github.fabianmurariu</groupId>
-            <artifactId>graphblas-java</artifactId>
-            <version>${graphblas-java-version}</version>
-            <classifier>amd64-Windows-msvc</classifier>
-        </dependency> -->
 
     </dependencies>
 
     <distributionManagement>
-    <snapshotRepository>
-	    <id>ossrh</id>
-	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.6.1</version>
+            </extension>
+        </extensions>
         <plugins>
-	    <plugin>
-	      <groupId>org.sonatype.plugins</groupId>
-	      <artifactId>nexus-staging-maven-plugin</artifactId>
-	      <version>1.6.7</version>
-	      <extensions>true</extensions>
-	      <configuration>
-		<serverId>ossrh</serverId>
-		<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-		<autoReleaseAfterClose>false</autoReleaseAfterClose>
-	      </configuration>
-	    </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -103,48 +116,48 @@
             </plugin>
 
             <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-gpg-plugin</artifactId>
-	      <version>1.5</version>
-	      <executions>
-		<execution>
-		  <id>sign-artifacts</id>
-		  <phase>verify</phase>
-		  <goals>
-		    <goal>sign</goal>
-		  </goals>
-		</execution>
-	      </executions>
-	    </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>javadoc-jar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-                <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                <detectJavaApiLink>false</detectJavaApiLink>
-                <source>8</source>
-   		    <includeDependencySources>true</includeDependencySources>
-                <dependencySourceExcludes>
-                    <dependencySourceExclude>commons-cli:*</dependencySourceExclude>
-              </dependencySourceExcludes>
-            </configuration>
-          </execution>
-        </executions>
-	</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <javadocExecutable>${javadoc.bin}</javadocExecutable>
+                            <detectJavaApiLink>false</detectJavaApiLink>
+                            <source>8</source>
+                            <includeDependencySources>true</includeDependencySources>
+                            <dependencySourceExcludes>
+                                <dependencySourceExclude>commons-cli:*</dependencySourceExclude>
+                            </dependencySourceExcludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <configuration>
-			<!-- put your configurations here -->
-			<createSourcesJar>true</createSourcesJar>
+                    <!-- put your configurations here -->
+                    <createSourcesJar>true</createSourcesJar>
                 </configuration>
                 <executions>
                     <execution>
