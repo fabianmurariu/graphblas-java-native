@@ -2,7 +2,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
     <version>0.1.20</version>
@@ -46,8 +45,8 @@
 
     <modules>
         <module>graphblas-java</module>
+        <module>graphblas-package</module>
     </modules>
-
 
     <profiles>
         <profile>
@@ -59,6 +58,7 @@
             <id>LinuxJavaDoc</id>
             <properties>
                 <javadoc.bin>${java.home}/bin/javadoc</javadoc.bin>
+                <os.short.name>Linux</os.short.name>
             </properties>
         </profile>
         <profile>
@@ -70,6 +70,7 @@
             <id>MacJavaDoc</id>
             <properties>
                 <javadoc.bin>${java.home}/../bin/javadoc</javadoc.bin>
+                <os.short.name>Mac</os.short.name>
             </properties>
         </profile>
     </profiles>
@@ -148,23 +149,6 @@
                                 <dependencySourceExclude>commons-cli:*</dependencySourceExclude>
                             </dependencySourceExcludes>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <configuration>
-                    <!-- put your configurations here -->
-                    <createSourcesJar>true</createSourcesJar>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
