@@ -23,7 +23,7 @@
             <groupId>com.github.fabianmurariu</groupId>
             <artifactId>graphblas-java</artifactId>
             <version>${version}</version>
-            <classifier>amd64-${os.short.name}-gpp</classifier>
+            <classifier>${os.package.name}-gpp</classifier>
         </dependency>
         <dependency>
             <groupId>com.github.fabianmurariu</groupId>

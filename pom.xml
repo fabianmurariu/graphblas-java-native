@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <graphblas-java-version>${version}</graphblas-java-version>
-        <skipTests>true</skipTests>
+        <skipTests>false</skipTests>
     </properties>
 
     <name>GraphBLAS JNI Bindings Parent</name>
@@ -58,7 +58,7 @@
             <id>LinuxJavaDoc</id>
             <properties>
                 <javadoc.bin>${java.home}/bin/javadoc</javadoc.bin>
-                <os.short.name>Linux</os.short.name>
+                <os.package.name>amd64-Linux</os.package.name>
             </properties>
         </profile>
         <profile>
@@ -70,7 +70,7 @@
             <id>MacJavaDoc</id>
             <properties>
                 <javadoc.bin>${java.home}/../bin/javadoc</javadoc.bin>
-                <os.short.name>Mac</os.short.name>
+                <os.package.name>x86_64-MacOSX</os.package.name>
             </properties>
         </profile>
     </profiles>
