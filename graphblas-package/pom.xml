@@ -5,13 +5,13 @@
     <parent>
         <artifactId>graphblas-java-native</artifactId>
         <groupId>com.github.fabianmurariu</groupId>
-        <version>0.1.20</version>
+        <version>0.1.21</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>graphblas-package</artifactId>
-    <version>0.1.20</version>
+    <version>0.1.21</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -4,7 +4,7 @@
 
     <groupId>com.github.fabianmurariu</groupId>
     <artifactId>graphblas-java-native</artifactId>
-    <version>0.1.20</version>
+    <version>0.1.21</version>
     <packaging>pom</packaging>
 
     <properties>

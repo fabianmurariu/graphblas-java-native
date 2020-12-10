@@ -44,7 +44,7 @@ set-Linux-version:
 	mvn versions:update-child-modules
 
 deploy:
-	mvn deploy
-	mvn nexus-staging:release
+	mvn deploy -pl graphblas-package
+	mvn nexus-staging:release -pl graphblas-package
 
 release: set-$(OS)-version deploy
