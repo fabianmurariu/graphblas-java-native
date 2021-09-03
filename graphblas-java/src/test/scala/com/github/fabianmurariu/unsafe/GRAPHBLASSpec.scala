@@ -10,6 +10,7 @@ class GRAPHBLASSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with
   with VectorUtils
   with RemoveSpec
   with ApplySpec
+  with DiagSpec
   with SemiringSpec
   with ReduceSpec
   with DescriptorSpec

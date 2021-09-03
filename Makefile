@@ -43,6 +43,11 @@ set-Linux-version:
 	mvn versions:set -DnewVersion=$(VERSION)-linux
 	mvn versions:update-child-modules
 
+set-version:
+	test $(VERSION)
+	mvn versions:set -DnewVersion=$(VERSION)
+	mvn versions:update-child-modules
+
 deploy:
 	mvn clean install
 	mvn deploy -pl graphblas-package -DskipTests

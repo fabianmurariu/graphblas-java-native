@@ -46,6 +46,8 @@ case class MatrixDimensions(rows: Long, cols: Long)
 
 case class MatrixTuples[T](dim: MatrixDimensions, vals: Vector[(Long, Long, T)])
 
+case class MatrixTuplesSquare[T](dim: Long, vals: Vector[(Long, Long, T)])
+
 // tuples for multiplication
 case class MatrixTuplesMul[T](left: MatrixTuples[T], right: MatrixTuples[T])
 
@@ -99,6 +101,24 @@ object MatrixTuples {
   }
 
 
+}
+
+object MatrixTuplesSquare {
+
+    implicit def arb[T: Gen.Choose](implicit N: Numeric[T]): Arbitrary[MatrixTuplesSquare[T]] = {
+        def genVal(size: Long): Gen[(Long, Long, T)] = for {
+            i <- Gen.choose(0, size - 1)
+            j <- Gen.choose(0, size - 1)
+            t <- Gen.oneOf[T](Gen.posNum, Gen.negNum)
+        } yield (i, j, t)
+
+        val gen = for {
+            dim <- Gen.posNum[Long]
+            vals <- Gen.nonEmptyContainerOf[Vector, (Long, Long, T)](genVal(dim)).map(_.distinctBy(t => t._1 -> t._2))
+        } yield MatrixTuplesSquare[T](dim, vals)
+
+        Arbitrary(gen)
+    }
 }
 
 object MatrixTuplesMul {

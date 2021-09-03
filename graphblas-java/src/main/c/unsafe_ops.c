@@ -24,6 +24,15 @@ JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_mxm
 
   }
 
+JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_diag
+  (JNIEnv * env, jclass cls, jobject mat, jobject vec, jlong k, jobject desc) {
+        GrB_Matrix out = (GrB_Matrix) (*env)->GetDirectBufferAddress(env, mat);
+        GrB_Vector v = (GrB_Vector) (*env)->GetDirectBufferAddress(env, vec);
+        GrB_Descriptor d = desc != NULL ? (GrB_Descriptor) (*env)->GetDirectBufferAddress(env, desc) : NULL;
+
+        return GxB_Matrix_diag(out, v, k, d);
+  }
+
 JNIEXPORT jint JNICALL Java_com_github_fabianmurariu_unsafe_GRBOPSMAT_vxm
   (JNIEnv * env, jclass cls, jobject vec, jobject mask, jobject accum, jobject semiring, jobject u, jobject A, jobject desc) {
         // Must haves

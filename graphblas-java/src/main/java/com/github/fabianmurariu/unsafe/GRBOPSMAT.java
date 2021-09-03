@@ -23,6 +23,22 @@ public class GRBOPSMAT {
     public static native int mxm(Buffer C, Buffer mask, Buffer accum, Buffer semiring, Buffer A, Buffer B, Buffer desc);
 
     /**
+     * GrB_Info GxB_Matrix_diag
+     * // construct a diagonal matrix from a vector
+     * (
+     * GrB_Matrix C,
+     * // output matrix
+     * const GrB_Vector v,
+     * // input vector
+     * int64_t k,
+     * const GrB_Descriptor desc
+     * // unused, except threading control
+     * ) ;
+     * @return
+     */
+    public static native int diag(Buffer c, Buffer v, long l, Buffer desc);
+
+    /**
      * {@code C<Mask> = accum (C, u'*A)}
      *
      * @param w input/output vector for results
